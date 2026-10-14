@@ -1,0 +1,4500 @@
+{
+  "info": {
+    "_postman_id": "ce95837f-f5d3-433c-bc16-654f4b86c98d",
+    "name": "ERP Transaksi",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "48895460",
+    "_collection_link": "https://go.postman.co/collection/48895460-ce95837f-f5d3-433c-bc16-654f4b86c98d?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "PR",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/PR/getAll?NoBukti1=PB26060016&NoBukti2=PB26060018&HeadOnly=false",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PR",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "Item",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "KodePurcOrg",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "PB26060016"
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "PB26060018"
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "PB26060003",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "PB26060017",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2026-05-31",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2026-06-30",
+                  "disabled": true
+                },
+                {
+                  "key": "Status!",
+                  "value": "batal",
+                  "disabled": true
+                },
+                {
+                  "key": "HeadOnly",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"No_Bukti\": \"K\",\n  \"Tgl_Bukti\": \"2026-06-15\",\n  \"Kode_PurchasingORG\": \"PCO_0001\",\n  \"Nama_PurchasingORG\": \"Divisi Pengadaan\",\n  \"Keterangan\": \"Pengadaan Material Juni\",\n  \"Creator\": \"Ucup\",\n  \"Details\": [\n    {\n      \"Kode_Item\": \"AA0450914100550\",\n      \"Nama_Item\": \"BAHIHI ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n      \"Deskripsi\": \"Ukuran 10mm\",\n      \"Qty\": 150.00,\n      \"Satuan\": \"LEMBAR\",\n      \"Kode_Konversi\": 123,\n      \"Konversi\": 123\n    },\n    {\n      \"Kode_Item\": \"BB040091470550\",\n      \"Nama_Item\": \"BAHAGIA BIRU BROMO TEBAL 0.40 LEBAR 914 MM AZ 70 G-550\",\n      \"Deskripsi\": \"PI 2\",\n      \"Qty\": 50.00,\n      \"Satuan\": \"LEMBAR\",\n      \"Kode_Konversi\": 123,\n      \"Konversi\": 123\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PR/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PR",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE HEADER",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Tgl_Bukti\": \"2026-06-15\",\n  \"Kode_PurchasingORG\": \"PCO_0002\",\n  \"Nama_PurchasingORG\": \"Divisi Pengadaan Bahan Baku\",\n  \"Keterangan\": \"\",\n  \"Status\": \"\",\n  \"Alasan_Status\": \"\",\n  \"Editor\": \"Burhan\",\n  \"Cetak\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PR/update-header?noBukti=PB26060010",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PR",
+                "update-header"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "PB26060010"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE DETAIL",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Kode_Item\": \"AA0450914100550\",\n  \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n  \"Deskripsi\": \"Ukuran 15mm\",\n  \"Jumlah\": 10.0,\n  \"Satuan\": \"Lembar\",\n  \"Qty_Realisasi\": 12.9,\n  \"Kode_Konversi\": 12,\n  \"Konversi\": 12\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PR/update-detail?noBukti=PB26060003&noId=1",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PR",
+                "update-detail"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "PB26060003"
+                },
+                {
+                  "key": "noId",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/PR/delete?nomor=25040003&noIdItem=43&jenis=PR_PRODUK",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PR",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noIdItem",
+                  "value": "43"
+                },
+                {
+                  "key": "jenis",
+                  "value": "PR_PRODUK"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "RFQ",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RFQ/getAll?HeadOnly=false",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RFQ",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "KodeSupp",
+                  "value": "MRR001",
+                  "disabled": true
+                },
+                {
+                  "key": "Item",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "PP26060013",
+                  "disabled": true
+                },
+                {
+                  "key": "Status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2025-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2026-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "PP26060001",
+                  "disabled": true
+                },
+                {
+                  "key": "HeadOnly",
+                  "value": "false"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"No_Bukti\": \"K\",\n  \"Tgl_Bukti\": \"2026-07-09\",\n  \"Kode_Supp\": \"MRR001\",\n  \"Nama_Supp\": \"Mr. ReyRehan\",\n  \"Keterangan\": \"Baik\",\n  \"Creator\": \"Ucup\",\n  \"Details\": [\n    {\n      \"Kode_Item\": \"AA0450914100550\",\n      \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n      \"Deskripsi\": \"\",\n      \"Qty\": 1,\n      \"Satuan\": \"PCS\",\n      \"Kode_PurchasingORG\": \"PCO_0001\",\n      \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\",\n      \"Kode_Konversi\": 0,\n      \"Konversi\": 1,\n      \"No_Ref\": \"PB26060003\",\n      \"No_Id_Ref\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RFQ/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RFQ",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE HEADER",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-06-22\",\n    \"Kode_Supp\": \"CUST001\",\n    \"Nama_Supp\": \"Ucok\",\n    \"Keterangan\": \"\",\n    \"Status\": \"aktif\",\n    \"Alasan_Status\": \"\",\n    \"Editor\": \"Ucup\",\n    \"Cetak\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RFQ/update-header?noBukti=DO-202606-0001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RFQ",
+                "update-header"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "DO-202606-0001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE DETAIL",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Kode_Item\": \"AA0450914100550\",\n  \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n  \"Deskripsi\": \"Ukuran 10mm\",\n  \"Jumlah\": 150.0,\n  \"Satuan\": \"LEMBAR\",\n  \"Kode_PurchasingORG\": \"PCO_0001\",\n  \"Ket_PurchasingORG\": \"Divisi Pengadaan\",\n  \"Qty_Realisasi\": 50.0,\n  \"Kode_Konversi\": 0,\n  \"Konversi\": 1,\n  \"No_Ref\": \"PB26060005\",\n  \"No_Id_Ref\": 3\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RFQ/update-detail?noBukti=PP26060020&noId=52",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RFQ",
+                "update-detail"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "PP26060020"
+                },
+                {
+                  "key": "noId",
+                  "value": "52"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RFQ/delete?nomor=PP26060011&noIdItem=43&jenis=RFQ_PRODUK",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RFQ",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "PP26060011"
+                },
+                {
+                  "key": "noIdItem",
+                  "value": "43"
+                },
+                {
+                  "key": "jenis",
+                  "value": "RFQ_PRODUK"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Quotation",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Quotation/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Quotation",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "KodeSupp",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "Status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2025-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2026-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "Item",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoFrom",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "JenisDokFrom",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "HeadOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "PN26070001",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "PN26070003",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "PN26070004",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "PN26070004",
+                  "disabled": true
+                },
+                {
+                  "key": "kodeSupp",
+                  "value": "MRR001",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2026-07-01T00:00:00\",\n    \"Kode_Supp\": \"MRR001\",\n    \"Nama_Supp\": \"Mr. ReyRehan\",\n    \"Keterangan\": \"Baik\",\n    \"Ppn\": 11.00,\n    \"Ppn_Include\": false,\n    \"Disc\": 5.00,\n    \"Disc_Rp\": 250000.00,\n    \"Creator\": \"Ucup\",\n    \"Details\": [\n        {\n            \"Kode_Item\": \"AA0450914100550\",\n            \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n            \"Deskripsi\": \"\",\n            \"Qty\": 100,\n            \"Satuan\": \"LBR\",\n            \"Harga\": 275000,\n            \"Disc1\": 50,\n            \"Disc2\": 20,\n            \"DiscRp\": 10000,\n            \"Kode_PurchasingORG\": \"PCO_0001\",\n            \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\",\n            \"Kode_Konversi\": 1,\n            \"Konversi\": 1,\n            \"No_Bukti_From\": \"PP26060013\",\n            \"No_Id_From\": 1,\n            \"Jenis_Dok_From\": \"PP\"\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Quotation/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Quotation",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE HEADER",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-07-01T00:00:00\",\n    \"Kode_Supp\": \"MRR001\",\n    \"Nama_Supp\": \"Mr. ReyRehan\",\n    \"Keterangan\": \"Baik\",\n    \"Ppn\": 11.00,\n    \"Ppn_Include\": false,\n    \"Disc\": 5.00,\n    \"Disc_Rp\": 250000.00,\n    \"Status\": \"SELESAI MANUAL\",\n    \"Alasan_Status\": \"Ya Pokoknya Selesai\",\n    \"Editor\": \"Ucup\",\n    \"Cetak\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Quotation/update-header?noBukti=PN26070005",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Quotation",
+                "update-header"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "PN26070005"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE DETAIL",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Kode_Item\": \"AA0450914100550\",\n    \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n    \"Deskripsi\": \"\",\n    \"Jumlah\": 150.00,\n    \"Satuan\": \"LBR\",\n    \"Harga\": 275000.00,\n    \"Disc1\": 10.00,\n    \"Disc2\": 3.00,\n    \"DiscRp\": 10000.00,\n    \"Kode_PurchasingORG\": \"PCO_0001\",\n    \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\",\n    \"Qty_Realisasi\": 0.00,\n    \"Kode_Konversi\": 1,\n    \"Konversi\": 1,\n    \"Jenis_Ref\": \"PP\",\n    \"No_Ref\": \"PP26060013\",\n    \"No_Id_Ref\": 1\n}\n\n// \"No_Bukti\": \"PN26070004\",\n// \"Tgl_Bukti\": \"2026-07-01T00:00:00\",\n// \"Kode_Item\": \"AA0450914100550\",\n// \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n// \"Deskripsi\": \"halo dunia\",\n// \"Qty\": 100.00,\n// \"Satuan\": \"LBR\",\n// \"Kode_Konversi\": 1,\n// \"Konversi\": 1,\n// \"Harga\": 275000.00,\n// \"Disc1\": 50.00,\n// \"Disc2\": 20.00,\n// \"DiscRp\": 10000.00,\n// \"JmlBruto\": 27500000.00,\n// \"JmlDiskon\": 0,\n// \"Jumlah\": 10990000.00,\n// \"Jumlah_Dpp\": 10990000.00,\n// \"Jumlah_Ppn\": 1208900.00,\n// \"Kode_PurchasingORG\": \"PCO_0001\",\n// \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\",\n// \"Jam_Entry\": \"07/02/2026 14:26:16\",\n// \"Qty_Realisasi\": 0.00,\n// \"No_Id_Det\": 80,\n// \"No_Bukti_From\": \"PP26060013\",\n// \"No_Id_From\": 1,\n// \"Jenis_Dok_From\": \"PP\"",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Quotation/update-detail?noBukti=PN26070004&noId=80",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Quotation",
+                "update-detail"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "PN26070004"
+                },
+                {
+                  "key": "noId",
+                  "value": "80"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Quotation/delete?jenis=QUOTATION_PRODUK&nomor=PN26070004&noIdItem=77",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Quotation",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "jenis",
+                  "value": "QUOTATION_PRODUK"
+                },
+                {
+                  "key": "nomor",
+                  "value": "PN26070004"
+                },
+                {
+                  "key": "noIdItem",
+                  "value": "77"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "GR",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/GR/getAll?HeadOnly=false&NoBukti1=FTB26070001&NoBukti2=FTB26070001&NoIdDet=0",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "GR",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "HeadOnly",
+                  "value": "false"
+                },
+                {
+                  "key": "KodeSupp",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "Status",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2025-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2026-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "FTB26070001"
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "FTB26070001"
+                },
+                {
+                  "key": "KodeSupp",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "Item",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoFrom",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "JenisDokFrom",
+                  "value": "",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"No_Bukti\": \"FTB26070001\",\n    \"Tgl_Bukti\": \"2026-07-02\",\n    \"Kode_Supp\": \"MRR001\",\n    \"Nama_Supp\": \"Mr. ReyRehan\",\n    \"Keterangan\": \"Quotation pembelian bahan baku\",\n    \"Ppn\": 11.00,\n    \"Ppn_Include\": false,\n    \"Disc\": 5.00,\n    \"Disc_Rp\": 250000.00,\n    \"Creator\": \"Administrator\",\n    \"Details\": [\n        {\n            \"Kode_Item\": \"AA0450914100550\",\n            \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n            \"Deskripsi\": \"Bahan produksi\",\n            \"Qty\": 100,\n            \"Satuan\": \"LBR\",\n            \"Harga\": 275000.00,\n            \"Disc1\": 10.00,\n            \"Disc2\": 3.00,\n            \"DiscRp\": 10000.00,\n            \"Kode_PurchasingORG\": \"PCO_0001\",\n            \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\",\n            \"Panjang\": 6.00,\n            \"Kode_Konversi\": 1,\n            \"Konversi\": 1,\n            \"No_Coil\": \"tes\",\n            \"No_Bukti_From\": \"PR-2026-0001\",\n            \"No_Id_From\": 1,\n            \"Jenis_Dok_From\": \"PR\",\n            \"Kode_Gudang\": \"GDG001\",\n            \"Nama_Gudang\": \"Gudang Utama\"\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/GR/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "GR",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE HEADER",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-07-01T00:00:00\",\n    \"Kode_Supp\": \"MRR001\",\n    \"Nama_Supp\": \"Mr. ReyRehan\",\n    \"Keterangan\": \"Baik\",\n    \"Ppn\": 11.00,\n    \"Ppn_Include\": false,\n    \"Disc\": 5.00,\n    \"Disc_Rp\": 250000.00,\n    \"Status\": \"\",\n    \"Alasan_Status\": \"\",\n    \"Editor\": \"Ucup\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/GR/update-header?noBukti=PN26070005",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "GR",
+                "update-header"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "PN26070005"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE DETAIL",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Kode_Item\": \"AA0450914100550\",\n    \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n    \"Deskripsi\": \"\",\n    \"Jumlah\": 100.00,\n    \"Satuan\": \"LBR\",\n    \"Harga\": 275000.00,\n    \"Disc1\": 10.00,\n    \"Disc2\": 3.00,\n    \"DiscRp\": 10000.00,\n    \"No_Coil\": \"\",\n    \"Kode_PurchasingORG\": \"PCO_0001\",\n    \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\",\n    \"Panjang\": 10.00,\n    \"Qty_Realisasi\": 0.00,\n    \"Kode_Konversi\": 1,\n    \"Konversi\": 1,\n    \"Jenis_Ref\": \"\",\n    \"No_Ref\": \"\",\n    \"No_Id_Ref\": 0,\n    \"Kode_Gudang\": \"\",\n    \"Nama_Gudang\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/GR/update-detail?noBukti=TB26070010&noId=67",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "GR",
+                "update-detail"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "TB26070010"
+                },
+                {
+                  "key": "noId",
+                  "value": "67"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/GR/delete?jenis=GR_PRODUK&nomor=TB26070011&noIdItem=68",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "GR",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "jenis",
+                  "value": "GR_PRODUK"
+                },
+                {
+                  "key": "nomor",
+                  "value": "TB26070011"
+                },
+                {
+                  "key": "noIdItem",
+                  "value": "68"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "KO",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/KO/getAll?NoIdDet=0&NoBukti2=KKO260618124781&HeadOnly=false&NoBukti1=KKO260618124781",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KO",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "NoRef",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoCussup",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "KdSales",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoStock",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0"
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "KKO260618124781"
+                },
+                {
+                  "key": "HeadOnly",
+                  "value": "false"
+                },
+                {
+                  "key": "BatalOnly",
+                  "value": "false",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2025-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2026-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "KKO260618124781"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"No_Bukti\": \"KKO260618124786\",\n  \"Tgl_Bukti\": \"2026-06-18\",\n  \"Tgl_Expired\": \"2026-06-18\",\n  \"No_Ref\": \"\",\n  \"Kode_Sales\": \"S123\",\n  \"Nama_Sales\": \"Affan30\",\n  \"Ppn\": 11.0,\n  \"Kode_Cust\": \"H01\",\n  \"Nama_Cust\": \"Pelanggan 1\",\n  \"Al_Cust\": \"\",\n  \"Pic_Cust\": \"\",\n  \"Telp_Cust\": \"\",\n  \"Email_Cust\": \"\",\n  \"Klasifikasi\": \"Retail\",\n  \"Jenis_Kirim\": \"Franco\",\n  \"Al_Kirim\": \"\",\n  \"Nm_Penerima\": \"\",\n  \"Tgl_Kirim\": \"2026-06-18\",\n  \"Jenis_Kendaraan\": \"\",\n  \"Cara_Bayar\": \"TUNAI\",\n  \"Tempo\": 0,\n  \"Akun_Bayar\": \"\",\n  \"Payment1\": \"\",\n  \"Payment2\": \"\",\n  \"Payment3\": \"\",\n  \"Keterangan\": \"\",\n  \"Batal\": 0,\n  \"Jum_Cetak\": 0,\n  \"Jam_Create\": \"0001-01-01\",\n  \"Operator\": \"\",\n  \"Alasan_Batal\": \"\",\n  \"Status\": \"\",\n  \"Alasan_Finish\": \"\",\n  \"Status_Approval0\": \"\",\n  \"Status_Approval1\": \"\",\n  \"Cat_Approve0\": \"\",\n  \"Cat_Approve1\": \"\",\n  \"Approved_By0\": \"\",\n  \"Approved_By1\": \"\",\n  \"Tgl_Jam_Approve0\": \"0001-01-01\",\n  \"Tgl_Jam_Approve1\": \"0001-01-01\",\n  \"Nilai\": 555000.00,\n  \"Checksum_Detil\": 0,\n  \"Lokal_Android\": \"\",\n  \"DetailRows\": 0,\n  \"Creator\": \"\",\n  \"Editor\": \"\",\n  \"Details\": [\n    {\n      \"Kode_Item\": \"*CO ABALAZ00010500\",\n      \"Nama_Item\": \"COIL ATAP FIBERGLASS BURNT ALMOND AZ LEBAR 1 MM PANJANG 5 MTR\",\n      \"Nm_Cetak\": \"CETAK 1                                              \",\n      \"Jenis\": \"*CO       \",\n      \"Tebal\": 0.0,\n      \"Tebaltop\": 0.0,\n      \"Tebalbot\": 0.0,\n      \"Tipe\": \"F\",\n      \"Warna\": \"AL        \",\n      \"Warnatop\": \"\",\n      \"Warnabot\": \"\",\n      \"Merk\": \"AZ        \",\n      \"Lebar\": 1.0,\n      \"Panjang\": 5.0,\n      \"Sat_Pjg\": \"\",\n      \"Brand\": \"\",\n      \"Az\": \"\",\n      \"Jum_Brg\": 5,\n      \"Sat_Stock\": \"\",\n      \"Hrg_Meter\": 0.0,\n      \"Hrg_Sat\": 100000.0,\n      \"Hrg_Tot\": 0.0,\n      \"Catatan\": \"\",\n      \"Catatan_Salesman\": \"\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/KO/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KO",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-07-10T00:00:00\",\n    \"Tgl_Expired\": \"2026-07-10T00:00:00\",\n    \"No_Ref\": \"REF-1919191\",\n    \"Kode_Sales\": \"Affan1\",\n    \"Nama_Sales\": \"Affan\",\n    \"Ppn\": 11,\n    \"Kode_Cust\": \"HLM001\",\n    \"Nama_Cust\": \"Lebah Dev\",\n    \"Al_Cust\": \"\",\n    \"Pic_Cust\": \"Erwin\",\n    \"Telp_Cust\": \"\",\n    \"Email_Cust\": \"test\",\n    \"Klasifikasi\": \"Retail\",\n    \"Jenis_Kirim\": \"Franco\",\n    \"Al_Kirim\": \"\",\n    \"Nm_Penerima\": \"\",\n    \"Tgl_Kirim\": \"2026-07-10T00:00:00\",\n    \"Jenis_Kendaraan\": \"\",\n    \"Cara_Bayar\": \"TUNAI\",\n    \"Tempo\": 0,\n    \"Akun_Bayar\": \"1005.000\",\n    \"Payment1\": \"\",\n    \"Payment2\": \"\",\n    \"Payment3\": \"\",\n    \"Keterangan\": \"\",\n    \"Creator\": \"\",\n    \"Editor\": \"PDJ Administrator\",\n    \"Operator\": \"\",\n    \"Status\": \"\",\n    \"Alasan_Status\": \"\",\n    \"Nilai\": 55500,\n    \"Checksum_Detil\": 0,\n    \"Lokal_Android\": \"\",\n    \"Details\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/KO/update?noBukti=FKO26070001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KO",
+                "update"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "FKO26070001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE DETAIL",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Transaksi\": \"KO_PRODUK\",\n    \"Kode_Item\": \"AM11-UM-260630110652\",\n    \"Nama_Cetak\": \"\",\n    \"Jenis\": \"BT\",\n    \"Tebal\": 0,\n    \"Tebal_Top\": 0,\n    \"Tebal_Bot\": 0,\n    \"Tipe\": \"AB\",\n    \"Warna\": \"AA\",\n    \"Warna_Top\": \"\",\n    \"Warna_Bot\": \"\",\n    \"Merk\": \"AL\",\n    \"Lebar\": 0,\n    \"Panjang\": 0,\n    \"Satuan_Panjang\": \"\",\n    \"Brand\": \"01\",\n    \"Az\": \"100\",\n    \"Jumlah_Barang\": 0,\n    \"Satuan_Stock\": \"\",\n    \"Harga_Meter\": 0.00,\n    \"Harga_Satuan\": 0.00,\n    \"Harga_Total\": 0.00,\n    \"Catatan\": \"Jangan ada yang Cacat\",\n    \"Catatan_Salesman\": \"\",\n    \"Sudah_Cetak\": false,\n    \"Operator\": \"\",\n    \"No_Doc\": \"\",\n    \"Nama_Item\": \"BT ATAP FIBERGLASS ABU ANGKOLA AZ 100\"\n}\n                \n// {\n//   \"Sudah_Cetak\": false,\n//   \"Operator\": \"Admin1\",\n//   \"No_Doc\": \"\",\n//   \"Kode_Item\": \"J001\",\n//   \"Nama_Item\": \"Atap Beton\",\n//   \"Nama_Cetak\": \"Atap Beton\",\n//   \"Jenis\": \"SPNDK\",\n//   \"Tebal\": 0.3,\n//   \"Tebal_Top\": 0.2,\n//   \"Tebal_Bot\": 0.5,\n//   \"Tipe\": \"Pasir\",\n//   \"Warna\": \"Hitam\",\n//   \"Warna_Top\": \"\",\n//   \"Warna_Bot\": \"\",\n//   \"Merk\": \"Gajah\",\n//   \"Lebar\": 100.0,\n//   \"Panjang\": 6.0,\n//   \"Satuan_Panjang\": \"M\",\n//   \"Brand\": \"Prima\",\n//   \"Az\": \"100\",\n//   \"Jumlah_Barang\": 10,\n//   \"Satuan_Stock\": \"\",\n//   \"Harga_Meter\": 50000.0,\n//   \"Harga_Satuan\": 300000.0,\n//   \"Harga_Total\": 3000000.0,\n//   \"Catatan\": \"tetap utuh\",\n//   \"Catatan_Salesman\": \"Kirim pagi\",\n//   \"Transaksi\": \"KO_PRODUK\"\n// }\n\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/KO/update-detail?noBukti=KKO260630110704&noId=27",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KO",
+                "update-detail"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "KKO260630110704"
+                },
+                {
+                  "key": "noId",
+                  "value": "27"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/KO/delete?nomor=KKO&noIdItem=8&jenis=KO_PRODUK",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KO",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KKO"
+                },
+                {
+                  "key": "noIdItem",
+                  "value": "8"
+                },
+                {
+                  "key": "jenis",
+                  "value": "KO_PRODUK"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sales Order",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/getAll?HeadOnly=false",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "HeadOnly",
+                  "value": "false"
+                },
+                {
+                  "key": "SisaOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "BatalOnly",
+                  "value": null,
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2026-05-12",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2025-06-12",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "SO26060003",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "SO25060005",
+                  "disabled": true
+                },
+                {
+                  "key": "KdCust",
+                  "value": "K001",
+                  "disabled": true
+                },
+                {
+                  "key": "KdSales",
+                  "value": "SL001",
+                  "disabled": true
+                },
+                {
+                  "key": "KdGudang",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "KdProduk",
+                  "value": "EC01",
+                  "disabled": true
+                },
+                {
+                  "key": "KdNonProduk",
+                  "value": null,
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet2",
+                  "value": "0",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Header\": {\n    \"No_Bukti\": \"F\",\n    \"Tgl_Bukti\": \"2026-07-02\",\n    \"No_Referensi\": \"REF-202607-0002\",\n    \"Kode_Cust\": \"L001\",\n    \"Nama_Cust\": \"Lia Malik\",\n    \"Kode_Sales\": \"Affan1\",\n    \"Nama_Sales\": \"Affan\",\n    \"Kredit_Tunai\": \"KREDIT\",\n    \"Tempo\": 30,\n    \"Tgl_Kirim\": \"2026-07-05\",\n    \"Alamat_Kirim\": \"Jl. Rungkut Industri No. 12, Surabaya\",\n    \"Keterangan\": \"Kirim dengan armada truk engkel pabrik\",\n    \"PPN\": 11,\n    \"PPN_Include\": false,\n    \"DiscPros_Head\": 0.00,\n    \"DiscNilai_Head\": 0.00,\n    \"Jum_Cetak\": 0,\n    \"Selesai_Manual\": false,\n    \"Alasan_Selesai_Manual\": \"\",\n    \"Nm_Kirim\": \"Bpk. Andi\",\n    \"Kt_Kirim\": \"Surabaya\",\n    \"Tel_Kirim\": \"081234567890\",\n    \"Locofranco\": \"FRANCO\",\n    \"Jualcoil\": \"N\",\n    \"No_Kasbank\": \"\",\n    \"Klasifikasi\": \"A\",\n    \"No_Npwp\": \"01.234.567.8-403.000\",\n    \"Al_Npwp\": \"Jl. Rungkut Industri No. 12\",\n    \"Stat_Sales\": \"AKTIF\",\n    \"Kode_Spv\": \"SPV-01\",\n    \"Nama_Spv\": \"Hendra Wijaya\",\n    \"Pack_Rp\": 0.00,\n    \"Proyek\": \"Proyek Pergudangan Blok A\",\n    \"No_Referal1\": \"\",\n    \"No_Referal2\": \"\",\n    \"No_Referal3\": \"\",\n    \"No_Referal4\": \"\",\n    \"No_Referal5\": \"\",\n    \"No_Referal6\": \"\",\n    \"No_Po\": \"PO-SJS-9981\",\n    \"No_Ko\": \"KO\",\n    \"Expedisi\": \"Indah Cargo\",\n    \"Operator\": \"Admin_Pacific\",\n    \"Canceler\": \"\",\n    \"Tgl_Cancel\": null,\n    \"Status\": \"OPEN\",\n    \"Alasan_Status\": \"\",\n    \"Creator\": \"\",\n    \"Editor\": \"\"\n  },\n  \"Details\": [\n    {\n        \"Kode_Item\": \"AA0450914100550\",\n        \"Nama_Item\": \"BAHAN ABU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n        \"Deskripsi\": \"Ketebalan 0.75mm\",\n        \"Jumlah\": 100.00,\n        \"Realisasi\": 0.00,\n        \"Kode_Konversi\": 1,\n        \"Konversi\": 1,\n        \"Satuan\": \"LEMBAR\",\n        \"Hrg_Sat\": 95000.00,\n        \"DiscPros_Det\": 5.00,\n        \"DiscNilai_Det\": 0.00,\n        \"Hrg_DPP\": 90250.00,\n        \"Nm_Cetak\": \"Spandek 0.40 (6m)\",\n        \"Kode_Itempu\": \"PU-05\",\n        \"Az\": \"AZ100\",\n        \"Brand\": \"PACIFIC\",\n        \"Merk\": \"G550\",\n        \"Kelwarna\": \"Silver\",\n        \"Berat\": 450.00,\n        \"No_Bahan\": \"BHN-0091\",\n        \"Komisi\": 500.00,\n        \"Komisi_Spv\": 200.00,\n        \"Fee\": 10, \n        \"Fee2\": 0, \n        \"Fee3\": 0, \n        \"Fee4\": 0, \n        \"Fee5\": 0,\n        \"Cat_Detil\": \"Bungkus ujung barang agar tidak baret\",\n        \"Sdh_Cetak\": false,\n        \"No_Bukti_From\": \"\"\n    }\n  ],\n  \"Details2\": [\n    {\n      \"Kode_Item\": \"1005.002\",\n      \"Nama_Item\": \"MANDIRI\",\n      \"Deskripsi\": \"\",\n      \"Realisasi\": 0.0,\n      \"Sisa\": 0.0,\n      \"Jumlah\": 5.0,\n      \"Satuan\": \"PCS\",\n      \"Hrg_Sat\": 5000.0,\n      \"DiscPros_Det\": 0.0,\n      \"DiscNilai_Det\": 0.0\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "create"
+              ],
+              "query": [
+                {
+                  "key": "",
+                  "value": "25040007",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-07-02\",\n    \"No_Referensi\": \"REF-202607-0002\",\n    \"Kode_Cust\": \"L001\",\n    \"Nama_Cust\": \"Lia Malik\",\n    \"Kode_Sales\": \"Affan1\",\n    \"Nama_Sales\": \"Affan\",\n    \"Kredit_Tunai\": \"KREDIT\",\n    \"Tempo\": 30,\n    \"Tgl_Kirim\": \"2026-07-05\",\n    \"Alamat_Kirim\": \"Jl. Rungkut Industri No. 12, Surabaya\",\n    \"Keterangan\": \"Kirim dengan armada truk engkel pabrik\",\n    \"PPN\": 11,\n    \"PPN_Include\": false,\n    \"DiscPros_Head\": 0.00,\n    \"DiscNilai_Head\": 0.00,\n    \"Jum_Cetak\": 0,\n    \"Nm_Kirim\": \"Bpk. Andi\",\n    \"Kt_Kirim\": \"Surabaya\",\n    \"Tel_Kirim\": \"081234567890\",\n    \"Locofranco\": \"FRANCO\",\n    \"Jualcoil\": \"N\",\n    \"No_Kasbank\": \"\",\n    \"Klasifikasi\": \"A\",\n    \"No_Npwp\": \"01.234.567.8-403.000\",\n    \"Al_Npwp\": \"Jl. Rungkut Industri No. 12\",\n    \"Stat_Sales\": \"AKTIF\",\n    \"Kode_Spv\": \"SPV-01\",\n    \"Nama_Spv\": \"Hendra Wijaya\",\n    \"Pack_Rp\": 0.00,\n    \"Proyek\": \"Proyek Pergudangan Blok A\",\n    \"No_Referal1\": \"\",\n    \"No_Referal2\": \"\",\n    \"No_Referal3\": \"\",\n    \"No_Referal4\": \"\",\n    \"No_Referal5\": \"\",\n    \"No_Referal6\": \"\",\n    \"No_Po\": \"PO-SJS-9981\",\n    \"No_Ko\": \"KO\",\n    \"Expedisi\": \"Indah Cargo\",\n    \"Operator\": \"Admin_Pacific\",\n    \"Canceler\": \"\",\n    \"Tgl_Cancel\": null,\n    \"Status\": \"OPEN\",\n    \"Alasan_Status\": \"\",\n    \"Creator\": \"\",\n    \"Jam_Create\": null,\n    \"Editor\": \"\",\n    \"Jam_Edit\": null\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/updateHeader?nomor=FSO26070003",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "FSO26070003"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk New",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"No_Bukti\": \"SO-2026-001\",\n  \"No_Id_Det\": 10,\n  \"Transaksi\": \"SO_PRODUK\",\n  \"Kode_Item\": \"BRG-0023\",\n  \"Nama_Item\": \"Semen Tiga Roda\",\n  \"Nama_Cetak\": \"Semen 3 Roda\",\n  \"Kode_Itempu\": \"IPU-001\",\n  \"Kode_Kategori\": \"KAT-01\",\n  \"Nama_Kategori\": \"Bahan Bangunan\",\n  \"Deskripsi\": \"Semen PC 50kg\",\n  \"Jumlah\": 100.00,\n  \"Kode_Konversi\": 1,\n  \"Satuan\": \"ZAK\",\n  \"Konversi\": 1,\n  \"Hrg_Sat\": 65000.00,\n  \"Hrg_Tot\": 6500000.00,\n  \"Disc_Pros_Det\": 0.00,\n  \"Disc_Nilai_Det\": 0.00,\n  \"Az\": \"AZ-01\",\n  \"Brand\": \"Tiga Roda\",\n  \"Merk\": \"Lokal\",\n  \"Kelwarna\": \"Abu-abu\",\n  \"Berat\": 50.00,\n  \"No_Bahan\": \"BHN-05\",\n  \"Komisi\": 2500.00,\n  \"Komisi_Spv\": 1000.00,\n  \"Fee\": 0,\n  \"Fee2\": 0,\n  \"Fee3\": 0,\n  \"Fee4\": 0,\n  \"Fee5\": 0,\n  \"Cat_Detil\": \"Kirim via truk\", \n  \"No_Bukti_From\": \"\",\n  \"No_Id_From\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/updateDetailNew?noBukti=25040004&noIdDet=537",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "updateDetailNew"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "25040004"
+                },
+                {
+                  "key": "noIdDet",
+                  "value": "537"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk 🔴",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"K012\",\n        \"Nama_Item\": \"Barang Kursi\",\n        \"Deskripsi\": \"Barang Bagusss\",\n        \"Jumlah\": 40,\n        \"Kode_Konversi\": 1,\n        \"Konversi\": 1,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0\n        }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/updateDetail?nomor=25040004&noiditem=537",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040004"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "537"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Non Produk 🔴",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{       \"Kode_Item\": \"100.001\",\n        \"Nama_Item\": \"Kas Besar\",\n        \"Deskripsi\": \"Beli Air\",\n        \"Jumlah\": 1,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 50000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/updateDetail2?nomor=25040019&noiditem=552",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "updateDetail2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040019"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "552"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/delete?nomor=25040001&noiditem=493",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "493"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Non Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/SalesOrder/delete2?nomor=25040001&noiditem=493",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "SalesOrder",
+                "delete2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "493"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "DO",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/DO/getAll?NoIdDet=0&HeadOnly=false",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "DO",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "NoReferensi",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "KdCust",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "KdProduk",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "NoIdDet",
+                  "value": "0"
+                },
+                {
+                  "key": "NoBukti2",
+                  "value": "KKO260620154959",
+                  "disabled": true
+                },
+                {
+                  "key": "HeadOnly",
+                  "value": "false"
+                },
+                {
+                  "key": "BatalOnly",
+                  "value": "false",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl1",
+                  "value": "2025-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "Tgl2",
+                  "value": "2026-06-18",
+                  "disabled": true
+                },
+                {
+                  "key": "NoBukti1",
+                  "value": "KKO260620154959",
+                  "disabled": true
+                },
+                {
+                  "key": "SisaOnly",
+                  "value": "false",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"No_Bukti\": \"FDO260703161435\",\n    \"Tgl_Bukti\": \"2026-06-22\",\n    \"No_Referensi\": \"REF-DO-002\",\n    \"Kode_Cust\": \"H01\",\n    \"Nama_Cust\": \"PT. Sinar Mas\",\n    \"Tgl_Kirim\": \"2026-06-25\",\n    \"Alamat_Kirim\": \"Kawasan Industri SIER Blok C\",\n    \"Keterangan\": \"Kirim Pagi Hari\",\n    \"Ppn\": 11,\n    \"Ppn_Include\": false,\n    \"DiscPros_Head\": 0.00,\n    \"DiscNilai_Head\": 0.00,\n    \"Nm_Kirim\": \"Bpk. Joko\",\n    \"Kt_Kirim\": \"Surabaya\",\n    \"Tel_Kirim\": \"031-8412233\",\n    \"Locofranco\": \"Franco\",\n    \"JualCoil\": \"N\",\n    \"No_KasBank\": \"\",\n    \"Klasifikasi\": \"A\",\n    \"Pack_Rp\": 0.00,\n    \"Proyek\": \"Proyek Pergudangan\",\n    \"No_Po\": \"PO-SM-9921\",\n    \"Expedisi\": \"Indo Cargo\",\n    \"Operator\": \"Deni_Logistik\",\n    \"Status\": \"OPEN\",\n    \"Kode_Gudang\": \"\",\n    \"Nama_Gudang\": \"\",\n    \"Creator\": \"\",\n    \"Editor\": \"\",\n    \"Details\": [\n    {\n        \"No_Bukti\": \"\",\n        \"No_Ko\": \"KO-202606-0001\",\n        \"No_Ko_Id_Det\": 12,\n        \"No_So\": \"SO-202606-0005\",\n        \"No_So_Id_Det\": 45,\n        \"Kode_Item\": \"PRD001\",\n        \"Nama_Item\": \"Spandek Pasir 0.30\",\n        \"Kode_Cust\": \"PRD001\",\n        \"Nama_Cust\": \"Spandek Pasir 0.30\",\n        \"Deskripsi\": \"Warna Hitam\",\n        \"Jumlah\": 50.00,\n        \"Realisasi\": 0.00,\n        \"Kode_Konversi\": 1,\n        \"Satuan\": \"LEMBAR\",\n        \"Konversi\": 1,\n        \"Hrg_Sat\": 65000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00,\n        \"Hrg_Dpp\": 65000.00,\n        \"Nm_Cetak\": \"Spandek Pasir Hitam 0.30\",\n        \"Kode_ItemPu\": \"SP-030\",\n        \"Az\": \"100\",\n        \"Brand\": \"Prima\",\n        \"Merk\": \"Gajah\",\n        \"KelWarna\": \"Hitam\",\n        \"Berat\": 2.50,\n        \"No_Bahan\": \"BHN-09\",\n        \"Komisi\": 500.00,\n        \"Komisi_Spv\": 200.00,\n        \"Fee\": 0,\n        \"Fee2\": 0,\n        \"Fee3\": 0,\n        \"Fee4\": 0,\n        \"Fee5\": 0,\n        \"Cat_Detil\": \"Bungkus plastik ujungnya\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/DO/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "DO",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Tgl_Bukti\": \"2026-06-22\",\n  \"No_Referensi\": \"REF-DO-002-REV\",\n  \"Kode_Cust\": \"R007\",\n  \"Nama_Cust\": \"PT. Maju Bersama\",\n  \"Tgl_Kirim\": \"2026-06-26\",\n  \"Alamat_Kirim\": \"Kawasan Industri SIER Blok C No. 12\",\n  \"Keterangan\": \"Revisi jadwal kirim dan kuantitas\",\n  \"Ppn\": 11,\n  \"Ppn_Include\": false,\n  \"DiscPros_Head\": 2.00,\n  \"DiscNilai_Head\": 0.00,\n  \"Nm_Kirim\": \"Bpk. Joko\",\n  \"Kt_Kirim\": \"Surabaya\",\n  \"Tel_Kirim\": \"031-8412233\",\n  \"Locofranco\": \"Franco\",\n  \"JualCoil\": \"N\",\n  \"No_Kasbank\": \"\",\n  \"Klasifikasi\": \"A\",\n  \"Pack_Rp\": 0.00,\n  \"Proyek\": \"Proyek Pergudangan\",\n  \"No_Po\": \"PO-SM-9921\",\n  \"Expedisi\": \"Indo Cargo Express\",\n  \"Operator\": \"Deni_Logistik\",\n  \"Status\": \"OPEN\",\n  \"Alasan_Status\": \"OPEN\",\n  \"Kode_Gudang\": \"\",\n  \"Nama_Gudang\": \"\",\n  \"Creator\": \"\",\n  \"Editor\": \"\",\n  \"Details\": [\n    {\n      \"No_Bukti\": \"\",\n      \"No_Ko\": \"KO-202606-0001\",\n      \"No_Ko_Id_Det\": 12,\n      \"No_So\": \"SO-202606-0005\",\n      \"No_So_Id_Det\": 45,\n      \"Kode_Item\": \"PRD001\",\n      \"Nama_Item\": \"Spandek Pasir 0.30\",\n      \"Kode_Cust\": \"PRD001\",\n      \"Nama_Cust\": \"Spandek Pasir 0.30\",\n      \"Deskripsi\": \"Warna Hitam\",\n      \"Jumlah\": 50.00,\n      \"Realisasi\": 0.00,\n      \"Kode_Konversi\": 1,\n      \"Satuan\": \"LEMBAR\",\n      \"Konversi\": 1,\n      \"Hrg_Sat\": 65000.00,\n      \"DiscPros_Det\": 0.00,\n      \"DiscNilai_Det\": 0.00,\n      \"Hrg_Dpp\": 65000.00,\n      \"Nm_Cetak\": \"Spandek Pasir Hitam 0.30\",\n      \"Kode_ItemPu\": \"SP-030\",\n      \"Az\": \"100\",\n      \"Brand\": \"Prima\",\n      \"Merk\": \"Gajah\",\n      \"KelWarna\": \"Hitam\",\n      \"Berat\": 2.50,\n      \"No_Bahan\": \"BHN-09\",\n      \"Komisi\": 500.00,\n      \"Komisi_Spv\": 200.00,\n      \"Fee\": 0,\n      \"Fee2\": 0,\n      \"Fee3\": 0,\n      \"Fee4\": 0,\n      \"Fee5\": 0,\n      \"Cat_Detil\": \"Bungkus plastik ujungnya\"\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/DO/update?noBukti=DO-202606-0001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "DO",
+                "update"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "DO-202606-0001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE DETAIL",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"No_Ko\": \"KO-202606-0001\",\n    \"No_Ko_Id_Det\": 12,\n    \"No_So\": \"SO-202606-0005\",\n    \"No_So_Id_Det\": 45,\n    \"Kode_Item\": \"PRD001\",\n    \"Nama_Item\": \"Spandek Pasir 0.30\",\n    \"Deskripsi\": \"Warna Hitam\",\n    \"Jumlah\": 50.00,\n    \"Realisasi\": 0.00,\n    \"Kode_Konversi\": 1,\n    \"Satuan\": \"LEMBAR\",\n    \"Konversi\": 1,\n    \"Hrg_Sat\": 65000.00,\n    \"DiscPros_Det\": 0.00,\n    \"DiscNilai_Det\": 0.00,\n    \"Hrg_Dpp\": 65000.00,\n    \"Nm_Cetak\": \"Spandek Pasir Hitam 0.30\",\n    \"Kode_ItemPu\": \"SP-030\",\n    \"Az\": \"100\",\n    \"Brand\": \"Prima\",\n    \"Merk\": \"Gajah\",\n    \"KelWarna\": \"Hitam\",\n    \"Berat\": 2.50,\n    \"No_Bahan\": \"BHN-09\",\n    \"Komisi\": 500.00,\n    \"Komisi_Spv\": 200.00,\n    \"Fee\": 0,\n    \"Fee2\": 0,\n    \"Fee3\": 0,\n    \"Fee4\": 0,\n    \"Fee5\": 0,\n    \"Cat_Detil\": \"Bungkus plastik ujungnya\",\n    \"Sdh_Cetak\": 0,\n    \"Operator\": \"\",\n    \"Kode_Cust\": \"CUST001\",\n    \"Nama_Cust\": \"PT. Sinar Mas\",\n    \"Tgl_Kirim\": \"2026-06-25T00:00:00\",\n    \"Alamat_Kirim\": \"Kawasan Industri SIER Blok C\",\n    \"Keterangan\": \"Kirim Pagi Hari\"\n  }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/DO/update-detail?noBukti=nobukti&noId=noid",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "DO",
+                "update-detail"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "nobukti"
+                },
+                {
+                  "key": "noId",
+                  "value": "noid"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/DO/delete?nomor=25040003&noIdItem=43&jenis=",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "DO",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noIdItem",
+                  "value": "43"
+                },
+                {
+                  "key": "jenis",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Jual",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noBuktiFrom",
+                  "value": "25040001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdCust",
+                  "value": "K001",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "JL25060005",
+                  "disabled": true
+                },
+                {
+                  "key": "batalOnly",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "kdSales",
+                  "value": "SL001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdProduk",
+                  "value": "EC01",
+                  "disabled": true
+                },
+                {
+                  "key": "kdJasa",
+                  "value": "100.001",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "JL25060005",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Header\": \n        {\n            \"No_Bukti\": \"F\",\n            \"Tgl_Bukti\": \"2025-04-10T00:00:00\",\n            \"No_Bukti_From\": \"\",\n            \"Kode_Cust\": \"C001\",\n            \"Nama_Cust\": \"C001\",\n            \"Kode_Sales\": \"SL001\",\n            \"Nama_Sales\": \"SL001\",\n            \"Kode_Gudang\": \"G01\",\n            \"Nama_Gudang\": \"G02\",\n            \"Kredit_Tunai\": \"TUNAI\",\n            \"Akun_Tunai\": \"100.001\",\n            \"Nama_Akun_Tunai\": \"100.001\",\n            \"Tempo\": 30,\n            \"Tgl_Kirim\": \"2025-03-05T00:00:00\",\n            \"Alamat_Kirim\": \"Babatan Kenjeran\",\n            \"Keterangan\": \"Terbaik\",\n            \"PPN\": 11,\n            \"PPN_Include\": true,\n            \"DiscPros_Head\": 3.3,\n            \"DiscNilai_Head\": 50000.5,\n            \"Kode_Spv\": \"\",\n            \"Nama_Spv\": \"\",\n            \"Ket_Proyek\": \"\",\n            \"Ket_Kwitansi\": \"\",\n            \"Status\": \"\",\n            \"Alasan_Status\": \"\",\n            \"Expedisi\": \"\",\n            \"No_Polisi\": \"\",\n            \"Kendaraan\": \"\",\n            \"Creator\": \"\",\n            \"Editor\": \"\"\n        },\n  \"Details\": [\n        {\n            \"Kode_Item\": \"BBBA\",\n            \"Nama_Item\": \"KURSI BESAR\",\n            \"Kode_Konversi\": 45,\n            \"Konversi\": 1,\n            \"Jumlah\": 35.00,\n            \"Satuan\": \"PCS\",\n            \"Hrg_Sat\": 215000.00,\n            \"DiscPros_Det\": 0.00,\n            \"DiscNilai_Det\": 0.00,\n            \"No_Bukti_From\": \"\",\n            \"Nama_Cetak\": \"\",\n            \"Kode_ItemPU\": \"\",\n            \"Komisi\": 0.00,\n            \"Komisi_Spv\": 0.00,\n            \"Fee\": 0.00,\n            \"Fee2\": 0.00,\n            \"Fee3\": 0.00,\n            \"Fee4\": 0.00,\n            \"Fee5\": 0.00,\n            \"Operator\": \"\"\n        }\n    ],\n\"Details2\": [\n        {\n        \"Kode_Item\": \"100.001\",\n        \"Nama_Item\": \"Kas Besar\",\n        \"Deskripsi\": \"Biaya Parkir\",\n        \"Jumlah\": 35.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00,\n        \"Hrg_Tot\": 150000,\n        \"Hrg_DPP\": 150000\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE From SO Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2025-04-01\",\n    \"No_Bukti_From\": \"SO25050001\",\n    \"Kode_Gudang\": \"G01\",\n    \"Nama_Gudang\": \"Gudang Utama\",\n    \"Kredit_Tunai\": \"TUNAI\",\n    \"Akun_Tunai\": \"100.001\",\n    \"Nama_Akun_Tunai\": \"Biaya\",\n    \"IdFrom_Details\": [611],\n    \"IdFrom_Details2\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/createFromSO",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "createFromSO"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-04-12\",\n    \"No_SO\": \"SO26040004\",\n    \"Kode_Cust\": \"L002\",\n    \"Kode_Sales\": \"S08\",\n    \"Kode_Gudang\": \"GU500\",\n    \"PPN\": 11,\n    \"PPN_Include\": false,\n    \"DiscPros_Head\": 0,\n    \"DiscNilai_Head\": 0,\n    \"Kredit_Tunai\": \"KREDIT\",\n    \"Akun_Tunai\": \"\",\n    \"Tempo\": 10,\n    \"Tgl_Kirim\": \"2026-04-20\",\n    \"Alamat_Kirim\": \"\",\n    \"Keterangan\": \"Update\",\n    \"Kode_Spv\": \"\",\n    \"Nama_Spv\": \"\",\n    \"Ket_Proyek\": \"\",\n    \"Ket_Kwitansi\": \"\",\n    \"Status\": \"\",\n    \"Alasan_Status\": \"\",\n    \"Expedisi\": \"\",\n    \"No_Polisi\": \"\",\n    \"Kendaraan\": \"\",\n    \"Creator\": \"\",\n    \"Editor\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/updateHeader?nomor=JL26040004",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "JL26040004"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk New",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Transaksi\": \"\",\n    \"Kode_Item\": \"\",\n    \"Nama_Item\": \"\",\n    \"Deskripsi\": \"\",\n    \"Jumlah\": 0.00,\n    \"Realisasi\": 0.00,\n    \"Kode_Konversi\": 1,\n    \"Satuan\": \"\",\n    \"Konversi\": 1,\n    \"Hrg_Sat\": 0.00,\n    \"DiscPros_Det\": 0.00,\n    \"DiscNilai_Det\": 0.00,\n    \"Hrg_DPP\": 0.00,\n    \"Hrg_Sat_Pokok\": 0.00,\n    \"Hrg_Tot_Pokok\": 0.00,\n    \"No_Id_From\": 1,\n    \"No_Bukti_From\": \"\",\n    \"Nama_Cetak\": \"\",\n    \"Kode_ItemPU\": \"\",\n    \"Komisi\": 0.00,\n    \"Komisi_Spv\": 0.00,\n    \"Fee\": 0.00,\n    \"Fee2\": 0.00,\n    \"Fee3\": 0.00,\n    \"Fee4\": 0.00,\n    \"Fee5\": 0.00,\n    \"Operator\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/updateDetailNew?noBukti=25040004&noIdDet=537",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "updateDetailNew"
+              ],
+              "query": [
+                {
+                  "key": "noBukti",
+                  "value": "25040004"
+                },
+                {
+                  "key": "noIdDet",
+                  "value": "537"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"EC01\",\n        \"Deskripsi\": \"Barang Bagus\",\n        \"Jumlah\": 7,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0,\n        \"No_Id_From\":634\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/updateDetail?nomor=JL25060005&noiditem=202",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "JL25060005"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "202"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Non Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya BBM\",\n        \"Jumlah\": 40,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/updateDetail2?nomor=25040002&noiditem=42",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "updateDetail2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040002"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "42"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/delete?nomor=25040003&noiditem=43",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "43"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Non Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jual/delete2?nomor=25040003&noiditem=43",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jual",
+                "delete2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "43"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Retur Jual",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "headonly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti",
+                  "value": "RJ25060001",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2025-04-10\",\n    \"No_Jual\": \"25040002\",\n    \"Kode_Cust\": \"R003\",\n    \"Kode_Sales\": \"SL001\",\n    \"Kode_Gudang\": \"G01\",\n    \"PPN\": 11,\n    \"PPN_Include\": true,\n    \"DiscPros_Head\": 3.30,\n    \"DiscNilai_Head\": 50000.50,\n    \"Kredit_Tunai\": \"TUNAI\",\n    \"Akun_Tunai\": \"100.001\",\n    \"Tempo\": 30,\n    \"Keterangan\": \"Terbaik\",\n    \"Creator\": \"\"\n},\n\"Details\": [\n        {\n        \"Kode_Item\": \"K012\",\n        \"Jumlah\": 35.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        },\n        {\n        \"Kode_Item\": \"K013\",\n        \"Jumlah\": 53.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 5000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        }\n    ],\n\"Details2\": [\n        {\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya Parkir\",\n        \"Jumlah\": 35.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        },\n        {\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya makan Parkir\",\n        \"Jumlah\": 53.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 5000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE From Jual Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"filter_tgl_awal\": \"2025-06-11T10:20:08.7029794+07:00\",\n  \"filter_tgl_akhir\": \"2025-06-11T10:20:08.7029799+07:00\",\n  \"filter_no_awal\": \"\",\n  \"filter_no_akhir\": \"\",\n  \"filter_kelompok\": \"BUKTI\",\n  \"filter_gudang\": \"\",\n  \"filter_nama_gudang\": \"\",\n  \"filter_client\": \"\",\n  \"filter_nama_client\": \"\",\n  \"filter_item\": \"\",\n  \"filter_nama_item\": \"\",\n  \"filter_status\": \"SEMUA\",\n  \"filter_view\": null,\n  \"filter_tipe\": true,\n  \"transaksi\": \"PENJUALAN\",\n  \"tipe_transaksi\": \"RETUR\",\n  \"no_bukti\": \"\",\n  \"tgl_bukti\": \"2025-06-11T10:20:09.7031693+07:00\",\n  \"no_referensi\": \"\",\n  \"no_bukti_from\": \"JL25060001\",\n  \"tgl_bukti_from\": \"2025-06-10T00:00:00\",\n  \"kode_supp\": null,\n  \"nama_supp\": null,\n  \"no_sj_inv\": \"\",\n  \"tgl_sj_inv\": \"2025-06-11T10:20:08.7029801+07:00\",\n  \"no_po\": \"\",\n  \"tgl_po\": \"2025-06-11T10:20:08.7029802+07:00\",\n  \"no_beli\": \"\",\n  \"tgl_beli\": \"2025-06-11T10:20:08.7029802+07:00\",\n  \"kode_cust\": \"C001\",\n  \"nama_cust\": \"Brandon Honanta 3\",\n  \"kode_sales\": \"SL001\",\n  \"nama_sales\": \"Sales Baru\",\n  \"no_so\": \"\",\n  \"tgl_so\": \"2025-06-11T10:20:08.7029802+07:00\",\n  \"alamat_kirim\": \"Blok M\",\n  \"hrg_sat_pokok\": 0,\n  \"hrg_tot_pokok\": 0,\n  \"no_jual\": \"\",\n  \"tgl_jual\": \"2025-06-11T10:20:08.7029803+07:00\",\n  \"kode_gudang\": \"G00S\",\n  \"nama_gudang\": \"GUDANG Kedua\",\n  \"akun_tunai\": \"100.003\",\n  \"nama_akun_tunai\": \"Kas Besar\",\n  \"kredit_tunai\": \"TUNAI\",\n  \"tempo\": 0,\n  \"jth_tempo\": \"2025-06-10T00:00:00\",\n  \"tgl_kirim\": \"2025-06-10T00:00:00\",\n  \"keterangan\": \"\",\n  \"ppn\": 0,\n  \"ppn_include\": true,\n  \"discpros_head\": 0.00,\n  \"nilaidiscpros_head\": 0.00,\n  \"discnilai_head\": 0.00,\n  \"subtotal_dpp\": 1200.00,\n  \"total_dpp\": 1200.00,\n  \"total_ppn\": 0.00,\n  \"total_netto\": 1200.00,\n  \"jum_cetak\": 0,\n  \"batal\": false,\n  \"alasan_batal\": \"\",\n  \"selesai\": false,\n  \"alasan_selesai\": \"\",\n  \"no_id_head\": 99,\n  \"nama_item\": \"Barang A\",\n  \"kode_item\": \"BBBA\",\n  \"deskripsi\": \"\",\n  \"jumlah\": 12.00,\n  \"realisasi\": 0.00,\n  \"sisa\": 12.00,\n  \"kode_konversi\": 95,\n  \"satuan\": \"PCS\",\n  \"konversi\": 1,\n  \"hrg_sat\": 100.00,\n  \"discpros_det\": 0.00,\n  \"discnilai_det\": 0.00,\n  \"hrg_tot\": 1200.00,\n  \"hrg_dpp\": 1200.00,\n  \"no_id_det\": 186,\n  \"jenis_produk\": \"PRODUK\",\n  \"kota\": \"\",\n  \"no_id_from\": 0,\n  \"idfrom_details\": [\n    186\n  ],\n  \"idfrom_details2\": [],\n  \"aktif\": null,\n  \"panjang_List\": 0,\n  \"company_data\": {\n    \"nama\": \"PT. Sukses Sejahtera\",\n    \"alamat\": \"Jl. Sukolilo No.4 Surabaya, Jawa timur\",\n    \"kota\": \"Surabaya\",\n    \"kode_pos\": \"088764\",\n    \"telpon\": \"08776899247\",\n    \"no_npwp\": \"11 456 3421 23\",\n    \"kota_npwp\": \"11 456 3421 23\",\n    \"kode_pos_npwp\": \"08876477564\",\n    \"aktif\": true,\n    \"keterangan\": \"\",\n    \"no_id\": 0\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/createFromJual",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "createFromJual"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Tgl_Bukti\": \"2025-04-10\",\n        \"No_Jual\": \"25040002\",\n        \"Kode_Cust\": \"R006\",\n        \"Kode_Sales\": \"SL001\",\n        \"Kode_Gudang\": \"G01\",\n        \"PPN\": 11,\n        \"PPN_Include\": true,\n        \"DiscPros_Head\": 3.3,\n        \"DiscNilai_Head\": 50000.5,\n        \"Kredit_Tunai\": \"TUNAI\",\n        \"Akun_Tunai\": \"100.001\",\n        \"Tempo\": 30,\n        \"Keterangan\": \"Terbaik\",\n        \"Editor\": \"\"\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/updateHeader?nomor=25040002",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040002"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "      {\n        \"Kode_Item\": \"EC01\",\n        \"Nama_Item\": \"Barang A\",\n        \"Deskripsi\": \"Barang A\",\n        \"Jumlah\": 3,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0,\n        \"No_ID_From\":202\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/updateDetail?nomor=RJ25060001&noiditem=108",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "RJ25060001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "108"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Non Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya makan\",\n        \"Jumlah\": 40,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/updateDetail2?nomor=25040012&noiditem=549",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "updateDetail2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040012"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "549"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/delete?nomor=25040003&noiditem=22",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "22"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Non Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetJual/delete2?nomor=25040003&noiditem=22",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetJual",
+                "delete2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "22"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Purchase Order",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "kdJasa",
+                  "value": "100.001",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "PO25070004",
+                  "disabled": true
+                },
+                {
+                  "key": "batalOnly",
+                  "value": "null",
+                  "disabled": true
+                },
+                {
+                  "key": "sisaOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "noIdDet",
+                  "value": "250",
+                  "disabled": true
+                },
+                {
+                  "key": "noIdDet2",
+                  "value": "141",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-06-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "PO26050003",
+                  "disabled": true
+                },
+                {
+                  "key": "kdSupp",
+                  "value": "K001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdProduk",
+                  "value": "BBBZ",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2026-07-09\",\n    \"No_Referensi\": \"REF0000888\",\n    \"Kode_Supp\": \"P003\",\n    \"Nama_Supp\": \"Pemasok 61\",\n    \"PPN\": 11,\n    \"PPN_Include\": true,\n    \"DiscPros_Head\": 3.30,\n    \"DiscNilai_Head\": 50000.50,\n    \"Kredit_Tunai\": \"TUNAI\",\n    \"Tempo\": 30,\n    \"Keterangan\": \"Terbaik\",\n    \"Creator\": \"Ucup\"\n},\n\"Details\": [\n        {\n            \"Kode_Item\": \"AA0450914100550\",\n            \"Nama_Item\": \"BAHAN ADU ANGKOLA TEBAL 0.45 LEBAR 914 MM AZ 100 G-550\",\n            \"Kode_Konversi\": 45,\n            \"Deskripsi\" : \"Ada\",\n            \"Konversi\": 1,\n            \"Jumlah\": 35.00,\n            \"Satuan\": \"PCS\",\n            \"Hrg_Sat\": 215000.00,\n            \"DiscPros_Det\": 0.00,\n            \"DiscNilai_Det\": 0.00,\n            \"No_Bukti_From\": \"PN26070001\",\n            \"No_Id_From\": 80,\n            \"Jenis_Dok_From\": \"PN26070004\",\n            \"Kode_PurchasingORG\": \"PCO_0001\",\n            \"Ket_PurchasingORG\": \"Divisi Pengadaan Pusat\"\n        }\n    ],\n\"Details2\": [\n    {\n          \"Kode_Item\": \"100.003\",\n          \"Nama_Item\": \"Kas Besar\",\n          \"Deskripsi\": \"Bensin\",\n          \"Jumlah\": 15,\n          \"Satuan\": \"Haluan\",\n          \"Hrg_Sat\": 10000,\n          \"DiscPros_Det\": 0,\n          \"DiscNilai_Det\": 0,\n          \"Hrg_Tot\": 150000,\n          \"Hrg_DPP\": 150000\n    }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2026-07-06\",\n    \"No_Referensi\": \"REF999\",\n    \"Kode_Supp\": \"P003\",\n    \"Nama_Supp\": \"Pemasok 61\",\n    \"PPN\": 11,\n    \"PPN_Include\": true,\n    \"DiscPros_Head\": 3.30,\n    \"DiscNilai_Head\": 50000.50,\n    \"Kredit_Tunai\": \"TUNAI\",\n    \"Tempo\": 21,\n    \"Cetak\": 21,\n    \"Keterangan\": \"Aku disini dan....\",\n    \"Status\": \"\",\n    \"Alasan_Status\": \"\",\n    \"Editor\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/updateHeader?nomor=PO26070001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "PO26070001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"BBBA\",\n        \"Nama_Item\": \"Barang Z\",\n        \"Deskripsi\": \"\",\n        \"Jumlah\": 1000,\n        \"Realisasi\": 700,\n        \"Sisa\": 300,\n        \"Kode_Konversi\": 95,\n        \"Satuan\": \"PCS\",\n        \"Konversi\": 1,\n        \"Hrg_Sat\": 100000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0,\n        \"Hrg_Tot\": 1200000,\n        \"Hrg_DPP\": 1200000\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/updateDetail?nomor=PO25060001&noiditem=239",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "PO25060001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "239"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Non Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"100.003\",\n        \"Deskripsi\": \"Biaya Bensin\",\n        \"Jumlah\": 40,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/updateDetail2?nomor=PO26070002&noiditem=196",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "updateDetail2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "PO26070002"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "196"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/delete?nomor=PO26070002&noiditem=338",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "PO26070002"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "338"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Non Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/PurchaseOrder/delete2?nomor=PO26070002&noiditem=196",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "PurchaseOrder",
+                "delete2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "PO26070002"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "196"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Beli",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "nobukti1",
+                  "value": "BL25070005",
+                  "disabled": true
+                },
+                {
+                  "key": "kdSupp",
+                  "value": "K001x",
+                  "disabled": true
+                },
+                {
+                  "key": "noIdDet",
+                  "value": "487",
+                  "disabled": true
+                },
+                {
+                  "key": "noIdDet2",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "sisaOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "BL25070005",
+                  "disabled": true
+                },
+                {
+                  "key": "batalOnly",
+                  "value": "false",
+                  "disabled": true
+                },
+                {
+                  "key": "kdProduk",
+                  "value": "BBBZ",
+                  "disabled": true
+                },
+                {
+                  "key": "noBuktiFrom",
+                  "value": "PO25070004",
+                  "disabled": true
+                },
+                {
+                  "key": "kdJasa",
+                  "value": "100.001",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-02-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-04-30",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Header\": \n        {\n            \"No_Bukti\": \"F\",\n            \"Tgl_Bukti\": \"2026-07-10T00:00:00\",\n            \"Kode_Supp\": \"S006\",\n            \"Kode_Sales\": \"SL001\",\n            \"Kode_Gudang\": \"G01\",\n            \"Kredit_Tunai\": \"TUNAI\",\n            \"Akun_Tunai\": \"100.001\",\n            \"Tempo\": 30,\n            \"Tgl_Kirim\": \"2065-07-11T00:00:00\",\n            \"Alamat_Kirim\": \"Babatan Kenjeran\",\n            \"Keterangan\": \"Terbaik\",\n            \"PPN\": 11,\n            \"PPN_Include\": true,\n            \"DiscPros_Head\": 3.3,\n            \"DiscNilai_Head\": 50000.5,\n            \"Creator\": \"Bubud\"\n        },\n  \"Details\": [\n        {\n            \"Kode_Item\": \"*CO100TRSLNON 00020\",\n            \"Nama_Item\": \"Spandek Pasir 0.30\",\n            \"Deskripsi\": \"\",\n            \"Jumlah\": 100.00,\n            \"Kode_Konversi\": 1,\n            \"Konversi\": 1,\n            \"Satuan\": \"\",\n            \"Hrg_Sat\": 25000.00,\n            \"DiscPros_Det\": 0.00,\n            \"DiscNilai_Det\": 0.00,\n            \"No_Bukti_From\": \"FTB26070001\",\n            \"Jenis_Dok_From\": \"GR\",\n            \"No_Id_From\": 1\n        }\n    ],\n\"Details2\": [\n        // {\n        //     \"Kode_Item\": \"*CO100TRSLNON 00020\",\n        //     \"Nama_Item\": \"Spandek Pasir 0.30\",\n        //     \"Deskripsi\": \"\",\n        //     \"Jumlah\": 100.00,\n        //     \"Satuan\": \"\",\n        //     \"Hrg_Sat\": 25000.00,\n        //     \"DiscPros_Det\": 0.00,\n        //     \"DiscNilai_Det\": 0.00,\n        //     \"No_Bukti_From\": \"FTB26070001\",\n        //     \"Jenis_Dok_From\": \"GR\",\n        //     \"No_Id_From\": 0\n        // }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE From PO Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"\",\n    \"Kode_Gudang\": \"\",\n    \"Nama_Gudang\": \"\",\n    \"No_Sj_Inv\": \"\",\n    \"Tgl_Sj_Inv\": \"\",\n    \"No_Bukti_From\": \"\",\n    \"Kredit_Tunai\": \"\",\n    \"Akun_Tunai\": \"\",\n    \"Nama_Akun_Tunai\": \"\",\n    \"No_Pajak\": \"\",\n    \"Tgl_Pajak\": \"\",\n    \"IdFrom_Details\": [\n        211\n    ],\n    \"IdFrom_Details2\": [\n        211\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/createFromPO",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "createFromPO"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"no_bukti\": \"BL25070005\",\n  \"tgl_bukti\": \"2025-07-23T00:00:00\",\n  \"no_referensi\": \"\",\n  \"no_bukti_from\": \"PO25070006\",\n  \"tgl_bukti_from\": \"2025-07-23T00:00:00\",\n  \"kode_supp\": \"S002\",\n  \"nama_supp\": \"Supplier 2\",\n  \"no_sj_inv\": \"\",\n  \"tgl_sj_inv\": \"2025-07-23T00:00:00\",\n  \"no_pajak\": \"\",\n  \"no_pajakbeli\": \"\",\n  \"tgl_pajak\": \"2025-07-23T00:00:00\",\n  \"kode_cust\": null,\n  \"nama_cust\": null,\n  \"kode_sales\": \"\",\n  \"nama_sales\": null,\n  \"alamat_kirim\": \"\",\n  \"hrg_sat_pokok\": 0,\n  \"hrg_tot_pokok\": 0,\n  \"kode_gudang\": \"G01\",\n  \"nama_gudang\": \"Gudang Pus\",\n  \"akun_tunai\": \"100.001\",\n  \"nama_akun_tunai\": \"Kas Besar\",\n  \"kredit_tunai\": \"TUNAI\",\n  \"tempo\": 0,\n  \"jth_tempo\": \"2025-07-23T00:00:00\",\n  \"tgl_kirim\": \"2025-07-23T11:28:12.5603369+07:00\",\n  \"keterangan\": \"Aktif Dong\",\n  \"ppn\": 0,\n  \"ppn_include\": true,\n  \"discpros_head\": 0.00,\n  \"nilaidiscpros_head\": 0.00,\n  \"discnilai_head\": 0.00,\n  \"subtotal_dpp\": 50000000.00,\n  \"total_dpp\": 50000000.00,\n  \"total_ppn\": 0.00,\n  \"total_netto\": 50000000.00,\n  \"jum_cetak\": 0,\n  \"batal\": true,\n  \"selesai_manual\": false,\n  \"selesaiOtomatis\": false,\n  \"selesaiSebagian\": false,\n  \"belumRealisasi\": false,\n  \"alasan_batal\": \"Yaa Batal\",\n  \"alasan_selesai_manual\": \"Batal aja\",\n  \"no_id_head\": 255,\n  \"kondisi\": \"RETUR SEMUA\",\n  \"nama_item\": \"Barang A\",\n  \"kode_item\": \"BBBA\",\n  \"deskripsi\": \"\",\n  \"jumlah\": 5000.00,\n  \"realisasi\": 5000.00,\n  \"sisa\": 0.00,\n  \"kode_konversi\": 102,\n  \"satuan\": \"LSN\",\n  \"konversi\": 12,\n  \"hrg_sat\": 10000.00,\n  \"discpros_det\": 0.00,\n  \"discnilai_det\": 0.00,\n  \"hrg_tot\": 50000000.00,\n  \"hrg_dpp\": 50000000.00,\n  \"no_id_det\": 490,\n  \"jenis_produk\": \"PRODUK\",\n  \"kota\": \"\",\n  \"no_id_from\": 252,\n  \"idfrom_details\": [\n    252\n  ],\n  \"idfrom_details2\": []\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/updateHeader?nomor=BL25070005",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "BL25070005"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"No_Bukti\": \"BL25050013\",\n        \"Kode_Item\": \"BBBA\",\n        \"Nama_Item\": \"BBBA\",\n        \"Deskripsi\": \"\",\n        \"Jumlah\": 2,\n        \"Kode_Konversi\": 45,\n        \"Satuan\": \"PCS\",\n        \"Konversi\": 95,\n        \"Hrg_Sat\": 3045.65,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0,\n        \"Hrg_Tot\": 15228.25,\n        \"Hrg_DPP\": 15228.25\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/updateDetail?nomor=BL25060001&noiditem=458",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "BL25060001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "458"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Non Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya Lain2\",\n        \"Jumlah\": 40,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0,\n  \"No_Id_From\":0\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/updateDetail2?nomor=BL25050004&noiditem=195",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "updateDetail2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "BL25050004"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "195"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/delete?nomor=BL25060006&noiditem=468",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "BL25060006"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "468"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Non Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Beli/delete2?nomor=25040006&noiditem=70",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Beli",
+                "delete2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040006"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "70"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Retur Beli",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "kdProduk",
+                  "value": "BBBZ",
+                  "disabled": true
+                },
+                {
+                  "key": "kdJasa",
+                  "value": "100.001",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "RB25070003",
+                  "disabled": true
+                },
+                {
+                  "key": "kdSupp",
+                  "value": "K001",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "RB25070003",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2025-04-10\",\n    \"No_Beli\": \"F678\",\n    \"Kode_Supp\": \"S001\",\n    \"Kode_Gudang\": \"G01\",\n    \"PPN\": 11,\n    \"PPN_Include\": true,\n    \"DiscPros_Head\": 3.30,\n    \"DiscNilai_Head\": 50000.50,\n    \"Kredit_Tunai\": \"TUNAI\",\n    \"Akun_Tunai\": \"100.001\",\n    \"Tempo\": 21,\n    \"Keterangan\": \"Terbaik\"\n},\n\"Details\": [\n        {\n        \"Kode_Item\": \"K012\",\n        \"Jumlah\": 35.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        },\n        {\n        \"Kode_Item\": \"K013\",\n        \"Jumlah\": 53.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 5000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        }\n    ],\n\"Details2\": [\n        {\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya Parkir\",\n        \"Jumlah\": 35.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        },\n        {\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya makan Parkir\",\n        \"Jumlah\": 53.00,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 5000.00,\n        \"DiscPros_Det\": 0.00,\n        \"DiscNilai_Det\": 0.00\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE From Beli Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"transaksi\": \"\",\n  \"tipe_transaksi\": \"\",\n  \"no_bukti\": \"\",\n  \"tgl_bukti\": \"2025-05-16T16:27:30.749499+07:00\",\n  \"no_referensi\": \"\",\n  \"kode_supp\": \"S001\",\n  \"nama_supp\": \"Mr. Ahmad\",\n  \"no_sj_inv\": \"\",\n  \"tgl_sj_inv\": \"2025-05-16T00:00:00\",\n  \"no_po\": \"PO25050010\",\n  \"tgl_po\": \"2025-05-14T00:00:00\",\n  \"no_beli\": \"BL25050020\",\n  \"tgl_beli\": \"2025-05-16T00:00:00\",\n  \"kode_cust\": null,\n  \"nama_cust\": null,\n  \"kode_sales\": null,\n  \"nama_sales\": null,\n  \"no_so\": null,\n  \"tgl_so\": \"2025-05-16T16:27:30.18384+07:00\",\n  \"alamat_kirim\": \"\",\n  \"hrg_sat_pokok\": 0,\n  \"hrg_tot_pokok\": 0,\n  \"kode_gudang\": \"GDB01\",\n  \"nama_gudang\": \"Gudang B\",\n  \"akun_tunai\": \"100.002\",\n  \"nama_akun_tunai\": \"Kas Kecil\",\n  \"kredit_tunai\": \"TUNAI\",\n  \"tempo\": 0,\n  \"jth_tempo\": \"2025-05-16T00:00:00\",\n  \"tgl_kirim\": \"2025-05-16T16:27:30.1838401+07:00\",\n  \"keterangan\": \"\",\n  \"ppn\": 0,\n  \"ppn_include\": true,\n  \"discpros_head\": 0.00,\n  \"nilaidiscpros_head\": 0.00,\n  \"discnilai_head\": 0.00,\n  \"subtotal_dpp\": 265431844.45,\n  \"total_dpp\": 265431844.00,\n  \"total_ppn\": 0.00,\n  \"total_netto\": 265431844.00,\n  \"jum_cetak\": 0,\n  \"batal\": false,\n  \"alasan_batal\": \"\",\n  \"selesai\": false,\n  \"alasan_selesai\": \"\",\n  \"no_id_head\": 189,\n  \"nama_item\": \"HP Bagus Sekali HP Bagus Sekali HP Bagus Sekali\",\n  \"kode_item\": \"ASD12\",\n  \"deskripsi\": \"\",\n  \"jumlah\": 2.00,\n  \"realisasi\": 0.00,\n  \"sisa\": 2.00,\n  \"kode_konversi\": 47,\n  \"satuan\": \"BTL\",\n  \"konversi\": 85,\n  \"hrg_sat\": 50000.00,\n  \"discpros_det\": 0.00,\n  \"discnilai_det\": 0.00,\n  \"hrg_tot\": 100000.00,\n  \"hrg_dpp\": 100000.00,\n  \"no_id_det\": 358,\n  \"jenis_produk\": \"PRODUK\",\n  \"kota\": \"\",\n  \"no_id_from\": 183,\n  \"idpo_details\": [\n    183,\n    189,\n    190,\n    191,\n    192,\n    193\n  ],\n  \"idpo_details2\": [\n    142,\n    146\n  ],\n  \"company_data\": {\n    \"nama\": \"PT. Sukses Sejahtera\",\n    \"alamat\": \"Jl. Sukolilo No.4 Surabaya, Jawa timur\",\n    \"kota\": \"Surabaya\",\n    \"kode_pos\": \"088764\",\n    \"telpon\": \"08776899247\",\n    \"no_npwp\": \"11 456 3421 23\",\n    \"kota_npwp\": \"11 456 3421 23\",\n    \"kode_pos_npwp\": \"08876477564\",\n    \"aktif\": true,\n    \"keterangan\": \"\",\n    \"no_id\": 0\n  },\n  \"idbeli_details\": [\n    358,\n    359,\n    360,\n    361,\n    362,\n    363\n  ],\n  \"idbeli_details2\": [\n    257,\n    258\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/createFromBeli",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "createFromBeli"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Tgl_Bukti\": \"2025-03-31\",\n        \"No_Beli\": \"25040001\",\n        \"Tgl_Beli\": \"2025-04-10\",\n        \"Kode_Supp\": \"S001\",\n        \"Kode_Gudang\": \"G01\",\n        \"No_Pajak\": \"PJK02\",\n        \"Tgl_Pajak\": \"2025-04-10\",\n        \"No_PajakBeli\": \"PJK01\",\n        \"PPN\": 11,\n        \"PPN_Include\": true,\n        \"DiscPros_Head\": 3.3,\n        \"NilaiDiscPros_Head\": 0,\n        \"DiscNilai_Head\": 50000.5,\n        \"Kredit_Tunai\": \"TUNAI\",\n        \"Akun_Tunai\": \"100.001\",\n        \"Tempo\": 12,\n        \"Keterangan\": \"Terbaik\",\n        \"Batal\": false,\n        \"Alasan_Batal\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/updateHeader?nomor=RB25050009",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "RB25050009"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"BBBZ\",\n        \"Deskripsi\": \"Barang Bagusss\",\n        \"Jumlah\": 65,\n        \"Satuan\": \"PCS\",\n        \"Kode_Konversi\":95,\n        \"Konversi\": 1,\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0,\n        \"No_Id_From\": 487\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/updateDetail?nomor=RB25070003&noiditem=237",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "RB25070003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "237"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Non Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n        \"Kode_Item\": \"100.001\",\n        \"Deskripsi\": \"Biaya parkir\",\n        \"Jumlah\": 40,\n        \"Satuan\": \"PCS\",\n        \"Hrg_Sat\": 215000,\n        \"DiscPros_Det\": 0,\n        \"DiscNilai_Det\": 0\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/updateDetail2?nomor=25040012&noiditem=86",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "updateDetail2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040012"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "86"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/delete?nomor=RB25050009&noiditem=184",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "RB25050009"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "184"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Non Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RetBeli/delete2?nomor=25040003&noiditem=61",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RetBeli",
+                "delete2"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "61"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Mutasi Barang",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Mutasi/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Mutasi",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noIdDet",
+                  "value": "178",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "MB25090004",
+                  "disabled": true
+                },
+                {
+                  "key": "kdProduk",
+                  "value": "KCP123",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "MB25090004",
+                  "disabled": true
+                },
+                {
+                  "key": "kdGudangDari",
+                  "value": "G01",
+                  "disabled": true
+                },
+                {
+                  "key": "kdGudangKe",
+                  "value": "G02",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2025-04-01\",\n    \"Kode_Gudang_Dari\": \"G01\",\n    \"Nama_Gudang_Dari\": \"Gudang Utama\",\n    \"Kode_Gudang_Ke\": \"G02\",\n    \"Nama_Gudang_Ke\": \"Gudang Lain\",\n    \"Keterangan\": \"Terbaik\",\n    \"Jenis\": \"Baku\",\n    \"Creator\": \"Ucup\"\n},\n\"Details\": [\n        {\n        \"Kode_Item\": \"BBBA\",\n        \"Nama_Item\": \"KURSI BESAR\",\n        \"Kode_Konversi\": 45,\n        \"Konversi\": 1,\n        \"Jumlah\": 35.00,\n        \"Satuan\": \"PCS\"\n        }\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Mutasi/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Mutasi",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2025-04-10\",\n    \"Kode_Gudang_Dari\": \"G01\",\n    \"Nama_Gudang_Dari\": \"Gudang Utama\",\n    \"Kode_Gudang_Ke\": \"G02\",\n    \"Nama_Gudang_Ke\": \"Gudang Lain\",\n    \"Jenis\": \"Ucup\",\n    \"Keterangan\": \"Terbaik\",\n    \"Batal\": true,\n    \"Alasan_Batal\":\"alasan aja\",\n    \"Editor\": \"Ucup\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Mutasi/updateHeader?nomor=MB25060001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Mutasi",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "MB25060001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\n{\n        \"No_Bukti\": \"MB25090004\",\n        \"Kode_Item\": \"BBBA\",\n        \"Nama_Item\": \"Barang A\",\n        \"Deskripsi\": \"\",\n        \"Jumlah\": 10,\n        \"Kode_Konversi\": 45,\n        \"Satuan\": \"PCS\",\n        \"Konversi\": 1\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Mutasi/updateDetail?nomor=MB25090004&noiditem=58",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Mutasi",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "MB25090004"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "58"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Mutasi/delete?nomor=MB25040003&noiditem=9",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Mutasi",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "MB25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "9"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Koreksi Barang",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Koreksi/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Koreksi",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noIdDet",
+                  "value": "178",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "KB25070001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdProduk",
+                  "value": "KCP123",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "KB25070001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdGudang",
+                  "value": "G01",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2025-04-01\",\n    \"Kode_Gudang\": \"G01\",\n    \"Nama_Gudang\": \"Gudang Utama\",\n    \"Keterangan\": \"Terbaik\",\n    \"Jenis\": \"JADI\",\n    \"Creator\": \"Ucup\"\n},\n\"Details\": [\n        {\n          \"Kode_Item\": \"AS1023ATBBKW2075000160\",\n          \"Nama_Item\": \"ATAP SALJU 4CM TEBAL 0.23 ATAP  GALVALUME BIRU BROMO KW2 LEBAR 750 MM PANJANG 1.60 MTR\",\n          \"Kode_Konversi\": 3935,\n          \"Konversi\": 1,\n          \"Jumlah\": 1,\n          \"Satuan\": \"LBR\",\n          \"Select\": false,\n          \"No_Bukti\": \"MB26070002\",\n          \"Deskripsi\": \"\",\n          \"No_Id_Det\": 85,\n          \"Hrg_Sat_Pokok\": 1,\n          \"Hrg_Tot_Pokok\": 1,\n          \"Hrg_Tot\": 1\n        }\n    ]\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Koreksi/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Koreksi",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2025-04-10\",\n    \"Kode_Gudang\": \"G01\",\n    \"Nama_Gudang\": \"Gudang Utama\",\n    \"Jenis\": \"\",\n    \"Keterangan\": \"Terbaik\",\n    \"Batal\": false,\n    \"Alasan_Batal\":\"\",\n    \"Editor\": \"Ucup\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Koreksi/updateHeader?nomor=KB25040001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Koreksi",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KB25040001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "      {\n        \"No_Bukti\": \"KB25040001\",\n        \"Kode_Item\": \"K012\",\n        \"Nama_Item\": \"BBBA\",\n        \"Deskripsi\": \"\",\n        \"Jumlah\": 2,\n        \"Kode_Konversi\": 45,\n        \"Satuan\": \"PCS\",\n        \"Konversi\": 95,\n        \"Hrg_Tot\" : 200000\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Koreksi/updateDetail?nomor=KB25040001&noiditem=2",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Koreksi",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KB25040001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Produk",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Koreksi/delete?nomor=KB25040003&noiditem=4",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Koreksi",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KB25040003"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "4"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kas Bank",
+      "item": [
+        {
+          "name": "READ Headers & Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/KasBank/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KasBank",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noIdDet",
+                  "value": "178",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "BK26030002",
+                  "disabled": true
+                },
+                {
+                  "key": "kdAkunHeader",
+                  "value": "KCP123",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "BK26030002",
+                  "disabled": true
+                },
+                {
+                  "key": "kdAkunDetail",
+                  "value": "G01",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti",
+                  "value": "BK26030002",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "READ Kas Bank (new) 🟢",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/KasBank/getAll-new",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KasBank",
+                "getAll-new"
+              ],
+              "query": [
+                {
+                  "key": "kode_akun",
+                  "value": "100.001",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2026-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2026-01-31",
+                  "disabled": true
+                },
+                {
+                  "key": "jenis_transaksi",
+                  "value": "null || GIRO MASUK || GIRO KELUAR",
+                  "disabled": true
+                },
+                {
+                  "key": "kategori",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2025-08-19\",\n    \"Jenis_Transaksi\":\"TRANSFER MASUK\",\n    \"Kode_Akun\": \"100.001\",\n    \"Nama_Akun\": \"Kas Besar\",\n    \"Keterangan\": \"Terbaik\"\n},\n\"Details\": [\n        {\n        \"Kode_Akun\": \"100.002\",\n        \"Nama_Akun\": \"KAS KECIL\",\n        \"Nilai\": 300000.00,\n        \"Deskripsi\": \"BIAYA BBM\"\n        }\n    ]\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/KasBank/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KasBank",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2025-08-19\",\n    \"Kode_Akun\": \"100.002\",\n    \"Nama_Akun\": \"KAS KECIL\",\n    \"Keterangan\": \"Terbaik\",\n    \"Batal\": false,\n    \"Alasan_Batal\":\"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/KasBank/updateHeader?nomor=KK25080001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KasBank",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KK25080001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Item",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "      {\n        \"No_Bukti\": \"KK25080001\",\n        \"Kode_Akun\": \"100.001\",\n        \"Nama_Akun\": \"KAS BESAR\",\n        \"Deskripsi\": \"BIAYA SAJA\",\n        \"Nilai\": 200000\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/KasBank/updateDetail?nomor=KK25080001&noiditem=15",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KasBank",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KK25080001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "15"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/KasBank/delete?nomor=KK25080001&noiditem=15",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "KasBank",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KK25080001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "15"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Piutang",
+      "item": [
+        {
+          "name": "READ Piutang (new) 🟢",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Piutang/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Piutang",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "kode",
+                  "value": "C001",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl",
+                  "value": "2026-01-01",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pelunasan",
+      "item": [
+        {
+          "name": "POST Pelunasan (new) 🟢",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"NoBukti\": \"\",\n  \"TglBukti\": \"\",\n  \"NoReff\": \"\",\n  \"KodeSupp\": \"\",\n  \"NamaSupp\": \"\",\n  \"JenisHP\": \"\",\n  \"Catatan\": \"\",\n  \"Details\": \"\",\n  \"Details2\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://erp-api.padajaya.biz.id/api/Pelunasan/create",
+              "protocol": "https",
+              "host": [
+                "erp-api",
+                "padajaya",
+                "biz",
+                "id"
+              ],
+              "path": [
+                "api",
+                "Pelunasan",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Jurnal",
+      "item": [
+        {
+          "name": "READ Headers & Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jurnal/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jurnal",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noIdDet",
+                  "value": "178",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "KB25070001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdAkunHeader",
+                  "value": "KCP123",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "KB25070001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdAkunDetail",
+                  "value": "G01",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n\"Header\": {\n    \"No_Bukti\": \"\",\n    \"Tgl_Bukti\": \"2025-08-19\",\n    \"Keterangan\": \"Terbaik\"\n},\n\"Details\": [\n        {\n        \"Kode_Akun\": \"100.002\",\n        \"Nama_Akun\": \"KAS KECIL\",\n        \"Nilai\": 300000.00,\n        \"D_K\":\"D\",\n        \"Deskripsi\": \"BIAYA BUMN\"\n        }\n    ]\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jurnal/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jurnal",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2025-08-19\",\n    \"Keterangan\": \"Terbaik Saja\",\n    \"Batal\": false,\n    \"Alasan_Batal\":\"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jurnal/updateHeader?nomor=JM25080001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jurnal",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "JM25080001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Item",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "  {\n        \"No_Bukti\": \"JM25080001\",\n        \"Kode_Akun\": \"100.001\",\n        \"Nama_Akun\": \"KAS BESAR\",\n        \"Deskripsi\": \"BIAYA BBMMMMMMMMMMMMMMMMMMMMMMMM\",\n        \"Nilai\": 300000,\n        \"D_K\": \"K\"\n      }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jurnal/updateDetail?nomor=JM25080001&noiditem=16",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jurnal",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "JM25080001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "16"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "DELETE Detail Item",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Jurnal/data/delete?nomor=JM25080001&noiditem=15",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Jurnal",
+                "data",
+                "delete"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "JM25080001"
+                },
+                {
+                  "key": "noiditem",
+                  "value": "15"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Giro",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Giro/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Giro",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noIdCreate",
+                  "value": "178",
+                  "disabled": true
+                },
+                {
+                  "key": "noGiro",
+                  "value": "001",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "d_k",
+                  "value": "D",
+                  "disabled": true
+                },
+                {
+                  "key": "kdCustSupp",
+                  "value": "KCP123",
+                  "disabled": true
+                },
+                {
+                  "key": "noIdCair",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "noBuktiCreate",
+                  "value": "G01",
+                  "disabled": true
+                },
+                {
+                  "key": "noBuktiCair",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "aktif",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "orderBy",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "READ Giro (new) 🟢",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Giro/getAll-new",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Giro",
+                "getAll-new"
+              ],
+              "query": [
+                {
+                  "key": "customer",
+                  "value": "CUST001",
+                  "disabled": true
+                },
+                {
+                  "key": "jenis_giro",
+                  "value": "GM",
+                  "disabled": true
+                },
+                {
+                  "key": "no_bukti_create",
+                  "value": "GM26030006",
+                  "disabled": true
+                },
+                {
+                  "key": "no_giro",
+                  "value": "GR001",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2026-01-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2026-01-31",
+                  "disabled": true
+                },
+                {
+                  "key": "no_bukti_cair",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Opname Barang",
+      "item": [
+        {
+          "name": "READ Headers, Details & Masters",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/Opname/getAll",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Opname",
+                "getAll"
+              ],
+              "query": [
+                {
+                  "key": "noIdDet",
+                  "value": "178",
+                  "disabled": true
+                },
+                {
+                  "key": "headOnly",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-03-01",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-03-31",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti1",
+                  "value": "KB25070001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdProduk",
+                  "value": "KCP123",
+                  "disabled": true
+                },
+                {
+                  "key": "noBukti2",
+                  "value": "KB25070001",
+                  "disabled": true
+                },
+                {
+                  "key": "kdGudang",
+                  "value": "G01",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "CREATE Header & Details",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Header\": {\n    \"no_bukti\": \"\",\n    \"kode_gudang\": \"G01\",\n    \"nama_gudang\": \"Gudang Pus\",\n    \"tgl_bukti\": \"2025-08-01\",\n    \"keterangan\": \"\",\n    \"Jenis\": \"\",\n    \"Creator\": \"\"\n  },\n  \"Details\": [\n    {\n      \"nama_item\": \"Barang A\",\n      \"kode_item\": \"BBBA\",\n      \"nama_kategori\": \"Makanan\",\n      \"kode_kategori\": \"M001\",\n      \"deskripsi\": \"\",\n      \"jumlah\": -60253.00,\n      \"satuan\": \"PCS\",\n      \"konversi\": 1\n    }\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Opname/create",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Opname",
+                "create"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Header",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"Tgl_Bukti\": \"2025-04-10\",\n    \"Kode_Gudang\": \"G01\",\n    \"Nama_Gudang\": \"Gudang Utama\",\n    \"Keterangan\": \"Terbaik\",\n    \"Batal\": false,\n    \"Alasan_Batal\":\"\",\n    \"Jenis\": \"\",\n    \"Editor\": \"\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Opname/updateHeader?nomor=KB25040001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Opname",
+                "updateHeader"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "KB25040001"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UPDATE Detail Produk",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Details\": []\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Opname/updateDetail?nomor=OP25040001",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Opname",
+                "updateDetail"
+              ],
+              "query": [
+                {
+                  "key": "nomor",
+                  "value": "OP25040001"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Posisi Produk",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RekapProduk/posisi?kodeProduk=BBBA&tgl2=2026-06-04",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RekapProduk",
+                "posisi"
+              ],
+              "query": [
+                {
+                  "key": "kodeProduk",
+                  "value": "BBBA"
+                },
+                {
+                  "key": "kodeGudang",
+                  "value": "G01",
+                  "disabled": true
+                },
+                {
+                  "key": "kategori",
+                  "value": "KAT003",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-02-23",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2026-06-04"
+                },
+                {
+                  "key": "totalSemuaGudang",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "habisAdaSemua",
+                  "value": "SEMUA",
+                  "disabled": true
+                },
+                {
+                  "key": "aktif",
+                  "value": "true",
+                  "disabled": true
+                },
+                {
+                  "key": "orderBy",
+                  "value": "",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Rekap Produk",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RekapProduk/rekap?kodeGudang=GG22&tgl1=2025-01-01&tgl2=2025-07-22",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RekapProduk",
+                "rekap"
+              ],
+              "query": [
+                {
+                  "key": "totalSemuaGudang",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "habisAdaSemua",
+                  "value": "SEMUA",
+                  "disabled": true
+                },
+                {
+                  "key": "aktif",
+                  "value": "false",
+                  "disabled": true
+                },
+                {
+                  "key": "orderBy",
+                  "value": "Nama",
+                  "disabled": true
+                },
+                {
+                  "key": "kodeProduk",
+                  "value": "BBBA",
+                  "disabled": true
+                },
+                {
+                  "key": "kodeGudang",
+                  "value": "GG22"
+                },
+                {
+                  "key": "kategori",
+                  "value": "KAT003",
+                  "disabled": true
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-01-01"
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-07-22"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Kartu Produk",
+      "item": [
+        {
+          "name": "READ",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{url_global_erp-api}}/RekapProduk/kartu?kodeProduk=BBBA&kodeGudang=G01&tgl1=2025-07-23&tgl2=2025-07-23",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "RekapProduk",
+                "kartu"
+              ],
+              "query": [
+                {
+                  "key": "kodeProduk",
+                  "value": "BBBA"
+                },
+                {
+                  "key": "kodeGudang",
+                  "value": "G01"
+                },
+                {
+                  "key": "tgl1",
+                  "value": "2025-07-23"
+                },
+                {
+                  "key": "tgl2",
+                  "value": "2025-07-23"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hitung",
+      "item": [
+        {
+          "name": "Hitung",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Subtotal_Barang\": 6779279.28,\n  \"Disc\": 3.30,\n  \"Disc_Rp\": 50000.50,\n  \"Persen_PPN\": 11,\n  \"Ppn_Include\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{url_global_erp-api}}/Hitung",
+              "host": [
+                "{{url_global_erp-api}}"
+              ],
+              "path": [
+                "Hitung"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token_global}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}

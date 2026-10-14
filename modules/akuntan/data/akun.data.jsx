@@ -1,0 +1,37 @@
+// Akuntan — data Katalog Akun Buku Besar (Chart of Accounts)
+
+const AK_TIPE_AKUN_OPTS = ['K', 'KAS', 'BANK', 'D', 'B'];
+
+const AKUN_BB = [
+  { name:'Kas Besar',          kode:'100.001', tipe:'K',    grup:'01', subgrup:'01',   ket:'',       aktif:true },
+  { name:'Kas Kecil',          kode:'100.002', tipe:'K',    grup:'01', subgrup:'02',   ket:'Balik',  aktif:true },
+  { name:'Kas Besar',          kode:'100.003', tipe:'K',    grup:'01', subgrup:'01',   ket:'',       aktif:true },
+  { name:'KAS BESAR',          kode:'1000.005', tipe:'KAS', grup:'10', subgrup:'1000', ket:'IMPORT', aktif:true },
+  { name:'KAS KECIL 1',        kode:'1000.011', tipe:'KAS', grup:'10', subgrup:'1000', ket:'IMPORT', aktif:true },
+  { name:'KAS KECIL 2',        kode:'1000.033', tipe:'KAS', grup:'10', subgrup:'1000', ket:'IMPORT', aktif:true },
+  { name:'BANK BCA',           kode:'1005.000', tipe:'BANK',grup:'10', subgrup:'1005', ket:'IMPORT', aktif:true },
+  { name:'BRI',                kode:'1005.001', tipe:'BANK',grup:'10', subgrup:'1005', ket:'IMPORT', aktif:true },
+  { name:'MANDIRI',            kode:'1005.002', tipe:'BANK',grup:'10', subgrup:'1005', ket:'IMPORT', aktif:true },
+  { name:'DEPOSITO BCA',       kode:'1010.000', tipe:'',    grup:'10', subgrup:'1010', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG USAHA',      kode:'1015.000', tipe:'',    grup:'10', subgrup:'1015', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG USAHA 2',    kode:'1015.001', tipe:'',    grup:'10', subgrup:'1015', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG GIRO 1',     kode:'1020.000', tipe:'',    grup:'10', subgrup:'1020', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG GIRO 2',     kode:'1020.001', tipe:'',    grup:'10', subgrup:'1020', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG KARYAWAN',   kode:'1021.000', tipe:'',    grup:'10', subgrup:'1021', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG DIREKSI',    kode:'1021.001', tipe:'',    grup:'10', subgrup:'1021', ket:'IMPORT', aktif:true },
+  { name:'CADANGAN KERUGIAN PIUTANG', kode:'1021.002', tipe:'', grup:'10', subgrup:'1021', ket:'IMPORT', aktif:true },
+  { name:'UNBILLED DELIVERY',  kode:'1021.003', tipe:'',    grup:'10', subgrup:'1021', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG DEVIDEN',    kode:'1021.004', tipe:'',    grup:'10', subgrup:'1021', ket:'IMPORT', aktif:true },
+  { name:'PPN MASUKAN',        kode:'1022.000', tipe:'',    grup:'10', subgrup:'1022', ket:'IMPORT', aktif:true },
+  { name:'PIUTANG PAJAK PPH 22', kode:'1022.001', tipe:'',  grup:'10', subgrup:'1022', ket:'IMPORT', aktif:true },
+  { name:'PERSEDIAAN BARANG',  kode:'1030.000', tipe:'',    grup:'10', subgrup:'1030', ket:'IMPORT', aktif:true },
+  { name:'PERSEDIAAN BAHAN',   kode:'1030.001', tipe:'',    grup:'10', subgrup:'1030', ket:'IMPORT', aktif:true },
+  { name:'AKTIVA TETAP',       kode:'1500.000', tipe:'',    grup:'15', subgrup:'1500', ket:'IMPORT', aktif:true },
+  { name:'AKUMULASI PENYUSUTAN', kode:'1500.099', tipe:'',  grup:'15', subgrup:'1500', ket:'IMPORT', aktif:true },
+  { name:'HUTANG USAHA',       kode:'2000.000', tipe:'',    grup:'20', subgrup:'2000', ket:'IMPORT', aktif:true },
+  { name:'HUTANG GIRO',        kode:'2010.000', tipe:'',    grup:'20', subgrup:'2010', ket:'IMPORT', aktif:true },
+  { name:'PPN KELUARAN',       kode:'2020.000', tipe:'',    grup:'20', subgrup:'2020', ket:'IMPORT', aktif:true },
+  { name:'PENJUALAN',          kode:'4000.000', tipe:'',    grup:'40', subgrup:'4000', ket:'IMPORT', aktif:true },
+  { name:'HPP',                kode:'5000.000', tipe:'',    grup:'50', subgrup:'5000', ket:'IMPORT', aktif:true },
+  { name:'BIAYA OPERASIONAL',  kode:'6000.000', tipe:'',    grup:'60', subgrup:'6000', ket:'IMPORT', aktif:true },
+];
