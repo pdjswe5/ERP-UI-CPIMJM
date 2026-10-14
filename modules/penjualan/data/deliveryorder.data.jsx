@@ -3,7 +3,7 @@
 // Beda dengan dokumen Penjualan lain: barang DO TIDAK diketik manual/dari master BARANG, melainkan
 // diambil dari baris barang Sales Order (bisa dari BEBERAPA SO sekaligus, mis. 3 barang dari SO A +
 // 2 barang dari SO B dalam 1 DO), dengan syarat semua SO yang diambil harus punya customer yang sama
-// dengan customer header DO. Karena itu urutan pengisian dipaksa: isi No. Bukti (F/K) -> pilih
+// dengan customer header DO. Karena itu urutan pengisian dipaksa: pilih
 // Customer -> field lain & tabel Barang baru terbuka (lihat disabledIf:f=>!f.Kode_Cust di semua field
 // selain No_Bukti/Tgl_Bukti/Nama_Cust/Kode_Cust).
 // Status DO dihitung otomatis dari realisasi barang (sama pola SO/KO/GR), kecuali "Selesai Manual".
@@ -223,12 +223,6 @@ function deliveryOrderTabs(salesOrderList) {
       { key:'Kode_Gudang', label:'Kode Gudang', mono:true, readOnly:true, span:1, disabledIf:gated },
       { key:'Tgl_Kirim', label:'Tgl. Kirim', type:'date', disabledIf:gated },
       { key:'Klasifikasi', label:'Klasifikasi', type:'select', options:PJ_KLASIFIKASI_OPTS, disabledIf:gated },
-      { key:'Locofranco', label:'Incoterm', type:'select', options:PJ_INCOTERM_OPTS, disabledIf:gated },
-      { key:'JualCoil', label:'Jual Coil', type:'select', options:[{value:'N',label:'N'},{value:'Y',label:'Y'}], default:'N', disabledIf:gated, clearValue:'N' },
-      { key:'Expedisi', label:'Expedisi', disabledIf:gated },
-      { key:'No_Po', label:'No. PO', disabledIf:gated },
-      { key:'Proyek', label:'Proyek', disabledIf:gated },
-      { key:'Alamat_Kirim', label:'Alamat Kirim', type:'textarea', span:3, disabledIf:gated },
       { key:'Keterangan', label:'Keterangan', type:'textarea', span:3, disabledIf:gated },
     ]},
     { id:'barang', label:'Barang', type:'items', itemsKey:'Details', lockItems:true, showTotal:true, PickerComponent: doSoItemPickerFactory(salesOrderList), columns:[

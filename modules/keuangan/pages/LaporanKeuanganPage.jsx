@@ -144,7 +144,7 @@ function LaporanKeuanganPage({ reportId, rows, setRows }) {
   const save = (form) => {
     const finalNo = form.no || akNextLaporanNo(rows, report.noPrefix);
     const saved = { ...form, no: finalNo };
-    setRows(prev => prev.some(r => r.no === finalNo) ? prev.map(r => r.no === finalNo ? saved : r) : [...prev, saved]);
+    setRows(prev => prev.some(r => r.no === finalNo) ? prev.map(r => r.no === finalNo ? saved : r) : [saved, ...prev]);
     setModal(null);
     window.__erpToast && window.__erpToast('Data berhasil disimpan.');
   };

@@ -5,7 +5,6 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
     { key:'No_Bukti', label:'No. Bukti', mono:true },
     { key:'Tgl_Bukti', label:'Tgl. Bukti' },
     { key:'Nama_Cust', label:'Customer' },
-    { key:'Alasan_Retur', label:'Alasan' },
     { key:'JmlItem', label:'Jml Item', render:(v,r) => (r.Details||[]).length },
     { key:'Details', label:'Total', render:(v,r) => fmtRp([...(v||[]), ...(r.Details2||[])].reduce((s,x)=>s+pjLineTotal(x),0)) },
     { key:'Status', label:'Status', render:(v,r) => returnStatusPill(r) },
@@ -24,7 +23,7 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
   const closeModal = () => { setShow(false); setModal(null); setModalMode(null); };
 
   const save = (form, mode) => {
-    if (mode === 'CREATE') setRows(prev => [...prev, form]);
+    if (mode === 'CREATE') setRows(prev => [form, ...prev]);
     else setRows(prev => prev.map(r => r.No_Bukti===form.No_Bukti ? form : r));
     window.__erpToast && window.__erpToast('Sales Return berhasil disimpan.');
   };

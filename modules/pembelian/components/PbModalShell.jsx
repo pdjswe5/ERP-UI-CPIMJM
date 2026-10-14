@@ -42,21 +42,6 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
     return null;
   });
 
-  // No_Bukti trigger state
-  const [noBuktiRaw, setNoBuktiRaw] = React.useState(() => {
-    const nb = form.No_Bukti || '';
-    if (!nb) return '';
-    return nb;
-  });
-  const [noBuktiError, setNoBuktiError] = React.useState('');
-  const noBuktiRef = React.useRef(null);
-
-  React.useEffect(() => {
-    if (isCreate && noBuktiRef.current) {
-      noBuktiRef.current.focus();
-    }
-  }, [isCreate]);
-
   const set = (k,v) => setForm(f => ({...f, [k]:v}));
   const isBatal = !!(form.Batal || form.Status === 'BATAL');
   const isSelesai = form.Status === 'SELESAI';
@@ -69,20 +54,6 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
   const [picker, setPicker] = React.useState(null);
   const [confirmModal, setConfirmModal] = React.useState(null);
 
-  const handleNoBuktiChange = (val) => {
-    const v = val.toUpperCase();
-    setNoBuktiRaw(v);
-    if (!v) {
-      setNoBuktiError('No. Bukti harus di isi');
-    } else if (!['F','K'].includes(v[0])) {
-      setNoBuktiError('Format no Bukti salah');
-    } else {
-      setNoBuktiError('');
-    }
-  };
-
-  const noBuktiLocked = isCreate && (!noBuktiRaw || !['F','K'].includes(noBuktiRaw[0]));
-
   // Untuk dokumen tanpa No_Bukti (mis. Katalog Pemasok): field lain terkunci sampai
   // seluruh field di initialFields (mis. Kode_Supp + Nama_Supp) sudah diisi.
   const initialFieldsReady = !initialFields || initialFields.length === 0
@@ -91,8 +62,6 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
   const resetToCreate = () => {
     const empty = buildEmpty();
     setForm(empty);
-    setNoBuktiRaw('');
-    setNoBuktiError('');
     setSnapshotForm(null);
     setMode('CREATE');
   };
@@ -100,7 +69,7 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
   const handleSave = (andClose=false) => {
     let withNo = form;
     if (isCreate && prefix) {
-      const fullNo = (noBuktiRaw[0] || '') + prefix + new Date().toISOString().slice(2,4) + new Date().toISOString().slice(5,7) + String(Math.floor(Math.random()*9000)+1000);
+      const fullNo = prefix + new Date().toISOString().slice(2,4) + new Date().toISOString().slice(5,7) + String(Math.floor(Math.random()*9000)+1000);
       withNo = { ...form, No_Bukti: fullNo };
     }
     // Filter out soft-deleted items from all item arrays
@@ -142,7 +111,7 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
       if (initialFields.includes(f.key)) return f.readOnly;
       return !initialFieldsReady || f.readOnly;
     }
-    return noBuktiLocked || f.readOnly;
+    return f.key === 'No_Bukti' || f.readOnly;
   };
 
   // Field yang harus otomatis ter-reset (mis. Tempo -> 0 saat Kredit_Tunai = TUNAI)
@@ -159,29 +128,11 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
     const locked = fieldLocked(f);
     const spanStyle = f.span ? {gridColumn:`span ${f.span}`} : {};
 
-    if (f.key === 'No_Bukti' && isCreate) {
-      return (
-        <div className="field" style={spanStyle} key={f.key}>
-          <label>{f.label}{f.required && <span style={{color:'var(--danger)'}}> *</span>}</label>
-          <input
-            ref={noBuktiRef}
-            className="input mono"
-            type="text"
-            value={noBuktiRaw}
-            onChange={e => handleNoBuktiChange(e.target.value)}
-            placeholder="Ketik F atau K"
-            maxLength={1}
-          />
-          {noBuktiError && <div className="no-bukti-alert">{noBuktiError}</div>}
-        </div>
-      );
-    }
-
     if (locked) {
       return (
         <div className="view-field" style={spanStyle} key={f.key}>
           <label>{f.label}</label>
-          <div className={`view-value ${f.mono ? 'mono' : ''}`}>{form[f.key] || <span className="muted">—</span>}</div>
+          <div className={`view-value ${f.mono ? 'mono' : ''}`}>{form[f.key] || <span className="muted">{f.key === 'No_Bukti' && isCreate ? 'Otomatis saat disimpan' : '—'}</span>}</div>
         </div>
       );
     }
@@ -260,8 +211,6 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
             disabled={isView}
             onPickItems={!isView && t.itemSource ? () => setPicker(t) : null}
             lockItems={t.lockItems}
-            addLocked={noBuktiLocked}
-            addLockedMsg="Pilih No. Bukti (Tunai/Kredit) terlebih dahulu."
           />
         </div>
       ),

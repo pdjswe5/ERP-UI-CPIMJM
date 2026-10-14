@@ -35,25 +35,6 @@ function KeuanganDashboard({ onOpenSub, onNavigate, akunRows, aktivaRows, jurnal
   ];
   const laporanRowsMap = { labarugi:labaRugiRows, aruskas:arusKasRows, neraca:neracaRows };
 
-  // Grafik tren tiap KPI (Spark kumulatif, hover lihat tanggal+nilai per titik) — pola sama Home,
-  // gantikan chart ranking/status yang tadi dihapus. kbgRows sendiri (master akun) tidak punya
-  // riwayat tanggal, jadi trennya pakai pergerakan Masuk/Keluar dari transaksi Kas/Bank/Giro
-  // (net per tanggal, isoFn akToIso krn formatnya DD-MM-YYYY) sebagai proxy arus saldo terkini.
-  const netTrend = (masukRows, keluarRows) => cumulativeTrend(
-    [...masukRows.map(r => ({ tgl:r.tgl, _v:+r.nominal||0 })), ...keluarRows.map(r => ({ tgl:r.tgl, _v:-(+r.nominal||0) }))],
-    'tgl', r => r._v, { isoFn: akToIso, displayFn: fmtRp }
-  );
-
-  const kpis = [
-    { label:'Total Saldo Kas', value: fmtRp(totalKas), sub:`${kbgRows.filter(a=>a.tipe==='KAS').length} akun kas`,
-      trend: netTrend(kasMasukRows, kasKeluarRows), trendColor:'var(--realisasi)' },
-    { label:'Total Saldo Bank', value: fmtRp(totalBank), sub:`${kbgRows.filter(a=>a.tipe==='BANK').length} akun bank`,
-      trend: netTrend(bankMasukRows, bankKeluarRows), trendColor:'var(--primary)' },
-    { label:'Saldo Giro', value: fmtRp(totalGiro), sub:`${giroOutMasuk + giroOutKeluar} giro outstanding`,
-      trend: netTrend(giroMasukRows, giroKeluarRows), trendColor:'#7c3aed' },
-    { label:'Jurnal Memorial', value: jurnalRows.length, sub:`${jmDraft} perlu review`,
-      trend: cumulativeTrend(jurnalRows, 'tgl', () => 1, { isoFn: akToIso, displayFn: v => `${v} jurnal` }), trendColor:'var(--warn)' },
-  ];
 
   return (
     <div className="page" data-screen-label="06 Keuangan — Dashboard">
@@ -63,17 +44,6 @@ function KeuanganDashboard({ onOpenSub, onNavigate, akunRows, aktivaRows, jurnal
         <div style={{display:'flex', gap:8, flexWrap:'wrap'}}>
           <button className="btn btn-sm">{I.refresh()} Refresh</button>
         </div>
-      </div>
-
-      <div className="kpi-strip">
-        {kpis.map((k, i) => (
-          <div className="kpi" key={i}>
-            <div className="lbl">{k.label}</div>
-            <div className="val mono">{k.value}</div>
-            {k.sub && <div className="delta">{k.sub}</div>}
-            {k.trend && <Spark data={k.trend} color={k.trendColor} />}
-          </div>
-        ))}
       </div>
 
       <h3 className="section-title">Laporan Keuangan <span className="count">{AK_LAPORAN_LIST.length + 3}</span></h3>

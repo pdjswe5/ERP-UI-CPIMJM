@@ -111,15 +111,15 @@ function ManufakturPage({ activeSub, onSubChange, onNavigate }) {
     planning: 'Planning Schedule Produksi Harian',
   };
 
-  if (!activeSub) {
-    return (
-      <MfManufakturDashboard
-        onOpenSub={onSubChange}
-        spkRows={spkRows} produksiRows={produksiRows}
-        bpblRows={bpblRows} rpblRows={rpblRows} planningRows={planningRows}
-      />
-    );
-  }
+  // if (!activeSub) {
+  //   return (
+  //     <MfManufakturDashboard
+  //       onOpenSub={onSubChange}
+  //       spkRows={spkRows} produksiRows={produksiRows}
+  //       bpblRows={bpblRows} rpblRows={rpblRows} planningRows={planningRows}
+  //     />
+  //   );
+  // }
 
   return (
     <div className="page">

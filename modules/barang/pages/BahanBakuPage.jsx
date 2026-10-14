@@ -122,7 +122,7 @@ function BahanBakuPage() {
   const [showModal, setShowModal] = React.useState(false);
   const [confirmDelete, setConfirmDelete] = React.useState(null);
   const save = (form) => {
-    setRows(prev => showModal===2 ? prev.map(r => r.kodeProduk===modal.kodeProduk ? form : r) : [...prev, form]);
+    setRows(prev => showModal===2 ? prev.map(r => r.kodeProduk===modal.kodeProduk ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast('Bahan baku berhasil disimpan.');
     setShowModal(false); setModal(null);
   };

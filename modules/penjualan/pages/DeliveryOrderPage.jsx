@@ -24,7 +24,7 @@ function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
   const closeModal = () => { setShow(false); setModal(null); setModalMode(null); };
 
   const save = (form, mode) => {
-    if (mode === 'CREATE') setRows(prev => [...prev, form]);
+    if (mode === 'CREATE') setRows(prev => [form, ...prev]);
     else setRows(prev => prev.map(r => r.No_Bukti===form.No_Bukti ? form : r));
     window.__erpToast && window.__erpToast('Delivery Order berhasil disimpan.');
   };

@@ -75,7 +75,7 @@ function PemasokPage({ rows, setRows }) {
 
   const save = (form) => {
     const normalized = { ...form, Aktif: form.Aktif === true || form.Aktif === 'true' };
-    setRows(prev => modal ? prev.map(r => r.Kode_Supp===modal.Kode_Supp ? normalized : r) : [...prev, normalized]);
+    setRows(prev => modal ? prev.map(r => r.Kode_Supp===modal.Kode_Supp ? normalized : r) : [normalized, ...prev]);
     window.__erpToast && window.__erpToast('Data pemasok berhasil disimpan.');
   };
 

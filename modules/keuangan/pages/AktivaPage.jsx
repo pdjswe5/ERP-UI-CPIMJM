@@ -148,7 +148,7 @@ function AktivaPage({ rows, setRows }) {
   const [cetakRow, setCetakRow] = React.useState(null);
 
   const save = (form) => {
-    setRows(prev => prev.some(r => r.kode === form.kode) ? prev.map(r => r.kode === form.kode ? form : r) : [...prev, form]);
+    setRows(prev => prev.some(r => r.kode === form.kode) ? prev.map(r => r.kode === form.kode ? form : r) : [form, ...prev]);
     setModal(null);
     window.__erpToast && window.__erpToast('Data berhasil disimpan.');
   };

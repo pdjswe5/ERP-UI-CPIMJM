@@ -43,6 +43,8 @@ function KatalogPelanggan({ rows, onAdd, onView, onEdit, onDeactivate, onActivat
   const [kota, setKota] = React.useState('');
   const [status, setStatus] = React.useState('');
   const [page, setPage] = React.useState(1);
+  // Data baru disisipkan di paling atas -> balik ke halaman 1 supaya langsung terlihat.
+  React.useEffect(() => { setPage(1); }, [rows.length]);
   const perPage = 25;
   const filtered = rows.filter(p => {
     if (q) {

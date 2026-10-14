@@ -310,7 +310,7 @@ function KLSimpleCatalog({ moduleTitle, addLabel='Tambah Data', initialRows, key
   const openAdd = () => { setModal(null); setShowModal(1); };
   const openEdit = (r) => { setModal(r); setShowModal(2); };
   const save = (form) => {
-    setRows(prev => showModal === 2 ? prev.map(r => r[keyField] === modal[keyField] ? form : r) : [...prev, form]);
+    setRows(prev => showModal === 2 ? prev.map(r => r[keyField] === modal[keyField] ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast(`${moduleTitle} berhasil disimpan.`);
     setShowModal(false); setModal(null);
   };

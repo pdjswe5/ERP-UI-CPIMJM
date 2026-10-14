@@ -36,7 +36,8 @@ const PJ_AKUN_BIAYA = [
 ];
 const PJ_PROGRESS_APPROVAL = ['PENGAJUAN SPV', 'PENGAJUAN MGR', 'DISETUJUI', 'DITOLAK SPV', 'DITOLAK MGR'];
 
-// Helper pembentuk nomor bukti: [K/F][InisialMenu][Tahun][Counter]
+// Helper pembentuk nomor bukti SEED: [K/F][InisialMenu][Tahun][Counter]. Nomor baru dari UI dibuat
+// otomatis tanpa huruf F/K (prefix + YYMM + 4 digit).
 // Contoh: KKO20260001, FKO20260002, KSO20260001
 function fmtNoBukti(prefix, menuInitial, year, counter) {
   return `${prefix}${menuInitial}${year}${String(counter).padStart(4, '0')}`;

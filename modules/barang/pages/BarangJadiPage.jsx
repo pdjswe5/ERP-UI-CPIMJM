@@ -298,7 +298,7 @@ function BarangJadiPage() {
   const [modalMode, setModalMode] = React.useState(null); // null | 'umum' | 'pu'
   const [confirmDelete, setConfirmDelete] = React.useState(null);
   const save = (form) => {
-    setRows(prev => modal ? prev.map(r => r.kodeProduk===modal.kodeProduk ? form : r) : [...prev, form]);
+    setRows(prev => modal ? prev.map(r => r.kodeProduk===modal.kodeProduk ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast('Barang jadi berhasil disimpan.');
     setModalMode(null); setModal(null);
   };

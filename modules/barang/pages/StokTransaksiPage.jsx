@@ -222,9 +222,8 @@ function MutasiBarangTable({ rows, setRows, onAddClick, viewMode, addLocked, add
   );
 }
 
-// Form Buat Mutasi/Konsinyasi — No Bukti pakai gerbang F/K (sama pola SPK/Hasil Produksi): user
-// ketik F atau K dulu, field lain (Tanggal/Kategori/Gudang/Keterangan) baru bisa diisi setelah
-// itu, nomor lengkap dirakit saat Simpan mengikuti format existing data (mis. "KMB26070004").
+// Form Buat Mutasi/Konsinyasi — No Bukti dibuat otomatis saat simpan (tanpa gerbang F/K), field
+// lain (Tanggal/Kategori/Gudang/Keterangan) langsung bisa diisi. Format: prefix + YYMM + 4 digit.
 //
 // Mode VIEW/EDIT — dipelajari dari PbModalShell/PjModalShell (Pembelian/Penjualan, dipakai mis.
 // Katalog Pemasok/Pelanggan): klik baris/No. Bukti di list → buka mode VIEW (field readonly ala
@@ -238,18 +237,6 @@ function MutasiBuatModal({ jenis, data, initialMode, onClose, onSave, onRequestC
   const isCreate = mode === 'CREATE';
   const isView = mode === 'VIEW';
   const isEdit = mode === 'EDIT';
-  const [noBuktiRaw, setNoBuktiRaw] = React.useState('');
-  const [noBuktiError, setNoBuktiError] = React.useState('');
-  const noBuktiRef = React.useRef(null);
-  const handleNoBuktiChange = (val) => {
-    const v = val.toUpperCase();
-    setNoBuktiRaw(v);
-    if (!v) setNoBuktiError('No. Bukti harus di isi');
-    else if (!['F','K'].includes(v[0])) setNoBuktiError('Format No. Bukti salah');
-    else setNoBuktiError('');
-  };
-  const noBuktiLocked = isCreate && (!noBuktiRaw || !['F','K'].includes(noBuktiRaw[0]));
-  React.useEffect(() => { if (isCreate && noBuktiRef.current) noBuktiRef.current.focus(); }, [isCreate]);
 
   const empty = { tglBukti:new Date().toISOString().slice(0,10), kodeKategori:'LAIN', kodeCustomer:'', kodeGudangDari:'', kodeGudangKe:'', keterangan:'', jenis, batal:false, alasanBatal:'', details:[] };
   const [form, setForm] = React.useState(() => { const base = data ? {...empty, ...data} : {...empty}; if (!Array.isArray(base.details)) base.details = []; return base; });
@@ -272,7 +259,7 @@ function MutasiBuatModal({ jenis, data, initialMode, onClose, onSave, onRequestC
     const now = new Date();
     const yy = String(now.getFullYear()).slice(2);
     const mm = String(now.getMonth()+1).padStart(2,'0');
-    const finalNo = isCreate ? `${noBuktiRaw[0]}MB${yy}${mm}${String(Math.floor(Math.random()*9000)+1000)}` : data.noBukti;
+    const finalNo = isCreate ? `MB${yy}${mm}${String(Math.floor(Math.random()*9000)+1000)}` : data.noBukti;
     onSave({ ...form, noBukti:finalNo, details:cleanDetails });
   };
 
@@ -302,51 +289,46 @@ function MutasiBuatModal({ jenis, data, initialMode, onClose, onSave, onRequestC
                 <BrgViewField label="No Bukti" value={form.noBukti} mono />
               ) : (
                 <div className="field">
-                  <label>No Bukti {req}</label>
-                  {isCreate ? (
-                    <>
-                      <input ref={noBuktiRef} className="input mono" type="text" value={noBuktiRaw} onChange={e=>handleNoBuktiChange(e.target.value)} placeholder="Ketik F atau K" maxLength={1} />
-                      {noBuktiError && <div className="no-bukti-alert">{noBuktiError}</div>}
-                    </>
-                  ) : <input className="input mono" value={form.noBukti} readOnly />}
+                  <label>No Bukti</label>
+                  <input className="input mono" disabled placeholder="Otomatis saat disimpan" value={form.noBukti || ''} />
                 </div>
               )}
               {isView ? <BrgViewField label="Tanggal" value={form.tglBukti} /> : (
-                <div className="field"><label>Tanggal {req}</label><input className="input" type="date" disabled={noBuktiLocked} value={form.tglBukti} onChange={e=>set('tglBukti',e.target.value)}/></div>
+                <div className="field"><label>Tanggal {req}</label><input className="input" type="date" value={form.tglBukti} onChange={e=>set('tglBukti',e.target.value)}/></div>
               )}
               {isView ? <BrgViewField label="Kategori" value={brgKategoriNama(form.kodeKategori)} /> : (
-                <div className="field"><label>Kategori {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeKategori} onChange={e=>set('kodeKategori',e.target.value)}>{kategoriOpts.map(k=><option key={k.kode} value={k.kode}>{k.nama}</option>)}</select></div>
+                <div className="field"><label>Kategori {req}</label><select className="select" value={form.kodeKategori} onChange={e=>set('kodeKategori',e.target.value)}>{kategoriOpts.map(k=><option key={k.kode} value={k.kode}>{k.nama}</option>)}</select></div>
               )}
 
               {isKonsinyasi && (
                 isView ? <BrgViewField label="Customer" value={customerNama(form.kodeCustomer) ? `${customerNama(form.kodeCustomer)} (${form.kodeCustomer})` : form.kodeCustomer} /> : (
                   <div className="form-grid-2" style={{gap:8}}>
-                    <div className="field"><label>Customer {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeCustomer} onChange={e=>set('kodeCustomer',e.target.value)}><option value="">Pilih Customer</option>{PJ_PELANGGAN.map(c=><option key={c.code} value={c.code}>{c.code}</option>)}</select></div>
+                    <div className="field"><label>Customer {req}</label><select className="select" value={form.kodeCustomer} onChange={e=>set('kodeCustomer',e.target.value)}><option value="">Pilih Customer</option>{PJ_PELANGGAN.map(c=><option key={c.code} value={c.code}>{c.code}</option>)}</select></div>
                     <div className="field"><label>&nbsp;</label><input className="input" value={customerNama(form.kodeCustomer)} readOnly placeholder="Customer" /></div>
                   </div>
                 )
               )}
               {isView ? <BrgViewField label="Gudang Asal" value={brgGudangNama(form.kodeGudangDari)} /> : (
                 <div className="form-grid-2" style={{gap:8}}>
-                  <div className="field"><label>Gudang Asal {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeGudangDari} onChange={e=>set('kodeGudangDari',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
+                  <div className="field"><label>Gudang Asal {req}</label><select className="select" value={form.kodeGudangDari} onChange={e=>set('kodeGudangDari',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
                   <div className="field"><label>&nbsp;</label><input className="input" value={brgGudangNama(form.kodeGudangDari)} readOnly placeholder="Gudang Asal" /></div>
                 </div>
               )}
               {isView ? <BrgViewField label="Gudang Tujuan" value={brgGudangNama(form.kodeGudangKe)} /> : (
                 <div className="form-grid-2" style={{gap:8}}>
-                  <div className="field"><label>Gudang Tujuan {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeGudangKe} onChange={e=>set('kodeGudangKe',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
+                  <div className="field"><label>Gudang Tujuan {req}</label><select className="select" value={form.kodeGudangKe} onChange={e=>set('kodeGudangKe',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
                   <div className="field"><label>&nbsp;</label><input className="input" value={brgGudangNama(form.kodeGudangKe)} readOnly placeholder="Gudang Tujuan" /></div>
                 </div>
               )}
               {!isKonsinyasi && !isView && <div />}
 
               {isView ? <BrgViewField label="Keterangan" value={form.keterangan} /> : (
-                <div className="field" style={{gridColumn:'span 3'}}><label>Keterangan</label><textarea className="textarea" disabled={noBuktiLocked} value={form.keterangan} onChange={e=>set('keterangan',e.target.value)}/></div>
+                <div className="field" style={{gridColumn:'span 3'}}><label>Keterangan</label><textarea className="textarea" value={form.keterangan} onChange={e=>set('keterangan',e.target.value)}/></div>
               )}
             </div>
           </div>
           <div className="panel" style={{marginTop:16}}>
-            <MutasiBarangTable rows={form.details} setRows={v=>set('details', v)} onAddClick={()=>setPicker(true)} viewMode={isView} addLocked={noBuktiLocked} />
+            <MutasiBarangTable rows={form.details} setRows={v=>set('details', v)} onAddClick={()=>setPicker(true)} viewMode={isView} />
           </div>
         </div>
         <div className="modal-foot">
@@ -386,7 +368,7 @@ function MutasiBarangPage() {
   const [cetakRow, setCetakRow] = React.useState(null);
   const closeModal = () => { setModalJenis(null); setModal(null); setModalMode(null); };
   const save = (form) => {
-    setRows(prev => modal ? prev.map(r => r.noBukti===modal.noBukti ? form : r) : [...prev, form]);
+    setRows(prev => modal ? prev.map(r => r.noBukti===modal.noBukti ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast(`${form.jenis==='KONSINYASI' ? 'Konsinyasi' : 'Mutasi'} barang berhasil disimpan.`);
     closeModal();
   };
@@ -583,7 +565,7 @@ function KoreksiBarangTable({ rows, setRows, onAddClick, viewMode, addLocked, ad
   );
 }
 
-// Form Buat Koreksi — No Bukti pakai gerbang F/K sama seperti Mutasi. Beda: Gudang tunggal (bukan
+// Form Buat Koreksi — No Bukti dibuat otomatis seperti Mutasi. Beda: Gudang tunggal (bukan
 // Asal/Tujuan), dan Keterangan wajib (bukan opsional seperti di Mutasi).
 //
 // Mode VIEW/EDIT — sama pola dengan MutasiBuatModal di atas (lihat komentarnya untuk detail).
@@ -593,18 +575,6 @@ function PenyesuaianKoreksiModal({ data, initialMode, onClose, onSave, onRequest
   const isCreate = mode === 'CREATE';
   const isView = mode === 'VIEW';
   const isEdit = mode === 'EDIT';
-  const [noBuktiRaw, setNoBuktiRaw] = React.useState('');
-  const [noBuktiError, setNoBuktiError] = React.useState('');
-  const noBuktiRef = React.useRef(null);
-  const handleNoBuktiChange = (val) => {
-    const v = val.toUpperCase();
-    setNoBuktiRaw(v);
-    if (!v) setNoBuktiError('No. Bukti harus di isi');
-    else if (!['F','K'].includes(v[0])) setNoBuktiError('Format No. Bukti salah');
-    else setNoBuktiError('');
-  };
-  const noBuktiLocked = isCreate && (!noBuktiRaw || !['F','K'].includes(noBuktiRaw[0]));
-  React.useEffect(() => { if (isCreate && noBuktiRef.current) noBuktiRef.current.focus(); }, [isCreate]);
 
   const empty = { tglBukti:new Date().toISOString().slice(0,10), kodeKategori:'LAIN', kodeGudang:'', keterangan:'', batal:false, alasanBatal:'', details:[] };
   const [form, setForm] = React.useState(() => { const base = data ? {...empty, ...data} : {...empty}; if (!Array.isArray(base.details)) base.details = []; return base; });
@@ -627,7 +597,7 @@ function PenyesuaianKoreksiModal({ data, initialMode, onClose, onSave, onRequest
     const now = new Date();
     const yy = String(now.getFullYear()).slice(2);
     const mm = String(now.getMonth()+1).padStart(2,'0');
-    const finalNo = isCreate ? `${noBuktiRaw[0]}PB${yy}${mm}${String(Math.floor(Math.random()*9000)+1000)}` : data.noBukti;
+    const finalNo = isCreate ? `PB${yy}${mm}${String(Math.floor(Math.random()*9000)+1000)}` : data.noBukti;
     onSave({ ...form, noBukti:finalNo, details:cleanDetails });
   };
 
@@ -651,35 +621,30 @@ function PenyesuaianKoreksiModal({ data, initialMode, onClose, onSave, onRequest
                 <BrgViewField label="No Bukti" value={form.noBukti} mono />
               ) : (
                 <div className="field">
-                  <label>No Bukti {req}</label>
-                  {isCreate ? (
-                    <>
-                      <input ref={noBuktiRef} className="input mono" type="text" value={noBuktiRaw} onChange={e=>handleNoBuktiChange(e.target.value)} placeholder="Ketik F atau K" maxLength={1} />
-                      {noBuktiError && <div className="no-bukti-alert">{noBuktiError}</div>}
-                    </>
-                  ) : <input className="input mono" value={form.noBukti} readOnly />}
+                  <label>No Bukti</label>
+                  <input className="input mono" disabled placeholder="Otomatis saat disimpan" value={form.noBukti || ''} />
                 </div>
               )}
               {isView ? <BrgViewField label="Tanggal" value={form.tglBukti} /> : (
-                <div className="field"><label>Tanggal {req}</label><input className="input" type="date" disabled={noBuktiLocked} value={form.tglBukti} onChange={e=>set('tglBukti',e.target.value)}/></div>
+                <div className="field"><label>Tanggal {req}</label><input className="input" type="date" value={form.tglBukti} onChange={e=>set('tglBukti',e.target.value)}/></div>
               )}
               {isView ? <BrgViewField label="Kategori" value={brgKategoriNama(form.kodeKategori)} /> : (
-                <div className="field"><label>Kategori {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeKategori} onChange={e=>set('kodeKategori',e.target.value)}>{kategoriOpts.map(k=><option key={k.kode} value={k.kode}>{k.nama}</option>)}</select></div>
+                <div className="field"><label>Kategori {req}</label><select className="select" value={form.kodeKategori} onChange={e=>set('kodeKategori',e.target.value)}>{kategoriOpts.map(k=><option key={k.kode} value={k.kode}>{k.nama}</option>)}</select></div>
               )}
 
               {isView ? <BrgViewField label="Gudang" value={brgGudangNama(form.kodeGudang)} /> : (
                 <div className="form-grid-2" style={{gap:8}}>
-                  <div className="field"><label>Gudang {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeGudang} onChange={e=>set('kodeGudang',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
+                  <div className="field"><label>Gudang {req}</label><select className="select" value={form.kodeGudang} onChange={e=>set('kodeGudang',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
                   <div className="field"><label>&nbsp;</label><input className="input" value={brgGudangNama(form.kodeGudang)} readOnly placeholder="Gudang" /></div>
                 </div>
               )}
               {isView ? <BrgViewField label="Keterangan" value={form.keterangan} /> : (
-                <div className="field" style={{gridColumn:'span 2'}}><label>Keterangan {req}</label><textarea className="textarea" disabled={noBuktiLocked} value={form.keterangan} onChange={e=>set('keterangan',e.target.value)}/></div>
+                <div className="field" style={{gridColumn:'span 2'}}><label>Keterangan {req}</label><textarea className="textarea" value={form.keterangan} onChange={e=>set('keterangan',e.target.value)}/></div>
               )}
             </div>
           </div>
           <div className="panel" style={{marginTop:16}}>
-            <KoreksiBarangTable rows={form.details} setRows={v=>set('details', v)} onAddClick={()=>setPicker(true)} viewMode={isView} addLocked={noBuktiLocked} />
+            <KoreksiBarangTable rows={form.details} setRows={v=>set('details', v)} onAddClick={()=>setPicker(true)} viewMode={isView} />
           </div>
         </div>
         <div className="modal-foot">
@@ -719,7 +684,7 @@ function PenyesuaianBarangPage() {
   const [cetakRow, setCetakRow] = React.useState(null);
   const closeModal = () => { setShowModal(false); setModal(null); setModalMode(null); };
   const save = (form) => {
-    setRows(prev => modal ? prev.map(r => r.noBukti===modal.noBukti ? form : r) : [...prev, form]);
+    setRows(prev => modal ? prev.map(r => r.noBukti===modal.noBukti ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast('Penyesuaian barang berhasil disimpan.');
     closeModal();
   };
@@ -896,7 +861,7 @@ function OpnameBarangTable({ rows, setRows, onAddClick, viewMode, addLocked, add
   );
 }
 
-// Form Buat Opname — struktur header sama persis dengan Koreksi (No Bukti gerbang F/K, Tanggal,
+// Form Buat Opname — struktur header sama persis dengan Koreksi (No Bukti otomatis, Tanggal,
 // Kategori, Gudang dd+nama, Keterangan).
 //
 // Mode VIEW/EDIT — sama pola dengan MutasiBuatModal/PenyesuaianKoreksiModal di atas.
@@ -906,18 +871,6 @@ function StockOpnameModal({ data, initialMode, onClose, onSave, onRequestCancel 
   const isCreate = mode === 'CREATE';
   const isView = mode === 'VIEW';
   const isEdit = mode === 'EDIT';
-  const [noBuktiRaw, setNoBuktiRaw] = React.useState('');
-  const [noBuktiError, setNoBuktiError] = React.useState('');
-  const noBuktiRef = React.useRef(null);
-  const handleNoBuktiChange = (val) => {
-    const v = val.toUpperCase();
-    setNoBuktiRaw(v);
-    if (!v) setNoBuktiError('No. Bukti harus di isi');
-    else if (!['F','K'].includes(v[0])) setNoBuktiError('Format No. Bukti salah');
-    else setNoBuktiError('');
-  };
-  const noBuktiLocked = isCreate && (!noBuktiRaw || !['F','K'].includes(noBuktiRaw[0]));
-  React.useEffect(() => { if (isCreate && noBuktiRef.current) noBuktiRef.current.focus(); }, [isCreate]);
 
   const empty = { tglBukti:new Date().toISOString().slice(0,10), kodeKategori:'LAIN', kodeGudang:'', keterangan:'', batal:false, alasanBatal:'', details:[] };
   const [form, setForm] = React.useState(() => { const base = data ? {...empty, ...data} : {...empty}; if (!Array.isArray(base.details)) base.details = []; return base; });
@@ -940,7 +893,7 @@ function StockOpnameModal({ data, initialMode, onClose, onSave, onRequestCancel 
     const now = new Date();
     const yy = String(now.getFullYear()).slice(2);
     const mm = String(now.getMonth()+1).padStart(2,'0');
-    const finalNo = isCreate ? `${noBuktiRaw[0]}SO${yy}${mm}${String(Math.floor(Math.random()*9000)+1000)}` : data.noBukti;
+    const finalNo = isCreate ? `SO${yy}${mm}${String(Math.floor(Math.random()*9000)+1000)}` : data.noBukti;
     onSave({ ...form, noBukti:finalNo, details:cleanDetails });
   };
 
@@ -964,35 +917,30 @@ function StockOpnameModal({ data, initialMode, onClose, onSave, onRequestCancel 
                 <BrgViewField label="No Bukti" value={form.noBukti} mono />
               ) : (
                 <div className="field">
-                  <label>No Bukti {req}</label>
-                  {isCreate ? (
-                    <>
-                      <input ref={noBuktiRef} className="input mono" type="text" value={noBuktiRaw} onChange={e=>handleNoBuktiChange(e.target.value)} placeholder="Ketik F atau K" maxLength={1} />
-                      {noBuktiError && <div className="no-bukti-alert">{noBuktiError}</div>}
-                    </>
-                  ) : <input className="input mono" value={form.noBukti} readOnly />}
+                  <label>No Bukti</label>
+                  <input className="input mono" disabled placeholder="Otomatis saat disimpan" value={form.noBukti || ''} />
                 </div>
               )}
               {isView ? <BrgViewField label="Tanggal" value={form.tglBukti} /> : (
-                <div className="field"><label>Tanggal {req}</label><input className="input" type="date" disabled={noBuktiLocked} value={form.tglBukti} onChange={e=>set('tglBukti',e.target.value)}/></div>
+                <div className="field"><label>Tanggal {req}</label><input className="input" type="date" value={form.tglBukti} onChange={e=>set('tglBukti',e.target.value)}/></div>
               )}
               {isView ? <BrgViewField label="Kategori" value={brgKategoriNama(form.kodeKategori)} /> : (
-                <div className="field"><label>Kategori {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeKategori} onChange={e=>set('kodeKategori',e.target.value)}>{kategoriOpts.map(k=><option key={k.kode} value={k.kode}>{k.nama}</option>)}</select></div>
+                <div className="field"><label>Kategori {req}</label><select className="select" value={form.kodeKategori} onChange={e=>set('kodeKategori',e.target.value)}>{kategoriOpts.map(k=><option key={k.kode} value={k.kode}>{k.nama}</option>)}</select></div>
               )}
 
               {isView ? <BrgViewField label="Gudang" value={brgGudangNama(form.kodeGudang)} /> : (
                 <div className="form-grid-2" style={{gap:8}}>
-                  <div className="field"><label>Gudang {req}</label><select className="select" disabled={noBuktiLocked} value={form.kodeGudang} onChange={e=>set('kodeGudang',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
+                  <div className="field"><label>Gudang {req}</label><select className="select" value={form.kodeGudang} onChange={e=>set('kodeGudang',e.target.value)}><option value="">Pilih Gudang</option>{BRG_GUDANG_OPTS.map(g=><option key={g.kode} value={g.kode}>{g.kode}</option>)}</select></div>
                   <div className="field"><label>&nbsp;</label><input className="input" value={brgGudangNama(form.kodeGudang)} readOnly placeholder="Gudang" /></div>
                 </div>
               )}
               {isView ? <BrgViewField label="Keterangan" value={form.keterangan} /> : (
-                <div className="field" style={{gridColumn:'span 2'}}><label>Keterangan {req}</label><textarea className="textarea" disabled={noBuktiLocked} value={form.keterangan} onChange={e=>set('keterangan',e.target.value)}/></div>
+                <div className="field" style={{gridColumn:'span 2'}}><label>Keterangan {req}</label><textarea className="textarea" value={form.keterangan} onChange={e=>set('keterangan',e.target.value)}/></div>
               )}
             </div>
           </div>
           <div className="panel" style={{marginTop:16}}>
-            <OpnameBarangTable rows={form.details} setRows={v=>set('details', v)} onAddClick={()=>setPicker(true)} viewMode={isView} addLocked={noBuktiLocked} />
+            <OpnameBarangTable rows={form.details} setRows={v=>set('details', v)} onAddClick={()=>setPicker(true)} viewMode={isView} />
           </div>
         </div>
         <div className="modal-foot">
@@ -1032,7 +980,7 @@ function StockOpnamePage() {
   const [cetakRow, setCetakRow] = React.useState(null);
   const closeModal = () => { setShowModal(false); setModal(null); setModalMode(null); };
   const save = (form) => {
-    setRows(prev => modal ? prev.map(r => r.noBukti===modal.noBukti ? form : r) : [...prev, form]);
+    setRows(prev => modal ? prev.map(r => r.noBukti===modal.noBukti ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast('Stock opname berhasil disimpan.');
     closeModal();
   };

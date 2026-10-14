@@ -9,7 +9,7 @@ function pemasokModalTabs() {
       { key:'Kontak', label:'Kontak' },
       { key:'Telpon', label:'Telepon', mono:true },
       { key:'Email', label:'Email' },
-      { key:'Aktif', label:'Status', type:'select', options:[{value:'true',label:'Aktif'},{value:'false',label:'Non-aktif'}] },
+      { key:'Aktif', label:'Status', type:'select', default:'true', options:[{value:'true',label:'Aktif'},{value:'false',label:'Non-aktif'}] },
     ]},
     { id:'alamat', label:'Alamat', type:'fields', fields:[
       { key:'Alamat', label:'Alamat', type:'textarea', span:3 },

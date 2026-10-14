@@ -70,17 +70,6 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
     return null;
   });
 
-  const [noBuktiRaw, setNoBuktiRaw] = React.useState(() => {
-    const nb = form.No_Bukti || '';
-    return nb;
-  });
-  const [noBuktiError, setNoBuktiError] = React.useState('');
-  const noBuktiRef = React.useRef(null);
-
-  React.useEffect(() => {
-    if (isCreate && noBuktiRef.current) noBuktiRef.current.focus();
-  }, [isCreate]);
-
   const set = (k,v) => setForm(f => ({...f, [k]:v}));
   const isBatal = form.Status === 'BATAL';
   const isSelesai = form.Status === 'SELESAI';
@@ -91,21 +80,9 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
   const [picker, setPicker] = React.useState(null);
   const [confirmModal, setConfirmModal] = React.useState(null);
 
-  const handleNoBuktiChange = (val) => {
-    const v = val.toUpperCase();
-    setNoBuktiRaw(v);
-    if (!v) setNoBuktiError('No. Bukti harus di isi');
-    else if (!['F','K'].includes(v[0])) setNoBuktiError('Format no Bukti salah');
-    else setNoBuktiError('');
-  };
-
-  const noBuktiLocked = isCreate && (!noBuktiRaw || !['F','K'].includes(noBuktiRaw[0]));
-
   const resetToCreate = () => {
     const empty = buildEmpty();
     setForm(empty);
-    setNoBuktiRaw('');
-    setNoBuktiError('');
     setSnapshotForm(null);
     setMode('CREATE');
   };
@@ -113,7 +90,7 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
   const handleSave = (andClose=false) => {
     let withNo = form;
     if (isCreate && prefix) {
-      const fullNo = (noBuktiRaw[0] || '') + prefix + new Date().toISOString().slice(2,4) + new Date().toISOString().slice(5,7) + String(Math.floor(Math.random()*9000)+1000);
+      const fullNo = prefix + new Date().toISOString().slice(2,4) + new Date().toISOString().slice(5,7) + String(Math.floor(Math.random()*9000)+1000);
       withNo = { ...form, No_Bukti: fullNo };
     }
     // Filter out soft-deleted items from all item arrays
@@ -151,7 +128,7 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
       const lockedKeys = ['No_Bukti','Tgl_Bukti','Kode_Cust','Nama_Cust','Kode_Gudang'];
       return lockedKeys.includes(f.key) || f.readOnly || f.lockOnEdit;
     }
-    return noBuktiLocked || f.readOnly;
+    return f.key === 'No_Bukti' || f.readOnly;
   };
 
   // Field yang harus otomatis ter-reset (mis. Tempo -> 0 saat Kredit_Tunai = TUNAI)
@@ -168,21 +145,11 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
     const locked = fieldLocked(f);
     const spanStyle = f.span ? {gridColumn:`span ${f.span}`} : {};
 
-    if (f.key === 'No_Bukti' && isCreate) {
-      return (
-        <div className="field" style={spanStyle} key={f.key}>
-          <label>{f.label}{f.required && <span style={{color:'var(--danger)'}}> *</span>}</label>
-          <input ref={noBuktiRef} className="input mono" type="text" value={noBuktiRaw} onChange={e=>handleNoBuktiChange(e.target.value)} placeholder="Ketik F atau K" maxLength={1} />
-          {noBuktiError && <div className="no-bukti-alert">{noBuktiError}</div>}
-        </div>
-      );
-    }
-
     if (locked) {
       return (
         <div className="view-field" style={spanStyle} key={f.key}>
           <label>{f.label}</label>
-          <div className={`view-value ${f.mono ? 'mono' : ''}`}>{form[f.key] || <span className="muted">—</span>}</div>
+          <div className={`view-value ${f.mono ? 'mono' : ''}`}>{form[f.key] || <span className="muted">{f.key === 'No_Bukti' && isCreate ? 'Otomatis saat disimpan' : '—'}</span>}</div>
         </div>
       );
     }
@@ -239,15 +206,13 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
     return { id:t.id, label:t.label, content: (
       <div className="panel">
         {t.produk
-          ? <PjItemTable title={t.label} rows={form[t.itemsKey]} setRows={v=>set(t.itemsKey,v)} showRealisasi={showRealisasi && !isCreate} lockItems={t.lockItems} disabled={isView} onPickItems={!isView ? ()=>setPicker(t) : null}
-              addLocked={noBuktiLocked} addLockedMsg="Pilih No. Bukti (Tunai/Kredit) terlebih dahulu." />
+          ? <PjItemTable title={t.label} rows={form[t.itemsKey]} setRows={v=>set(t.itemsKey,v)} showRealisasi={showRealisasi && !isCreate} lockItems={t.lockItems} disabled={isView} onPickItems={!isView ? ()=>setPicker(t) : null} />
           : <InlineTable
               title={t.label}
               columns={isCreate ? (t.columns||[]).filter(c => !c.hideOnCreate) : (t.columns||[])}
               rows={form[t.itemsKey]} setRows={v=>set(t.itemsKey,v)} addLabel={`Tambah ${t.label}`}
               disabled={isView} itemSource={t.itemSource} lockItems={t.lockItems} showTotal={t.showTotal}
               onPickItems={!isView && (t.itemSource || t.PickerComponent) ? ()=>setPicker(t) : null}
-              addLocked={noBuktiLocked} addLockedMsg="Pilih No. Bukti (Tunai/Kredit) terlebih dahulu."
             />}
       </div>
     )};

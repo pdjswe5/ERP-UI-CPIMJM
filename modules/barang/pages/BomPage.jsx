@@ -245,7 +245,7 @@ function BomPage() {
   const [confirmDelete, setConfirmDelete] = React.useState(null);
 
   const save = (form) => {
-    setRows(prev => showModal === 2 ? prev.map(r => r.kodeBarangJadi === modal.kodeBarangJadi ? form : r) : [...prev, form]);
+    setRows(prev => showModal === 2 ? prev.map(r => r.kodeBarangJadi === modal.kodeBarangJadi ? form : r) : [form, ...prev]);
     window.__erpToast && window.__erpToast('BOM berhasil disimpan.');
     setShowModal(false); setModal(null);
   };

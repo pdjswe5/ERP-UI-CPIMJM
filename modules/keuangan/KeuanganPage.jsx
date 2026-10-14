@@ -57,7 +57,7 @@ function KeuanganPage({ activeSub, onSubChange, onNavigate }) {
   const saveToRows = (setRows, keyField='no') => (form) => {
     setRows(prev => prev.some(r => r[keyField] === form[keyField])
       ? prev.map(r => r[keyField] === form[keyField] ? form : r)
-      : [...prev, form]);
+      : [form, ...prev]);
     setModal(null);
     window.__erpToast && window.__erpToast('Transaksi berhasil disimpan.');
   };
@@ -74,7 +74,7 @@ function KeuanganPage({ activeSub, onSubChange, onNavigate }) {
     const rowsNow = isPiutang ? pelunasanPiutangRows : pelunasanHutangRows;
     const isNew = !rowsNow.some(r => r.no === form.no);
     const setRows = isPiutang ? setPelunasanPiutangRows : setPelunasanHutangRows;
-    setRows(prev => prev.some(r => r.no === form.no) ? prev.map(r => r.no === form.no ? form : r) : [...prev, form]);
+    setRows(prev => prev.some(r => r.no === form.no) ? prev.map(r => r.no === form.no ? form : r) : [form, ...prev]);
     if (isNew) {
       const setSaldo = isPiutang ? setSaldoPiutangItems : setSaldoHutangItems;
       setSaldo(prev => {

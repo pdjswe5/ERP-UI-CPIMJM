@@ -75,9 +75,9 @@ function PayrollPage({ activeSub, onSubChange, onNavigate }) {
     penggajianborongan:'Proses Penggajian Borongan',
   };
 
-  if (!activeSub) {
-    return <PayrollDashboard onOpenSub={onSubChange} karyawanRows={karyawanRows} absensiRows={absensiRows} produksiHarianRows={produksiHarianRows} />;
-  }
+  // if (!activeSub) {
+  //   return <PayrollDashboard onOpenSub={onSubChange} karyawanRows={karyawanRows} absensiRows={absensiRows} produksiHarianRows={produksiHarianRows} />;
+  // }
 
   return (
     <div className="page">

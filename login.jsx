@@ -18,10 +18,11 @@ function LoginPage({ onLogin }) {
   const [kodeUser, setKodeUser] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [semuaSesi, setSemuaSesi] = React.useState(false);
+  const [perusahaan, setPerusahaan] = React.useState('PT CPI');
 
   const submit = (e) => {
     e.preventDefault();
-    onLogin({ kodeUser: kodeUser.trim() || 'demo' });
+    onLogin({ kodeUser: kodeUser.trim() || 'demo', perusahaan });
   };
 
   return (
@@ -35,6 +36,13 @@ function LoginPage({ onLogin }) {
 
           <form onSubmit={submit}>
             <div className="field">
+              <label>Perusahaan</label>
+              <select className="input" value={perusahaan} onChange={e => setPerusahaan(e.target.value)}>
+                <option value="PT CPI">PT CPI</option>
+                <option value="PT MJM">PT MJM</option>
+              </select>
+            </div>
+            <div className="field" style={{marginTop:14}}>
               <label>Kode User</label>
               <input className="input" placeholder="Masukkan Kode User" value={kodeUser}
                 onChange={e => setKodeUser(e.target.value)} autoFocus required />

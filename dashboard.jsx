@@ -240,102 +240,27 @@ function Dashboard({ onOpenList }) {
   );
 }
 
-// ─── Home Dashboard (global analytics) ──────────────────────────────────────
-// 4 KPI grafik Ringkasan dihitung dari data nyata (bukan angka karangan): Omset Penjualan
-// Bulan Ini/Tahun Ini dari INVOICE_SEED (Penjualan, exclude nota Batal, total pakai pjLineTotal
-// yang sama dipakai InvoicePage), Total Piutang/Hutang dari SALDO_PIUTANG_ITEMS/SALDO_HUTANG_ITEMS
-// (Keuangan) — cuma jenis:'Nota' yang dihitung (tagihan outstanding asli), Uang Muka/Retur
-// dikecualikan karena itu kredit yang mengurangi tagihan, bukan piutang/hutang itu sendiri.
-// Ketiganya (INVOICE_SEED, SALDO_*_ITEMS) baru termuat setelah dashboard.jsx di index.html, jadi
-// harus dihitung di dalam body HomeDashboard (render-time) — sama pola dgn `modules` array di
-// bawah yg juga baca PB_PO/PJ_PELANGGAN/dst secara langsung tanpa masalah.
-function HomeDashboard({ onNavigate }) {
-  const invoiceTotal = (inv) => [...(inv.Details||[]), ...(inv.Details2||[])].reduce((s,x)=>s+pjLineTotal(x),0);
-  const nonBatalInvoices = INVOICE_SEED.filter(inv => !inv.Batal).slice().sort((a,b)=>a.Tgl_Bukti.localeCompare(b.Tgl_Bukti));
-  const invBulanIni = nonBatalInvoices.filter(inv => inv.Tgl_Bukti.slice(0,7) === '2026-07');
-  const invTahunIni = nonBatalInvoices.filter(inv => inv.Tgl_Bukti.slice(0,4) === '2026');
-
-  const piutangNota = SALDO_PIUTANG_ITEMS.filter(it => it.jenis === 'Nota');
-  const hutangNota = SALDO_HUTANG_ITEMS.filter(it => it.jenis === 'Nota');
-
-  const ALL_HOME_KPIS = [
-    { id:'omsetBulan', label:'Omset Penjualan Bulan Ini', val:fmtRp(invBulanIni.reduce((s,inv)=>s+invoiceTotal(inv),0)), delta:`${invBulanIni.length} nota bulan ini`, up:true,
-      data: cumulativeTrend(invBulanIni, 'Tgl_Bukti', invoiceTotal, { displayFn: fmtRp }), color:'var(--realisasi)' },
-    { id:'omsetTahun', label:'Omset Penjualan Tahun Ini', val:fmtRp(invTahunIni.reduce((s,inv)=>s+invoiceTotal(inv),0)), delta:`${invTahunIni.length} nota tahun ini`, up:true,
-      data: cumulativeTrend(invTahunIni, 'Tgl_Bukti', invoiceTotal, { displayFn: fmtRp }), color:'var(--primary)' },
-    { id:'piutang', label:'Total Piutang', val:fmtRp(piutangNota.reduce((s,it)=>s+it.sisa,0)), delta:`${piutangNota.length} nota outstanding`, up:false,
-      data: cumulativeTrend(piutangNota, 'tgl', it=>it.sisa, { isoFn: akToIso, labelFn: it=>it.noBukti, displayFn: fmtRp }), color:'#7c3aed' },
-    { id:'hutang', label:'Total Hutang', val:fmtRp(hutangNota.reduce((s,it)=>s+it.sisa,0)), delta:`${hutangNota.length} nota outstanding`, up:false,
-      data: cumulativeTrend(hutangNota, 'tgl', it=>it.sisa, { isoFn: akToIso, labelFn: it=>it.noBukti, displayFn: fmtRp }), color:'#dc2626' },
-  ];
-
-  const [visibleKpis, setVisibleKpis] = React.useState(['omsetBulan','omsetTahun','piutang','hutang']);
-  const [kpiPickerOpen, setKpiPickerOpen] = React.useState(false);
-
+// ─── Home Dashboard — menu modul (tanpa KPI/grafik, versi demo CPI/MJM) ─────
+function HomeDashboard({ onNavigate, session }) {
   const modules = [
     { id:'pembelian',   label:'Pembelian',    icon:I.truck(22),    color:'#0ea5e9', kpi:`${PB_PO.filter(p=>!p.Batal).length} PO aktif`, desc:'Purchase request, RFQ, PO, nota & retur beli' },
     { id:'sales',       label:'Penjualan',    icon:I.users(22),    color:'#10b981', kpi:`${PJ_PELANGGAN.filter(p=>p.status!=='Non-aktif').length} pelanggan aktif`, desc:'Konfirmasi order, SO, DO, invoice & retur' },
     { id:'barang',      label:'Barang',       icon:I.box(22),      color:'#f59e0b', kpi:`${BARANG_LAIN.filter(b=>b.aktif).length + BAHAN_BAKU.filter(b=>b.aktif).length + BARANG_JADI.filter(b=>b.aktif).length} item aktif`, desc:'Barang, bahan baku, mutasi & stock opname' },
-    { id:'manufaktur',  label:'Manufaktur',   icon:I.list(22),     color:'#dc2626', kpi:`${MF_SPK_SEED.filter(s=>!['Batal','Cancelled','Selesai'].includes(s.status)).length} SPK aktif`, desc:'SPK, hasil produksi & planning schedule' },
     { id:'keuangan',    label:'Keuangan',     icon:I.bank(22),     color:'#8b5cf6', kpi:'Akuntansi & kas/bank', desc:'Akun, jurnal, laporan keuangan, kas, bank & giro' },
-    { id:'payroll',     label:'Payroll',      icon:I.wallet(22),   color:'#be185d', kpi:`${PR_KARYAWAN.filter(k=>k.aktif).length} karyawan aktif`, desc:'Master karyawan, mutasi, absensi & penggajian' },
     { id:'laporan',     label:'Laporan',      icon:I.chart(22),    color:'#0891b2', kpi:'Stok, piutang/hutang & komisi', desc:'Kartu & rekap stok, piutang/hutang, komisi salesman' },
     { id:'kataloglain', label:'Katalog Lain', icon:I.layers(22),   color:'#0369a1', kpi:'Data pendukung',      desc:'Katalog & master data pendukung lainnya' },
     { id:'pengaturan',  label:'Pengaturan',   icon:I.settings(22), color:'#6b7280', kpi:'Konfigurasi sistem',  desc:'Preferensi & konfigurasi aplikasi' },
   ];
-
-  const toggleKpi = (id) =>
-    setVisibleKpis(prev => prev.includes(id) ? prev.filter(k => k !== id) : [...prev, id]);
-
-  const shownKpis = ALL_HOME_KPIS.filter(k => visibleKpis.includes(k.id));
 
   return (
     <div className="page" data-screen-label="Home — Dashboard">
       <div className="page-head">
         <div>
           <h1>Selamat Datang, Administrator</h1>
-          <div className="sub">PT. Pacific Data Jaya — ringkasan operasional hari ini, {new Date().toLocaleDateString('id-ID', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</div>
+          <div className="sub">{session?.perusahaan || 'PT. Pacific Data Jaya'} — ringkasan operasional hari ini, {new Date().toLocaleDateString('id-ID', {weekday:'long', year:'numeric', month:'long', day:'numeric'})}</div>
         </div>
         <button className="btn btn-sm">{I.refresh()} Refresh</button>
       </div>
-
-      <div style={{display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:8}}>
-        <h3 className="section-title" style={{margin:0}}>Ringkasan <span className="count">{shownKpis.length}/{ALL_HOME_KPIS.length}</span></h3>
-        <div style={{position:'relative'}}>
-          <button className="btn btn-sm" onClick={() => setKpiPickerOpen(v => !v)}>
-            {I.settings(13)} Pilih Analitik
-          </button>
-          {kpiPickerOpen && (
-            <div className="kpi-picker">
-              <div className="kpi-picker-title">Tampilkan KPI</div>
-              {ALL_HOME_KPIS.map(k => (
-                <label key={k.id} className="kpi-picker-row">
-                  <input type="checkbox" className="cb" checked={visibleKpis.includes(k.id)}
-                    onChange={() => toggleKpi(k.id)} />
-                  {k.label}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {shownKpis.length > 0 ? (
-        <div className="kpi-strip">
-          {shownKpis.map(k => (
-            <div key={k.id} className="kpi">
-              <div className="lbl">{k.label}</div>
-              <div className="val mono">{k.val}</div>
-              <div className={`delta${k.up ? ' up' : ''}`}>{k.delta}</div>
-              <Spark data={k.data} color={k.color} />
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div style={{background:'var(--bg-sub)', border:'1px dashed var(--border)', borderRadius:8, padding:'18px 20px', marginBottom:16, color:'var(--text-3)', fontSize:13}}>
-          Tidak ada KPI yang ditampilkan. Klik "Pilih Analitik" untuk memilih.
-        </div>
-      )}
 
       <h3 className="section-title">Modul Utama <span className="count">{modules.length}</span></h3>
       <div className="tile-grid">

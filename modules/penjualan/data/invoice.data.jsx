@@ -32,7 +32,7 @@ function invHead(no, tgl, custCode, kreditTunai, tempo, ket, details, details2, 
     Keterangan:ket, PPN:11, DiscPros_Head: opts.disc ?? 0, DiscNilai_Head: opts.discRp ?? 0,
     Status: opts.status || '', Alasan_Status: opts.alasanStatus || '', Batal: !!opts.batal, Alasan_Batal: opts.alasanBatal || '',
     Creator: opts.creator || 'PDJ Administrator', Jam_Create:`${tgl}T09:30:00`, Editor: opts.editor ?? 'PDJ Administrator', Jam_Edit: opts.editor === '' ? null : `${tgl}T10:15:00`,
-    Details:details, Details2: details2 || [],
+    Details:details, Details2: [],
   };
 }
 
@@ -200,7 +200,6 @@ function invoiceSoBannerFactory(salesOrderList) {
 }
 
 function invoiceGudangOpts() { return PJ_GUDANG_LIST.map(g => ({ value:g.nama, label:g.nama })); }
-function invoiceAkunTunaiOpts() { return PJ_KASBANK.map(k => ({ value:k.nama, label:k.nama })); }
 
 function invoiceTabs(salesOrderList) {
   return [
@@ -225,26 +224,8 @@ function invoiceTabs(salesOrderList) {
       { key:'Kode_Gudang', label:'Kode Gudang', mono:true, readOnly:true, span:1 },
       { key:'Kredit_Tunai', label:'Kredit/Tunai', type:'select', options:PJ_KREDIT_TUNAI_OPTS, lockOnEdit:true },
       { key:'Tempo', label:'Tempo (hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
-      { key:'Nama_Akun_Tunai', label:'Akun Bayar', span:2, type:'select', options:invoiceAkunTunaiOpts,
-        disabledIf: (f) => f.Kredit_Tunai !== 'TUNAI', clearValue:'',
-        onChange: (val, set) => { const k = PJ_KASBANK.find(x => x.nama === val); set('Akun_Tunai', k ? k.kode : ''); } },
-      { key:'Akun_Tunai', label:'Kode Akun Bayar', mono:true, readOnly:true, span:1, disabledIf: (f) => f.Kredit_Tunai !== 'TUNAI', clearValue:'' },
-      { key:'Tgl_Kirim', label:'Tgl. Kirim', type:'date' },
-      { key:'Alamat_Kirim', label:'Alamat Kirim', type:'textarea', span:3 },
       { key:'Keterangan', label:'Keterangan', type:'textarea', span:3 },
     ]},
     { id:'barang', label:'Barang', type:'items', itemsKey:'Details', produk:true, lockItems:true },
-    { id:'nonprodukjasa', label:'Non-Produk atau Jasa', type:'items', itemsKey:'Details2', showTotal:true, columns:[
-      { key:'Kode_Item', label:'Kode', mono:true, width:110 },
-      { key:'Nama_Item', label:'Nama', width:300 },
-      { key:'Deskripsi', label:'Deskripsi', width:200 },
-      { key:'Jumlah', label:'Jumlah', type:'number', num:true, width:90 },
-      { key:'Satuan', label:'Satuan', width:90 },
-      { key:'Hrg_Sat', label:'Harga Satuan', type:'number', num:true, width:130 },
-      { key:'DiscPros_Det', label:'Disc (%)', type:'number', num:true, width:90 },
-      { key:'DiscNilai_Det', label:'Disc (Rp)', type:'number', num:true, width:120 },
-      { key:'Total', label:'Total', compute:(r)=>fmtRp(pjLineTotal(r)), width:150 },
-      { key:'Realisasi', label:'Realisasi', readOnly:true, hideOnCreate:true, num:true, width:100 },
-    ], itemSource:{ data:PJ_AKUN_BIAYA, codeKey:'Kode_Item', nameKey:'Nama_Item' }, lockItems:true },
   ];
 }

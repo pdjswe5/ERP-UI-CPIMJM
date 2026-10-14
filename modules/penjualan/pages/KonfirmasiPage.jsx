@@ -173,7 +173,7 @@ function genKodeBarangKO(jenisBarang) {
   return `S08-${jenisBarang==='PU'?'PU':'UM'}-${yy}${mm}${dd}${seq}`;
 }
 
-function KonfirmasiBarangDetailModal({ jenisBarang, tipeBarang, data, onClose, onSave }) {
+function KonfirmasiBarangDetailModal({ jenisBarang, data, onClose, onSave }) {
   const isPU = jenisBarang === 'PU';
   const empty = {
     JenisBarang: jenisBarang,
@@ -249,7 +249,7 @@ function KonfirmasiBarangDetailModal({ jenisBarang, tipeBarang, data, onClose, o
               {/* Kanan: field lain-lain, Nama Cetak diletakkan tepat di bawah Keterangan */}
               <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:12, alignContent:'start'}}>
                 <div className="field"><label>Kode Produk <span style={{color:'var(--danger)'}}>*</span></label><input className="input mono" readOnly value={form.Kode_Item}/></div>
-                <div className="field"><label>Tipe Barang <span style={{color:'var(--danger)'}}>*</span></label><input className="input mono" readOnly value={tipeBarang}/></div>
+                <div className="field"><label>Tipe Barang</label><input className="input mono" disabled placeholder="Otomatis" value={form.TipeData || ''}/></div>
 
                 <div className="field" style={{gridColumn:'span 2'}}><label>Nama Produk <span style={{color:'var(--danger)'}}>*</span></label><input className="input" value={form.Nama_Item} onChange={e=>set('Nama_Item',e.target.value)}/></div>
 
@@ -331,20 +331,12 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
   // data awal itu sendiri, supaya "Batal" tetap bisa mengembalikan.
   const [snapshotForm, setSnapshotForm] = React.useState(() => (data && initialMode === 'EDIT') ? { ...buildEmpty(), ...data } : null);
 
-  const [noBuktiRaw, setNoBuktiRaw] = React.useState('');
-  const [noBuktiError, setNoBuktiError] = React.useState('');
-  const noBuktiRef = React.useRef(null);
   const [confirmModal, setConfirmModal] = React.useState(null);
-
-  React.useEffect(() => {
-    if (isCreate && noBuktiRef.current) noBuktiRef.current.focus();
-  }, [isCreate]);
 
   const [activeTab, setActiveTab] = React.useState('informasi');
   const infoRef = React.useRef(null);
   const bayarRef = React.useRef(null);
   const barangRef = React.useRef(null);
-  const biayaRef = React.useRef(null);
   const modalBodyRef = React.useRef(null);
 
   const scrollTo = (ref) => {
@@ -359,10 +351,9 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
   const setInfo = (patch) => setForm(f => ({ ...f, informasiUmum: { ...f.informasiUmum, ...patch } }));
   const setBayar = (patch) => setForm(f => ({ ...f, pembayaran: { ...f.pembayaran, ...patch } }));
   const setBarang = (barang) => setForm(f => ({ ...f, barang }));
-  const setBiaya = (biaya) => setForm(f => ({ ...f, biaya }));
   const set = (k,v) => setForm(f => ({ ...f, [k]: v }));
 
-  const subtotal = form.barang.reduce((s, r) => s + pjLineTotal(r), 0) + form.biaya.reduce((s, r) => s + pjLineTotal(r), 0);
+  const subtotal = form.barang.reduce((s, r) => s + pjLineTotal(r), 0);
   const discAmt = subtotal * ((form.discPct||0)/100) + (+form.discRp || 0);
   const dpp = Math.max(0, subtotal - discAmt);
   const ppnAmt = form.ppnMode === 'Exclude' ? dpp * ((form.ppn||0)/100) : 0;
@@ -370,20 +361,8 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
 
   const isLocked = form.status === 'BATAL' || form.status === 'SELESAI MANUAL';
   const disabled = isView || isLocked;
-  const [pickerBiaya, setPickerBiaya] = React.useState(false);
   const [barangDetail, setBarangDetail] = React.useState(null); // { jenisBarang, editIndex } | null
-  const tipeBarangAktif = (isCreate ? noBuktiRaw[0] : form.noBukti[0]) || '';
-
-  const handleNoBuktiChange = (val) => {
-    const v = val.toUpperCase();
-    setNoBuktiRaw(v);
-    if (!v) setNoBuktiError('No. Bukti harus di isi');
-    else if (!['F','K'].includes(v[0])) setNoBuktiError('Format no Bukti salah');
-    else setNoBuktiError('');
-  };
-
-  const noBuktiLocked = isCreate && (!noBuktiRaw || !['F','K'].includes(noBuktiRaw[0]));
-  const gated = disabled || noBuktiLocked;
+  const gated = disabled;
 
   const handleApprove = (reason) => {
     setApproval({ status: 'DISETUJUI', approvedBy: 'Admin', approvedAt: new Date().toLocaleString('id-ID'), catatan: reason });
@@ -396,8 +375,6 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
 
   const resetToCreate = () => {
     setForm(buildEmpty());
-    setNoBuktiRaw('');
-    setNoBuktiError('');
     setSnapshotForm(null);
     setMode('CREATE');
   };
@@ -418,12 +395,12 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
   const handleSave = (andClose=false) => {
     let saved = form;
     if (isCreate) {
-      const fullNo = (noBuktiRaw[0] || '') + 'KO' + new Date().toISOString().slice(2,4) + new Date().toISOString().slice(5,7) + String(Math.floor(Math.random()*9000)+1000);
+      const fullNo = 'KO' + new Date().toISOString().slice(2,4) + new Date().toISOString().slice(5,7) + String(Math.floor(Math.random()*9000)+1000);
       saved = { ...form, noBukti: fullNo };
       setForm(saved);
     }
-    // Filter out soft-deleted items dari kedua tab (Barang & Non-Produk/Biaya)
-    ['barang','biaya'].forEach(key => {
+    // Filter out soft-deleted items dari tabel Barang
+    ['barang'].forEach(key => {
       if (Array.isArray(saved[key])) {
         saved = { ...saved, [key]: saved[key].filter(r => !r._deleted).map(r => { const { _deleted, _added, ...rest } = r; return rest; }) };
       }
@@ -457,7 +434,6 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
             <button className={activeTab==='informasi'?'active':''} onClick={()=>{setActiveTab('informasi'); scrollTo(infoRef);}}>Informasi Umum</button>
             <button className={activeTab==='pembayaran'?'active':''} onClick={()=>{setActiveTab('pembayaran'); scrollTo(bayarRef);}}>Pembayaran</button>
             <button className={activeTab==='barang'?'active':''} onClick={()=>{setActiveTab('barang'); scrollTo(barangRef);}}>Barang</button>
-            <button className={activeTab==='biaya'?'active':''} onClick={()=>{setActiveTab('biaya'); scrollTo(biayaRef);}}>Non-Produk atau Biaya</button>
           </div>
 
           <div className="modal-body modal-body-scroll" ref={modalBodyRef}>
@@ -498,15 +474,7 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
                 <div ref={infoRef} className="panel scroll-section" style={{marginBottom:16}}>
                   <h3>Informasi Umum</h3>
                   <div style={{display:'grid', gridTemplateColumns:'repeat(4, minmax(0,1fr))', gap:12}}>
-                    {isCreate ? (
-                      <div className="field">
-                        <label>No. Bukti <span style={{color:'var(--danger)'}}>*</span></label>
-                        <input ref={noBuktiRef} className="input mono" type="text" value={noBuktiRaw} onChange={e=>handleNoBuktiChange(e.target.value)} placeholder="Ketik F atau K" maxLength={1} />
-                        {noBuktiError && <div className="no-bukti-alert">{noBuktiError}</div>}
-                      </div>
-                    ) : (
-                      <div className="view-field"><label>No. Bukti</label><div className="view-value mono">{form.noBukti}</div></div>
-                    )}
+                    <div className="view-field"><label>No. Bukti</label><div className="view-value mono">{form.noBukti || <span className="muted">Otomatis saat disimpan</span>}</div></div>
                     <Fld label="Tgl. Bukti" required type="date" value={form.tglBukti} onChange={v=>setForm(f=>({...f,tglBukti:v}))} locked={gated} />
                     <Fld label="No. Ref" value={form.informasiUmum.noRef} onChange={v=>setInfo({noRef:v})} locked={gated} />
                     <Fld label="Estimasi Tgl. kirim" required type="date" value={form.informasiUmum.estimasiKirim} onChange={v=>setInfo({estimasiKirim:v})} locked={gated} />
@@ -520,15 +488,10 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
                     <Fld label="Kode Sales" locked mono value={form.kodeSales} />
                     <Fld label="Telepon / HP" value={form.informasiUmum.telepon} onChange={v=>setInfo({telepon:v})} locked={gated} />
                     <Fld label="Email" type="email" value={form.informasiUmum.email} onChange={v=>setInfo({email:v})} locked={gated} />
-                    <Fld label="Nama & HP Penerima" value={form.informasiUmum.namaHpPenerima} onChange={v=>setInfo({namaHpPenerima:v})} locked={gated} />
-                    <Fld label="Jenis Kendaraan" value={form.informasiUmum.jenisKendaraan} onChange={v=>setInfo({jenisKendaraan:v})} locked={gated} />
 
-                    <Fld label="Incoterm" required type="select" options={PJ_INCOTERM_LIST} value={form.informasiUmum.incoterm} onChange={v=>setInfo({incoterm:v})} locked={gated} />
 
-                    <Fld label="Alamat Customer" type="textarea" span={2} value={form.informasiUmum.alamatCustomer} onChange={v=>setInfo({alamatCustomer:v})} locked={gated} />
                     <Fld label="Keterangan" type="textarea" span={2} value={form.informasiUmum.keterangan} onChange={v=>setInfo({keterangan:v})} locked={gated} />
 
-                    <Fld label="Alamat Pengiriman / ambil" type="textarea" span={2} value={form.informasiUmum.alamatPengiriman} onChange={v=>setInfo({alamatPengiriman:v})} locked={gated} />
                   </div>
                 </div>
 
@@ -604,29 +567,6 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
                     </div>
                   </div>
                 </div>
-
-                <div ref={biayaRef} className="panel scroll-section" style={{marginBottom:16}}>
-                  <InlineTable
-                    title="Non-Produk atau Biaya"
-                    columns={[
-                      { key:'Kode_Item', label:'Kode', mono:true, width:110 },
-                      { key:'Nama_Item', label:'Nama' },
-                      { key:'Deskripsi', label:'Deskripsi' },
-                      { key:'Jumlah', label:'Jumlah', type:'number', num:true, width:80 },
-                      { key:'Satuan', label:'Satuan', width:80 },
-                      { key:'Hrg_Sat', label:'Harga Satuan', type:'number', num:true },
-                      { key:'DiscPros_Det', label:'Disc (%)', type:'number', num:true, width:80 },
-                      { key:'DiscNilai_Det', label:'Disc (Rp)', type:'number', num:true },
-                    ]}
-                    rows={form.biaya}
-                    setRows={setBiaya}
-                    addLabel="Tambah Biaya"
-                    disabled={gated}
-                    itemSource={{ data:PJ_AKUN_BIAYA, codeKey:'Kode_Item', nameKey:'Nama_Item' }}
-                    lockItems
-                    onPickItems={!gated ? () => setPickerBiaya(true) : null}
-                  />
-                </div>
               </div>
 
               <div className="scroll-modal-side">
@@ -656,7 +596,7 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
                 <>
                   <button className="btn" onClick={onClose}>Tutup</button>
                   <button className="btn btn-primary btn-soft" onClick={()=>handleSave(true)}>{I.check()} Simpan & Tutup</button>
-                  <button className="btn btn-primary" onClick={()=>handleSave(false)} disabled={noBuktiLocked}>{I.check()} Simpan</button>
+                  <button className="btn btn-primary" onClick={()=>handleSave(false)}>{I.check()} Simpan</button>
                 </>
               )}
               {isEdit && (
@@ -675,7 +615,6 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
       {barangDetail && (
         <KonfirmasiBarangDetailModal
           jenisBarang={barangDetail.jenisBarang}
-          tipeBarang={tipeBarangAktif}
           data={barangDetail.editIndex != null ? form.barang[barangDetail.editIndex] : null}
           onClose={()=>setBarangDetail(null)}
           onSave={(item)=>{
@@ -685,22 +624,6 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
               setBarang([...form.barang, { ...item, _added:true }]);
             }
             setBarangDetail(null);
-          }}
-        />
-      )}
-      {pickerBiaya && (
-        <ItemPickerModal
-          title="Pilih Biaya"
-          items={PJ_AKUN_BIAYA || []}
-          onCancel={()=>setPickerBiaya(false)}
-          onConfirm={(picked)=>{
-            const mapped = picked.map(p => ({
-              Kode_Item:p.kode||'', Nama_Item:p.nama||'', Deskripsi:'',
-              Jumlah:p._qty||1, Satuan:'PCS', Hrg_Sat:0,
-              DiscPros_Det:0, DiscNilai_Det:0, _added:true,
-            }));
-            setBiaya([...form.biaya, ...mapped]);
-            setPickerBiaya(false);
           }}
         />
       )}

@@ -22,7 +22,7 @@ function GrPage({ rows, setRows }) {
   const closeModal = () => { setShow(false); setModal(null); setModalMode(null); };
 
   const save = (form, mode) => {
-    if (mode === 'CREATE') setRows(prev => [...prev, form]);
+    if (mode === 'CREATE') setRows(prev => [form, ...prev]);
     else setRows(prev => prev.map(r => r.No_Bukti===form.No_Bukti ? form : r));
     window.__erpToast && window.__erpToast('Goods Receive berhasil disimpan.');
     if (mode === 'CREATE') setModal(form);

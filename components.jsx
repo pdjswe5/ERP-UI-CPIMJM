@@ -182,7 +182,7 @@ function TopBar({ onHome, onNavigate, session, onLogout }) {
 
         <button className="brand-mark" onClick={onHome} title="PDJ ERP — Home">
           <span className="brand-mark-glyph"><BrandMark size={32} /></span>
-          <span className="brand-name">PDJ ERP<small>PT. Pacific Data Jaya</small></span>
+          <span className="brand-name">PDJ ERP<small>{session?.perusahaan || 'PT. Pacific Data Jaya'}</small></span>
         </button>
       </div>
 
@@ -304,9 +304,7 @@ const MODULES = [
   { id: 'pembelian',   label: 'Pembelian',    icon: I.truck },
   { id: 'barang',      label: 'Barang',       icon: I.box },
   { id: 'kataloglain', label: 'Katalog Lain', icon: I.layers },
-  { id: 'manufaktur',  label: 'Manufaktur',   icon: I.list },
   { id: 'keuangan',    label: 'Keuangan',     icon: I.bank },
-  { id: 'payroll',     label: 'Payroll',      icon: I.wallet },
   { id: 'laporan',     label: 'Laporan',      icon: I.chart },
   { id: 'pengaturan',  label: 'Pengaturan',   icon: I.settings },
 ];
