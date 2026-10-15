@@ -1,6 +1,6 @@
 // Penjualan — util kecil: badge status dokumen/konfirmasi & perhitungan total baris item
 
-// Total satu baris item (Sales Order/Invoice/Sales Return/Delivery Order) dari field API asli
+// Total satu baris item (Order Penjualan/Nota Penjualan/Retur Penjualan/Pengiriman Penjualan) dari field API asli
 function pjLineTotal(r) {
   const jml = +r.Jumlah || 0;
   const hrg = +r.Hrg_Sat || 0;

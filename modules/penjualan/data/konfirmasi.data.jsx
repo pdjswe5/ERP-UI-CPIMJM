@@ -1,4 +1,4 @@
-﻿// Penjualan — data Konfirmasi Penjualan (konfirmasi pesanan pelanggan + approval)
+﻿// Penjualan — data Konfirmasi Order (konfirmasi pesanan pelanggan + approval)
 
 // Master atribut produk untuk popup "Tambah Detail Barang" (khusus Konfirmasi — barang custom
 // atap/steel, bukan dari master BARANG generik). Tiap atribut punya pasangan kode+nama, sama pola
@@ -61,7 +61,7 @@ function koBarangItem(opts) {
     : { ...base, Warna: warna.kode, NamaWarna: warna.nama, TebalTCT: tebalTCT, Merk: merk.kode, NamaMerek: merk.nama };
 }
 
-// Status Konfirmasi memakai model yang sama seperti Sales Order/Pembelian: dihitung otomatis dari
+// Status Konfirmasi memakai model yang sama seperti Order Penjualan/Pembelian: dihitung otomatis dari
 // realisasi barang (lihat field Realisasi tiap baris), kecuali "Selesai Manual" (override manual
 // via aksi "Selesaikan Manual"). 5 kemungkinan: Belum Realisasi / Selesai Sebagian / Selesai /
 // Selesai Manual / Batal.

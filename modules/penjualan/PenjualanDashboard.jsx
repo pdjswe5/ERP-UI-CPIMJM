@@ -80,7 +80,7 @@ function PenjualanDashboard({
     {
       id: "konfirmasi",
       icon: I.cart(20),
-      title: "Confirmation Order",
+      title: "Konfirmasi Order",
       desc: "Buat dan kelola konfirmasi pesanan pelanggan serta approval.",
       badge: pendingKonf > 0 ? `${pendingKonf} perlu approval` : null,
       badgeKind: "pulse",
@@ -89,7 +89,7 @@ function PenjualanDashboard({
     {
       id: "salesorder",
       icon: I.list(20),
-      title: "Sales Order",
+      title: "Order Penjualan",
       desc: "Order penjualan resmi setelah konfirmasi disetujui.",
       badge: `${salesOrders.length} order`,
       accent: "#0369a1",
@@ -97,7 +97,7 @@ function PenjualanDashboard({
     {
       id: "delivery",
       icon: I.truck(20),
-      title: "Delivery Order",
+      title: "Pengiriman Penjualan",
       desc: "Surat jalan dan pengiriman barang ke pelanggan.",
       badge: `${deliveryOrders.length} DO`,
       accent: "#7c3aed",
@@ -105,7 +105,7 @@ function PenjualanDashboard({
     {
       id: "invoice",
       icon: I.invoice(20),
-      title: "Invoice",
+      title: "Nota Penjualan",
       desc: "Penerbitan faktur/tagihan untuk pelanggan.",
       badge: `${invoices.filter((n) => n.Status === "Outstanding").length} outstanding`,
       accent: "#b45309",
@@ -113,7 +113,7 @@ function PenjualanDashboard({
     {
       id: "retur",
       icon: I.refresh(20),
-      title: "Sales Return",
+      title: "Retur Penjualan",
       desc: "Catat retur barang dari pelanggan dan proses penggantian/refund.",
       badge: returPending > 0 ? `${returPending} pending` : null,
       badgeKind: "pulse",
@@ -122,18 +122,18 @@ function PenjualanDashboard({
   ];
 
   return (
-    <div className="page" data-screen-label="04 Penjualan — Dashboard">
+    <div className="page erp-parity" data-screen-label="04 Pelanggan — Dashboard">
       <div className="crumbs">
         <a onClick={() => onNavigate?.("home")} style={{ cursor: "pointer" }}>
           Home
         </a>
         <span className="sep">/</span>
-        <span className="current">Penjualan</span>
+        <span className="current">Pelanggan</span>
       </div>
 
       <div className="page-head">
         <div>
-          <h1>Dashboard Penjualan</h1>
+          <h1>Dashboard Pelanggan</h1>
           <div className="sub">
             Kelola pelanggan, konfirmasi, sales order, delivery, invoice, dan
             sales return dalam satu workspace.
@@ -172,7 +172,7 @@ function PenjualanDashboard({
       </div> */}
 
       <h3 className="section-title">
-        Modul Penjualan <span className="count">{tiles.length}</span>
+        Modul Pelanggan <span className="count">{tiles.length}</span>
       </h3>
       <div className="tile-grid">
         {tiles.map((t) => (

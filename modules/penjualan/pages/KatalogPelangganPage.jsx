@@ -39,120 +39,49 @@ function Fld({ label, value, onChange, locked, required, span, mono, type='text'
 }
 
 function KatalogPelanggan({ rows, onAdd, onView, onEdit, onDeactivate, onActivate }) {
-  const [q, setQ] = React.useState('');
-  const [kota, setKota] = React.useState('');
-  const [status, setStatus] = React.useState('');
-  const [page, setPage] = React.useState(1);
-  // Data baru disisipkan di paling atas -> balik ke halaman 1 supaya langsung terlihat.
-  React.useEffect(() => { setPage(1); }, [rows.length]);
-  const perPage = 25;
-  const filtered = rows.filter(p => {
-    if (q) {
-      const s = q.toLowerCase();
-      if (!p.name.toLowerCase().includes(s) && !p.code.toLowerCase().includes(s) && !(p.pemilik||'').toLowerCase().includes(s)) return false;
-    }
-    if (kota && p.kota !== kota) return false;
-    if (status === 'aktif' && p.status === 'Non-aktif') return false;
-    if (status === 'nonaktif' && p.status !== 'Non-aktif') return false;
-    return true;
-  });
-  const kotas = [...new Set(rows.map(p => p.kota).filter(Boolean))];
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const curPage = Math.min(page, totalPages);
-  const pageRows = filtered.slice((curPage-1)*perPage, curPage*perPage);
-  const reset = () => { setQ(''); setKota(''); setStatus(''); setPage(1); };
   const isNonaktif = (p) => p.status === 'Non-aktif';
-
+  const fmtAktivitas = (p) => {
+    const v = p.jamEdit || p.jamCreate;
+    if (!v) return '';
+    const d = new Date(v);
+    return isNaN(d.getTime()) ? String(v) : d.toLocaleDateString('id-ID') + ' ' + d.toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
+  };
+  const columns = [
+    { key:'name', label:'Pelanggan', render:(v,p) => <span className="erp-chipcell"><span className="erp-link">{p.name}</span>{p.code ? <span className="erp-chip">{p.code}</span> : null}</span> },
+    { key:'jamEdit', label:'Aktivitas Terakhir', sortValue:(p)=>p.jamEdit||p.jamCreate||'', render:(v,p) => fmtAktivitas(p) || <span className="muted">—</span> },
+    { key:'namaSales', label:'Sales', render:(v,p) => <PjCodeChip name={p.namaSales} code={p.kodeSales} /> },
+    { key:'alamat', label:'Alamat' },
+    { key:'pemilik', label:'Owner' },
+    { key:'tel', label:'Telepon', mono:true },
+    { key:'email', label:'Alamat Email' },
+    { key:'status', label:'Status', render:(v,p) => pelangganStatusPill(p.status) },
+  ];
+  const statusFilter = {
+    options: [{ value:'aktif', label:'Aktif' }, { value:'nonaktif', label:'Non-aktif' }],
+    match: (p, val) => val === 'aktif' ? !isNonaktif(p) : isNonaktif(p),
+  };
   return (
-    <>
-      <PjHeader title="Katalog Pelanggan" sub={`Jumlah: ${filtered.length} pelanggan`} onAdd={onAdd} addLabel="Tambah Pelanggan" />
-      <div className="filter-bar">
-        <div className="filter-grid">
-          <div className="field">
-            <label>Pencarian</label>
-            <div className="input-w-icon">{I.search(14)}<input className="input" placeholder="Nama, kode, atau pemilik…" value={q} onChange={e=>{setQ(e.target.value); setPage(1);}}/></div>
-          </div>
-          <div className="field">
-            <label>Kota</label>
-            <select className="select" value={kota} onChange={e=>{setKota(e.target.value); setPage(1);}}>
-              <option value="">Semua kota</option>
-              {kotas.map(k => <option key={k}>{k}</option>)}
-            </select>
-          </div>
-          <div className="field">
-            <label>Status</label>
-            <select className="select" value={status} onChange={e=>{setStatus(e.target.value); setPage(1);}}>
-              <option value="">Semua</option>
-              <option value="aktif">Aktif</option>
-              <option value="nonaktif">Non-aktif</option>
-            </select>
-          </div>
-          <div className="filter-actions">
-            <button className="btn" onClick={reset}>Reset</button>
-          </div>
-        </div>
-      </div>
-
-      <div className="table-card">
-        <div className="table-toolbar">
-          <div className="table-toolbar-left"><b>Jumlah: {filtered.length}</b></div>
-        </div>
-        <div className="table-scroll">
-          <table className="data">
-            <thead>
-              <tr>
-                <th>Nama Perusahaan</th>
-                <th>Kode</th>
-                <th>Alamat</th>
-                <th>Kota</th>
-                <th>Telepon</th>
-                <th>Nama Pemilik</th>
-                <th>NIK</th>
-                <th>Email</th>
-                <th>Kontak</th>
-                <th>Status</th>
-                <th style={{width:90}}>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pageRows.map(p => (
-                <tr key={p.code} onClick={()=>onView(p)}>
-                  <td><span className="cell-link">{p.name}</span></td>
-                  <td className="mono muted">{p.code}</td>
-                  <td>{p.alamat || <span className="muted">—</span>}</td>
-                  <td>{p.kota || <span className="muted">—</span>}</td>
-                  <td className="mono">{p.tel || <span className="muted">—</span>}</td>
-                  <td>{p.pemilik || <span className="muted">—</span>}</td>
-                  <td className="mono">{p.nik || <span className="muted">—</span>}</td>
-                  <td className={p.email ? 'cell-link' : ''}>{p.email || <span className="muted">—</span>}</td>
-                  <td>{p.kontak || <span className="muted">—</span>}</td>
-                  <td>{pelangganStatusPill(p.status)}</td>
-                  <td onClick={e=>e.stopPropagation()}>
-                    <div className="row-actions">
-                      <button className="btn btn-icon btn-sm" title="Edit" onClick={()=>onEdit(p)}>{I.edit()}</button>
-                      {isNonaktif(p) ? (
-                        <button className="btn btn-icon btn-sm" style={{color:'var(--realisasi)'}} title="Aktifkan Kembali" onClick={()=>onActivate(p)}>{I.refresh(14)}</button>
-                      ) : (
-                        <button className="btn btn-icon btn-sm del" title="Nonaktifkan" onClick={()=>onDeactivate(p)}>{I.trash()}</button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="pager">
-          <div>Menampilkan <b style={{color:'var(--text)'}}>{filtered.length === 0 ? 0 : (curPage-1)*perPage+1}</b>–<b style={{color:'var(--text)'}}>{Math.min(curPage*perPage, filtered.length)}</b> dari <b style={{color:'var(--text)'}}>{filtered.length}</b></div>
-          <div className="pager-pages">
-            {Array.from({length: totalPages}, (_,i)=>i+1).slice(0, 7).map(n => (
-              <button key={n} className={n===curPage?'active':''} onClick={()=>setPage(n)}>{n}</button>
-            ))}
-          </div>
-          <div>Tampilkan <b style={{color:'var(--text)'}}>{perPage}</b> per halaman</div>
-        </div>
-      </div>
-    </>
+    <PjErpList
+      title="Katalog Pelanggan"
+      rows={rows}
+      columns={columns}
+      rowKey="code"
+      onAdd={onAdd}
+      addLabel="Tambah Pelanggan"
+      onRowClick={onView}
+      statusFilter={statusFilter}
+      searchKeys={['name','code','pemilik','alamat','kota','tel','email','namaSales']}
+      renderActions={(p) => (
+        <>
+          <button className="erp-btn-icon sm" title="Edit" onClick={()=>onEdit(p)}>{I.edit()}</button>
+          {isNonaktif(p) ? (
+            <button className="erp-btn-icon sm ok" title="Aktifkan Kembali" onClick={()=>onActivate(p)}>{I.refresh(14)}</button>
+          ) : (
+            <button className="erp-btn-icon sm del" title="Nonaktifkan" onClick={()=>onDeactivate(p)}>{I.trash()}</button>
+          )}
+        </>
+      )}
+    />
   );
 }
 
@@ -393,8 +322,7 @@ function PelangganModal({ data, initialMode, onClose, onSave }) {
               </>
             ) : (
               <>
-                <button className="btn btn-primary" onClick={()=>onSave && onSave(form, true)}>{I.check()} Simpan dan Tutup</button>
-                <button className="btn btn-primary" onClick={()=>onSave && onSave(form, false)}>{I.check()} Simpan</button>
+                <button className="btn btn-primary" onClick={()=>onSave && onSave(form, true)}>{I.check()} Simpan</button>
               </>
             )}
           </div>

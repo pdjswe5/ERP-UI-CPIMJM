@@ -1,4 +1,4 @@
-// Penjualan — halaman Konfirmasi Penjualan (konfirmasi pesanan pelanggan + approval)
+// Penjualan — halaman Konfirmasi Order (konfirmasi pesanan pelanggan + approval)
 
 // Field generik: kalau locked, tampil sebagai teks readonly (view-field/view-value) persis
 // pola Katalog Pelanggan, bukan <input disabled> yang masih terlihat seperti kontrol form.
@@ -33,136 +33,52 @@ function Fld({ label, value, onChange, required, span, mono, type='text', option
 }
 
 function KonfirmasiPenjualan({ rows, onAdd, onView, onEdit, onCancel, onCetak, onCetakRow }) {
-  const [q, setQ] = React.useState('');
-  const [noBukti, setNoBukti] = React.useState('');
-  const [tglDari, setTglDari] = React.useState('');
-  const [tglSampai, setTglSampai] = React.useState('');
-  const [customer, setCustomer] = React.useState('');
-  const [status, setStatus] = React.useState('');
-
-  const customers = React.useMemo(() => [...new Set(rows.map(k => k.customer))], [rows]);
-
-  const filtered = rows.filter(k => {
-    if (q) {
-      const ql = q.toLowerCase();
-      if (!k.noBukti.toLowerCase().includes(ql) &&
-          !k.customer.toLowerCase().includes(ql) &&
-          !(k.noReferensi || '').toLowerCase().includes(ql)) return false;
-    }
-    if (noBukti && k.noBukti !== noBukti) return false;
-    if (tglDari && k.tglBukti < tglDari) return false;
-    if (tglSampai && k.tglBukti > tglSampai) return false;
-    if (customer && k.customer !== customer) return false;
-    if (status && koComputeStatus(k) !== status) return false;
-    return true;
-  });
-
   const isLocked = (k) => k.status === 'BATAL' || k.status === 'SELESAI MANUAL';
-  const reset = () => { setQ(''); setNoBukti(''); setTglDari(''); setTglSampai(''); setCustomer(''); setStatus(''); };
-
+  const columns = [
+    { key:'noBukti', label:'No. Bukti', mono:true },
+    { key:'tglBukti', label:'Tgl. Bukti', render:(v,k) => k.tglDari || (v ? String(v).split('-').reverse().join('/') : '') },
+    { key:'noReferensi', label:'No. Referensi' },
+    { key:'customer', label:'Customer', render:(v,k) => <PjCodeChip name={k.customer} code={k.kodeCustomer} /> },
+    { key:'sales', label:'Sales', render:(v,k) => <PjCodeChip name={k.sales} code={k.kodeSales} /> },
+    { key:'caraBayar', label:'Cara Bayar' },
+    { key:'status', label:'Status', sortValue:(k)=>koComputeStatus(k), render:(v,k) => koStatusPill(k) },
+    { key:'progressApproval', label:'Approval', render:(v,k) => <span className={`pill ${progressApprovalClass(k.progressApproval)}`}>{k.progressApproval}</span> },
+    { key:'jmlItem', label:'Jml. Item', num:true },
+    { key:'totalNilai', label:'Total Nilai', num:true, render:(v) => fmtRp(v) },
+  ];
+  const statusFilter = {
+    options: [
+      { value:'BELUM_REALISASI', label:'Belum Realisasi' }, { value:'SELESAI_SEBAGIAN', label:'Selesai Sebagian' },
+      { value:'SELESAI', label:'Selesai' }, { value:'SELESAI_MANUAL', label:'Selesai Manual' }, { value:'BATAL', label:'Batal' },
+    ],
+    match: (k, val) => koComputeStatus(k) === val,
+  };
   return (
-    <>
-      <PjHeader title="Confirmation Order" sub="Konfirmasi Pesanan Pelanggan" onAdd={onAdd} addLabel="Confirmation Order baru"
-        extra={onCetak && <button className="btn btn-sm" onClick={onCetak}>{I.print()} Cetak</button>} />
-      <div className="filter-bar">
-        <div className="filter-grid filter-grid-6">
-          <div className="field">
-            <label>Pencarian</label>
-            <div className="input-w-icon">{I.search(14)}<input className="input" placeholder="Pencarian…" value={q} onChange={e=>setQ(e.target.value)}/></div>
-          </div>
-          <div className="field">
-            <label>No. Bukti</label>
-            <select className="select" value={noBukti} onChange={e=>setNoBukti(e.target.value)}>
-              <option value="">Semua</option>
-              {rows.map(k => <option key={k.noBukti}>{k.noBukti}</option>)}
-            </select>
-          </div>
-          <div className="field"><label>Tgl. Dari</label><input className="input" type="date" value={tglDari} onChange={e=>setTglDari(e.target.value)}/></div>
-          <div className="field"><label>Tgl. Sampai</label><input className="input" type="date" value={tglSampai} onChange={e=>setTglSampai(e.target.value)}/></div>
-          <div className="field">
-            <label>Customer</label>
-            <select className="select" value={customer} onChange={e=>setCustomer(e.target.value)}>
-              <option value="">Semua</option>
-              {customers.map(c => <option key={c}>{c}</option>)}
-            </select>
-          </div>
-          <div className="field">
-            <label>Status</label>
-            <select className="select" value={status} onChange={e=>setStatus(e.target.value)}>
-              <option value="">Semua</option>
-              <option value="BELUM_REALISASI">Belum Realisasi</option>
-              <option value="SELESAI_SEBAGIAN">Selesai Sebagian</option>
-              <option value="SELESAI">Selesai</option>
-              <option value="SELESAI_MANUAL">Selesai Manual</option>
-              <option value="BATAL">Batal</option>
-            </select>
-          </div>
-          <div className="filter-actions" style={{alignSelf:'flex-end'}}>
-            <button className="btn" onClick={reset}>Reset</button>
-            <button className="btn">{I.filter()} Cari</button>
-          </div>
-        </div>
-      </div>
-
-      <div className="table-card">
-        <div className="table-toolbar">
-          <div className="table-toolbar-left"><b>Total Item ({filtered.length})</b></div>
-        </div>
-        <div className="table-scroll">
-          <table className="data">
-            <thead>
-              <tr>
-                <th style={{width:38}}><input type="checkbox" className="cb"/></th>
-                <th>No. Bukti</th>
-                <th>Tgl. Dari</th>
-                <th>No. Referensi</th>
-                <th>Customer</th>
-                <th>Sales</th>
-                <th>Cara Bayar</th>
-                <th>Status</th>
-                <th>Progress Approval</th>
-                <th className="num">Jml. Item</th>
-                <th className="num">Total Nilai</th>
-                <th style={{width:100}}>Aksi</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map(k => {
-                const locked = isLocked(k);
-                return (
-                  <tr key={k.noBukti}>
-                    <td onClick={e=>e.stopPropagation()}><input type="checkbox" className="cb"/></td>
-                    <td><span className="cell-link mono" onClick={()=>onView(k)}>{k.noBukti}</span></td>
-                    <td>{k.tglDari}</td>
-                    <td className="muted">{k.noReferensi || '—'}</td>
-                    <td>{k.customer}</td>
-                    <td>{k.sales}</td>
-                    <td><span className={`pill ${k.caraBayar==='TUNAI'?'realisasi':'pending'}`}>{k.caraBayar}</span></td>
-                    <td>{koStatusPill(k)}</td>
-                    <td><span className={`pill ${progressApprovalClass(k.progressApproval)}`}>{k.progressApproval}</span></td>
-                    <td className="num mono">{k.jmlItem}</td>
-                    <td className="num mono">{fmtRp(k.totalNilai)}</td>
-                    <td onClick={e=>e.stopPropagation()}>
-                      <div className="row-actions">
-                        <button className="btn btn-icon btn-sm" title={locked?'Lihat':'Edit'} onClick={()=>locked ? onView(k) : onEdit(k)}>{locked ? I.zoom(14) : I.edit()}</button>
-                        <button className="btn btn-icon btn-sm" title="Cetak" onClick={()=>onCetakRow ? onCetakRow(k) : (window.__erpToast && window.__erpToast('Fitur cetak belum tersedia pada prototipe ini.'))}>{I.print()}</button>
-                        <button className="btn btn-icon btn-sm del" title="Batalkan Pesanan" disabled={locked} onClick={()=>onCancel(k)}>
-                          {I.fileX(14)}
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </>
+    <PjErpList
+      title="Konfirmasi Order"
+      rows={rows}
+      columns={columns}
+      rowKey="noBukti"
+      onAdd={onAdd}
+      addLabel="Konfirmasi Order Baru"
+      onCetak={onCetak}
+      onRowClick={onView}
+      statusFilter={statusFilter}
+      renderActions={(k) => {
+        const locked = isLocked(k);
+        return (
+          <>
+            <button className="erp-btn-icon sm" title={locked?'Lihat':'Edit'} onClick={()=>locked ? onView(k) : onEdit(k)}>{locked ? I.zoom(14) : I.edit()}</button>
+            <button className="erp-btn-icon sm" title="Cetak" onClick={()=>onCetakRow ? onCetakRow(k) : (window.__erpToast && window.__erpToast('Fitur cetak belum tersedia pada prototipe ini.'))}>{I.print()}</button>
+            <button className="erp-btn-icon sm del" title="Batalkan Pesanan" disabled={locked} onClick={()=>onCancel(k)}>{I.fileX(14)}</button>
+          </>
+        );
+      }}
+    />
   );
 }
 
-// Popup "Tambah/Edit Detail Barang" — khusus barang custom atap/steel Konfirmasi Penjualan.
+// Popup "Tambah/Edit Detail Barang" — khusus barang custom atap/steel Konfirmasi Order.
 // jenisBarang: 'BIASA' (1 warna, 1 tebal, punya Merk) | 'PU' (Warna Top/Bottom, Tebal Top/Bottom, tanpa Merk).
 function genKodeBarangKO(jenisBarang) {
   const d = new Date();
@@ -407,13 +323,13 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
     });
     saved = { ...saved, jmlItem: saved.barang.length, totalNilai: Math.round(grandTotal) };
     onSave && onSave(saved);
+    window.__erpToast && window.__erpToast('Konfirmasi order berhasil disimpan.');
     if (andClose) { onClose(); return; }
     if (isEdit) { setMode('VIEW'); }
     else { resetToCreate(); }
-    window.__erpToast && window.__erpToast('Konfirmasi order berhasil disimpan.');
   };
 
-  const titleText = isCreate ? 'Tambah Konfirmasi Order' : isEdit ? `Edit Konfirmasi Order - ${form.noBukti}` : `Konfirmasi Order - ${form.noBukti}`;
+  const titleText = isCreate ? 'Buat Konfirmasi Order' : isEdit ? `Edit Konfirmasi Order - ${form.noBukti}` : `Konfirmasi Order - ${form.noBukti}`;
 
   return (
     <>
@@ -499,13 +415,14 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
                   <h3>Pembayaran</h3>
                   <div style={{display:'grid', gridTemplateColumns:'repeat(3, minmax(0,1fr))', gap:12}}>
                     <Fld label="Cara Bayar" required type="select" options={PJ_CARA_BAYAR} value={form.caraBayar} onChange={v=>setForm(f=>({...f,caraBayar:v}))} locked={gated} />
-                    <Fld label="Tempo (Hari)" type="number" mono value={form.pembayaran.tempo} onChange={v=>setBayar({tempo:v})} locked={gated} />
-                    <Fld label="Payment 1 / DP" type="number" mono value={form.pembayaran.dp} onChange={v=>setBayar({dp:v})} locked={gated} />
+                    <Fld label="TOP Real (hari)" type="number" mono value={form.pembayaran.tempo} onChange={v=>setBayar({tempo:v})} locked={gated} />
+                    <Fld label="TOP Cetak (hari)" type="number" mono value={form.pembayaran.tempoKom || 0} onChange={v=>setBayar({tempoKom:v})} locked={gated} />
 
                     <Fld label="Akun Pembayaran" required type="select" options={PJ_AKUN_TUNAI} value={form.pembayaran.akun} onChange={v=>setBayar({akun:v})} locked={gated} />
-                    <Fld label="Berlaku Sampai" type="date" value={form.pembayaran.berlakuSampai} onChange={v=>setBayar({berlakuSampai:v})} locked={gated} />
-                    <Fld label="Payment 2" type="number" mono value={form.pembayaran.payment2} onChange={v=>setBayar({payment2:v})} locked={gated} />
+                    <Fld label="Jth. Tempo" mono locked value={pjJthTempo(form.tglBukti, form.pembayaran.tempo)} />
+                    <Fld label="Payment 1 / DP" type="number" mono value={form.pembayaran.dp} onChange={v=>setBayar({dp:v})} locked={gated} />
 
+                    <Fld label="Payment 2" type="number" mono value={form.pembayaran.payment2} onChange={v=>setBayar({payment2:v})} locked={gated} />
                     <Fld label="Payment 3" type="number" mono value={form.pembayaran.payment3} onChange={v=>setBayar({payment3:v})} locked={gated} />
                   </div>
                 </div>
@@ -571,6 +488,8 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
 
               <div className="scroll-modal-side">
                 <PjTotalsCard
+                  title="Konfirmasi Order"
+                  itemCount={form.barang.filter(r => !r._deleted).length}
                   subtotal={subtotal}
                   discPct={form.discPct} setDiscPct={v=>set('discPct',v)}
                   discRp={form.discRp} setDiscRp={v=>set('discRp',v)}
@@ -595,15 +514,14 @@ function KonfirmasiPenjualanModal({ data, initialMode, onClose, onSave }) {
               {isCreate && (
                 <>
                   <button className="btn" onClick={onClose}>Tutup</button>
-                  <button className="btn btn-primary btn-soft" onClick={()=>handleSave(true)}>{I.check()} Simpan & Tutup</button>
-                  <button className="btn btn-primary" onClick={()=>handleSave(false)}>{I.check()} Simpan</button>
+                  <button className="btn btn-primary" onClick={()=>handleSave(true)}>{I.check()} Simpan</button>
                 </>
               )}
               {isEdit && (
                 <>
                   <button className="btn" onClick={onClose}>Tutup</button>
                   <button className="btn btn-danger-outline" onClick={handleCancelEdit}>Batalkan Perubahan</button>
-                  <button className="btn btn-primary" onClick={()=>handleSave(false)}>{I.check()} Simpan</button>
+                  <button className="btn btn-primary" onClick={()=>handleSave(true)}>{I.check()} Simpan</button>
                 </>
               )}
               {isView && <button className="btn" onClick={onClose}>Tutup</button>}
@@ -689,7 +607,7 @@ function KonfirmasiPage({ rows, setRows }) {
         onCetak={()=>{setCetakRow(null); setShowCetak(true);}}
         onCetakRow={(k)=>{setCetakRow(k); setShowCetak(true);}} />
       {showCetak && (
-        <PjCetakModal docLabel="Confirmation Order" rows={rows}
+        <PjCetakModal docLabel="Konfirmasi Order" rows={rows}
           noBuktiKey="noBukti" tglBuktiKey="tglBukti" statusKey="status" itemsKey="barang"
           getGroupLabel={r=>r.customer}
           initialSelected={cetakRow ? [cetakRow.noBukti] : null}
@@ -699,7 +617,7 @@ function KonfirmasiPage({ rows, setRows }) {
       {confirmCancel && (
         <ConfirmationModal
           title="Batalkan Transaksi"
-          message={`Konfirmasi Penjualan "${confirmCancel.noBukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
+          message={`Konfirmasi Order "${confirmCancel.noBukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
           confirmLabel="Batalkan"
           confirmKind="danger"
           onCancel={()=>setConfirmCancel(null)}

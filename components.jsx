@@ -300,7 +300,7 @@ function TopBar({ onHome, onNavigate, session, onLogout }) {
 // ---------- Module nav (SAP-style horizontal tabs) ----------
 const MODULES = [
   { id: 'home',        label: 'Home',         icon: I.home },
-  { id: 'sales',       label: 'Penjualan',    icon: I.users },
+  { id: 'sales',       label: 'Pelanggan',    icon: I.users },
   { id: 'pembelian',   label: 'Pembelian',    icon: I.truck },
   { id: 'barang',      label: 'Barang',       icon: I.box },
   { id: 'kataloglain', label: 'Katalog Lain', icon: I.layers },
@@ -329,9 +329,9 @@ const MODULE_SUBS = {
               { id:'rfq', label:'Request for Quotation' }, { id:'quotation', label:'Quotation' },
               { id:'gr', label:'Goods Receive' }, { id:'po', label:'Purchase Order' },
               { id:'beli', label:'Nota Pembelian' }, { id:'retur', label:'Retur Beli' }],
-  sales:     [{ id:'katalog', label:'Katalog Pelanggan' }, { id:'konfirmasi', label:'Confirmation Order' },
-               { id:'salesorder', label:'Sales Order' }, { id:'delivery', label:'Delivery Order' },
-               { id:'invoice', label:'Invoice' }, { id:'retur', label:'Sales Return' }],
+  sales:     [{ id:'katalog', label:'Katalog Pelanggan' }, { id:'konfirmasi', label:'Konfirmasi Order' },
+               { id:'salesorder', label:'Order Penjualan' }, { id:'delivery', label:'Pengiriman Penjualan' },
+               { id:'invoice', label:'Nota Penjualan' }, { id:'retur', label:'Retur Penjualan' }],
   manufaktur: [
     { id:'spk',      label:'Surat Perintah Kerja' },
     { id:'produksi', label:'Hasil Produksi & Pemakaian Bahan' },
@@ -818,7 +818,6 @@ function ScrollNavModal({
   locked,
   onClose,
   onSave,
-  onSaveAndClose,
   onCancelDoc,
   onCompleteDoc,
   onEditMode,
@@ -915,7 +914,6 @@ function ScrollNavModal({
             {mode === 'CREATE' && (
               <>
                 <button className="btn" onClick={onClose}>Tutup</button>
-                <button className="btn btn-primary btn-soft" onClick={onSaveAndClose}>{I.check()} Simpan & Tutup</button>
                 <button className="btn btn-primary" onClick={onSave}>{I.check()} Simpan</button>
               </>
             )}

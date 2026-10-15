@@ -1,7 +1,7 @@
-// Penjualan — data & config Invoice / Nota Penjualan
+// Penjualan — data & config Nota Penjualan / Nota Penjualan
 //
-// Status Invoice dihitung otomatis dari realisasi barang (sama pola KO/SO/DO), kecuali "Selesai
-// Manual". Invoice bisa diisi manual ATAU diambil dari 1 Sales Order (tombol "Buat Nota dari SO" di
+// Status Nota Penjualan dihitung otomatis dari realisasi barang (sama pola KO/SO/DO), kecuali "Selesai
+// Manual". Nota Penjualan bisa diisi manual ATAU diambil dari 1 Order Penjualan (tombol "Buat Nota dari SO" di
 // tab Informasi Umum, sama mekanismenya dengan "Buat SO dari KO").
 
 function invItem(kode, jumlah, discPct, discRp, realisasi=0, deskripsi='') {
@@ -101,8 +101,8 @@ function invoiceStatusPill(row) {
   return <span className="pill draft">Belum Realisasi</span>;
 }
 
-// "Buat Nota dari SO" — ambil data dari 1 Sales Order (customer, sales, pembayaran, alamat, barang)
-// ke form Invoice yang sedang dibuat. Sama mekanismenya dengan "Buat SO dari KO".
+// "Buat Nota dari SO" — ambil data dari 1 Order Penjualan (customer, sales, pembayaran, alamat, barang)
+// ke form Nota Penjualan yang sedang dibuat. Sama mekanismenya dengan "Buat SO dari KO".
 function invoiceApplySoData(set, so) {
   set('No_Bukti_From', so.No_Bukti);
   set('Kode_Cust', so.Kode_Cust || ''); set('Nama_Cust', so.Nama_Cust || '');
@@ -127,7 +127,7 @@ function invoiceClearSoData(set) {
   set('Details', []); set('Details2', []);
 }
 
-// Picker dokumen Sales Order (pilih satu) — dipakai tombol "Buat Nota dari SO"/"Ganti Data SO".
+// Picker dokumen Order Penjualan (pilih satu) — dipakai tombol "Buat Nota dari SO"/"Ganti Data SO".
 function SoDocPickerModal({ list, onCancel, onConfirm }) {
   const [q, setQ] = React.useState('');
   const filtered = React.useMemo(() => {
@@ -138,7 +138,7 @@ function SoDocPickerModal({ list, onCancel, onConfirm }) {
   return (
     <div className="modal-backdrop" style={{zIndex:110}}>
       <div className="modal item-picker-modal" onClick={e=>e.stopPropagation()}>
-        <div className="modal-head"><h2>Pilih Sales Order</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
+        <div className="modal-head"><h2>Pilih Order Penjualan</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
         <div className="modal-body">
           <div style={{display:'flex', justifyContent:'flex-end', marginBottom:12}}>
             <div className="field" style={{width:'40%', minWidth:200, marginBottom:0}}>
@@ -181,7 +181,7 @@ function invoiceSoBannerFactory(salesOrderList) {
     return (
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16}}>
         <div className="muted" style={{fontSize:12.5}}>
-          {hasSo ? `Data diambil dari Sales Order: ${form.No_Bukti_From}` : 'Isi manual, atau ambil data dari Sales Order yang sudah ada.'}
+          {hasSo ? `Data diambil dari Order Penjualan: ${form.No_Bukti_From}` : 'Isi manual, atau ambil data dari Order Penjualan yang sudah ada.'}
         </div>
         <div style={{display:'flex', gap:8}}>
           {hasSo && <button type="button" className="btn btn-sm" onClick={()=>invoiceClearSoData(set)}>{I.x(14)} Clear Data SO</button>}
@@ -206,9 +206,9 @@ function invoiceTabs(salesOrderList) {
     { id:'umum', label:'Informasi Umum', type:'fields', TopComponent: invoiceSoBannerFactory(salesOrderList), fields:[
       { key:'No_Bukti', label:'No. Bukti', mono:true, readOnly:true },
       { key:'Tgl_Bukti', label:'Tgl. Bukti', type:'date', required:true },
-      { key:'No_Bukti_From', label:'Ref. Sales Order', mono:true, lockOnEdit:true,
+      { key:'No_Bukti_From', label:'Ref. Order Penjualan', mono:true, lockOnEdit:true,
         type:'select', options: () => salesOrderList.map(s => ({ value:s.No_Bukti, label:s.No_Bukti })) },
-      { key:'Nama_Cust', label:'Nama Customer', type:'select', required:true, span:2,
+      { key:'Nama_Cust', label:'Customer', type:'select', required:true, span:2,
         options: () => PJ_PELANGGAN.map(p => ({ value:p.name, label:p.name })),
         onChange: (val, set) => {
           const p = PJ_PELANGGAN.find(x => x.name === val);
@@ -217,14 +217,27 @@ function invoiceTabs(salesOrderList) {
           set('Nama_Sales', p ? p.namaSales || '' : '');
         } },
       { key:'Kode_Cust', label:'Kode Customer', mono:true, readOnly:true, span:1 },
-      { key:'Nama_Sales', label:'Nama Sales', mono:true, readOnly:true, span:2 },
+      { key:'Nama_Sales', label:'Sales', mono:true, readOnly:true, span:2 },
       { key:'Kode_Sales', label:'Kode Sales', mono:true, readOnly:true, span:1 },
       { key:'Nama_Gudang', label:'Gudang', type:'select', span:2, options:invoiceGudangOpts, lockOnEdit:true,
         onChange: (val, set) => { const g = PJ_GUDANG_LIST.find(x => x.nama === val); set('Kode_Gudang', g ? g.kode : ''); } },
       { key:'Kode_Gudang', label:'Kode Gudang', mono:true, readOnly:true, span:1 },
-      { key:'Kredit_Tunai', label:'Kredit/Tunai', type:'select', options:PJ_KREDIT_TUNAI_OPTS, lockOnEdit:true },
-      { key:'Tempo', label:'Tempo (hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'Nama_Spv', label:'Nama SPV', readOnly:true, span:2 },
+      { key:'Kode_Spv', label:'Kode SPV', mono:true, readOnly:true, span:1 },
+      { key:'Ket_Proyek', label:'Proyek', span:2 },
+      { key:'No_Po', label:'No. PO' },
+      { key:'Klasifikasi', label:'Klasifikasi', type:'select', options:PJ_KLASIFIKASI_OPTS },
+      { key:'Expedisi', label:'Ekspedisi' },
+      { key:'No_Polisi', label:'No. Polisi', mono:true },
+      { key:'Kendaraan', label:'Kendaraan' },
       { key:'Keterangan', label:'Keterangan', type:'textarea', span:3 },
+    ]},
+    { id:'pembayaran', label:'Pembayaran', type:'fields', fields:[
+      { key:'Kredit_Tunai', label:'Cara Bayar', type:'select', options:PJ_KREDIT_TUNAI_OPTS, lockOnEdit:true },
+      { key:'Tempo', label:'TOP (Hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'Jth_Tempo', label:'Jth. Tempo', mono:true, computed: (f) => pjJthTempo(f.Tgl_Bukti, f.Tempo) },
+      { key:'Rekening_Bank', label:'Rekening Bank' },
+      { key:'Ket_Kwitansi', label:'Ket. Kwitansi', type:'textarea', span:3 },
     ]},
     { id:'barang', label:'Barang', type:'items', itemsKey:'Details', produk:true, lockItems:true },
   ];

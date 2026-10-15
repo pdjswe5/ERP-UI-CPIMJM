@@ -1,7 +1,7 @@
-// Penjualan — data & config Delivery Order (DO)
+// Penjualan — data & config Pengiriman Penjualan (DO)
 //
 // Beda dengan dokumen Penjualan lain: barang DO TIDAK diketik manual/dari master BARANG, melainkan
-// diambil dari baris barang Sales Order (bisa dari BEBERAPA SO sekaligus, mis. 3 barang dari SO A +
+// diambil dari baris barang Order Penjualan (bisa dari BEBERAPA SO sekaligus, mis. 3 barang dari SO A +
 // 2 barang dari SO B dalam 1 DO), dengan syarat semua SO yang diambil harus punya customer yang sama
 // dengan customer header DO. Karena itu urutan pengisian dipaksa: pilih
 // Customer -> field lain & tabel Barang baru terbuka (lihat disabledIf:f=>!f.Kode_Cust di semua field
@@ -93,7 +93,7 @@ function doStatusPill(row) {
 
 function doGudangOpts() { return PJ_GUDANG_LIST.map(g => ({ value:g.nama, label:g.nama })); }
 
-// Picker barang DO: ambil barang dari 1 atau lebih Sales Order milik customer yang sama dengan
+// Picker barang DO: ambil barang dari 1 atau lebih Order Penjualan milik customer yang sama dengan
 // customer header DO. Hanya menampilkan sisa (Jumlah - Realisasi) yang belum terkirim, dan hanya
 // dari SO yang belum batal.
 function DoSoItemPickerModal({ salesOrderList, form, onCancel, onConfirm }) {
@@ -105,8 +105,8 @@ function DoSoItemPickerModal({ salesOrderList, form, onCancel, onConfirm }) {
     return (
       <div className="modal-backdrop" style={{zIndex:110}}>
         <div className="modal" onClick={e=>e.stopPropagation()} style={{maxWidth:480}}>
-          <div className="modal-head"><h2>Pilih Barang dari Sales Order</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
-          <div className="modal-body"><div className="muted">Pilih Customer terlebih dahulu di tab Informasi Umum sebelum mengambil barang dari Sales Order.</div></div>
+          <div className="modal-head"><h2>Pilih Barang dari Order Penjualan</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
+          <div className="modal-body"><div className="muted">Pilih Customer terlebih dahulu di tab Informasi Umum sebelum mengambil barang dari Order Penjualan.</div></div>
           <div className="modal-foot"><div className="right"><button className="btn" onClick={onCancel}>Tutup</button></div></div>
         </div>
       </div>
@@ -156,7 +156,7 @@ function DoSoItemPickerModal({ salesOrderList, form, onCancel, onConfirm }) {
   return (
     <div className="modal-backdrop" style={{zIndex:110}}>
       <div className="modal item-picker-modal" onClick={e=>e.stopPropagation()}>
-        <div className="modal-head"><h2>Pilih Barang dari Sales Order — {form.Nama_Cust}</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
+        <div className="modal-head"><h2>Pilih Barang dari Order Penjualan — {form.Nama_Cust}</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
         <div className="modal-body">
           <div style={{display:'flex', justifyContent:'flex-end', marginBottom:12}}>
             <div className="field" style={{width:'40%', minWidth:200, marginBottom:0}}>
@@ -167,7 +167,7 @@ function DoSoItemPickerModal({ salesOrderList, form, onCancel, onConfirm }) {
             <table>
               <thead><tr><th style={{width:40}}></th><th>No. SO</th><th>Kode</th><th>Nama Barang</th><th style={{width:90}}>Sisa</th><th style={{width:100}}>Jumlah Kirim</th></tr></thead>
               <tbody>
-                {filtered.length === 0 && <tr><td colSpan={6} className="empty">{candidates.length === 0 ? 'Tidak ada Sales Order aktif dengan sisa barang untuk customer ini.' : 'Tidak ditemukan.'}</td></tr>}
+                {filtered.length === 0 && <tr><td colSpan={6} className="empty">{candidates.length === 0 ? 'Tidak ada Order Penjualan aktif dengan sisa barang untuk customer ini.' : 'Tidak ditemukan.'}</td></tr>}
                 {filtered.map(c => {
                   const isSel = !!selected[c.rowKey];
                   return (
@@ -213,17 +213,18 @@ function deliveryOrderTabs(salesOrderList) {
     { id:'umum', label:'Informasi Umum', type:'fields', fields:[
       { key:'No_Bukti', label:'No. Bukti', mono:true, readOnly:true },
       { key:'Tgl_Bukti', label:'Tgl. Bukti', type:'date', required:true },
-      { key:'Nama_Cust', label:'Nama Customer', type:'select', required:true, span:2,
+      { key:'Nama_Cust', label:'Customer', type:'select', required:true, span:2,
         options: () => PJ_PELANGGAN.map(p => ({ value:p.name, label:p.name })),
         onChange: (val, set) => { const p = PJ_PELANGGAN.find(x => x.name === val); set('Kode_Cust', p ? p.code : ''); } },
       { key:'Kode_Cust', label:'Kode Customer', mono:true, readOnly:true, span:1 },
       { key:'No_Referensi', label:'No. Referensi', disabledIf:gated },
-      { key:'Nama_Gudang', label:'Gudang', type:'select', span:2, options:doGudangOpts, disabledIf:gated, lockOnEdit:true,
-        onChange: (val, set) => { const g = PJ_GUDANG_LIST.find(x => x.nama === val); set('Kode_Gudang', g ? g.kode : ''); } },
-      { key:'Kode_Gudang', label:'Kode Gudang', mono:true, readOnly:true, span:1, disabledIf:gated },
-      { key:'Tgl_Kirim', label:'Tgl. Kirim', type:'date', disabledIf:gated },
-      { key:'Klasifikasi', label:'Klasifikasi', type:'select', options:PJ_KLASIFIKASI_OPTS, disabledIf:gated },
       { key:'Keterangan', label:'Keterangan', type:'textarea', span:3, disabledIf:gated },
+    ]},
+    { id:'pengiriman', label:'Pengiriman', type:'fields', fields:[
+      { key:'Tgl_Kirim', label:'Tgl. Kirim', type:'date', disabledIf:gated },
+      { key:'Nm_Kirim', label:'Nama Penerima', disabledIf:gated },
+      { key:'Tel_Kirim', label:'Telepon', mono:true, disabledIf:gated },
+      { key:'Kt_Kirim', label:'Kota', disabledIf:gated },
     ]},
     { id:'barang', label:'Barang', type:'items', itemsKey:'Details', lockItems:true, showTotal:true, PickerComponent: doSoItemPickerFactory(salesOrderList), columns:[
       { key:'No_So', label:'Ref. SO', mono:true, width:130, readOnly:true },

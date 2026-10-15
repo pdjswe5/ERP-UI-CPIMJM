@@ -1,11 +1,11 @@
-// Penjualan — popup "Cetak" generik dipakai semua dokumen (Konfirmasi Order/Sales Order/Delivery
-// Order/Invoice/Sales Return). Sama pola & fitur dengan PbCetakModal (Pembelian) — kiri filter
+// Penjualan — popup "Cetak" generik dipakai semua dokumen (Konfirmasi Order/Order Penjualan/Delivery
+// Order/Nota Penjualan/Retur Penjualan). Sama pola & fitur dengan PbCetakModal (Pembelian) — kiri filter
 // (tanggal, No Bukti, status, checklist multi-pilih), kanan preview HTML digenerate dari data
 // (mode "Bukti" 1 dokumen/halaman, mode "Register" gabungan semua dokumen terpilih).
 //
 // Beda dari Pembelian:
 // - Field key nama dokumen (No Bukti/Tgl Bukti/Status/Batal/daftar item) BISA beda antar halaman
-//   Penjualan — 4 dari 5 (SO/DO/Invoice/Sales Return) pakai No_Bukti/Tgl_Bukti/Status/Batal/Details
+//   Penjualan — 4 dari 5 (SO/DO/Nota Penjualan/Retur Penjualan) pakai No_Bukti/Tgl_Bukti/Status/Batal/Details
 //   seperti Pembelian, tapi Konfirmasi Order (KO) pakai huruf kecil semua: noBukti/tglBukti/status/
 //   barang (tanpa field Batal terpisah, batal dicek dari status==='BATAL'). Makanya field key-nya
 //   dibuat prop opsional (noBuktiKey/tglBuktiKey/statusKey/batalKey/itemsKey), default ke konvensi
@@ -15,7 +15,7 @@
 //   Total/Discount/PPN/Grand Total, dan tanda tangan tunggal "Hormat kami," (bukan Disetujui/Pemohon).
 //
 // Dipanggil dari tiap halaman dokumen:
-//   <PjCetakModal docLabel="Sales Order" rows={rows} statusFilter={statusFilter}
+//   <PjCetakModal docLabel="Order Penjualan" rows={rows} statusFilter={statusFilter}
 //     getGroupLabel={r => r.Nama_Cust} initialSelected={cetakRow ? [cetakRow.No_Bukti] : null}
 //     onClose={...} />
 

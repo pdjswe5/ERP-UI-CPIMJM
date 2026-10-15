@@ -4,10 +4,10 @@
 // bukan pengganti master gudang inventory (keputusan eksplisit, lihat plan restrukturisasi).
 
 const PJ_SALES_LIST = ['Sales Baru 2', 'Sales Senior', 'Sales Junior 1', 'Sales Junior 2'];
-// Pasangan kode+nama salesman (sama formula kode dengan yang dipakai Sales Order: SL001..SL00N)
+// Pasangan kode+nama salesman (sama formula kode dengan yang dipakai Order Penjualan: SL001..SL00N)
 const PJ_SALES = PJ_SALES_LIST.map((nama, i) => ({ kode:`SL${String(i+1).padStart(3,'0')}`, nama }));
 const PJ_AKUN_TUNAI = ['Kas Besar — IDR', 'Bank BCA 8810-99', 'Bank Mandiri 1212', 'Kas Kecil Cabang'];
-// Pasangan kode+nama kas/bank (dipakai field "No Kasbank" Sales Order saat Kredit/Tunai = TUNAI)
+// Pasangan kode+nama kas/bank (dipakai field "No Kasbank" Order Penjualan saat Kredit/Tunai = TUNAI)
 const PJ_KASBANK = [
   { kode:'1005.000', nama:'Kas Besar — IDR' },
   { kode:'1005.001', nama:'Bank BCA 8810-99' },
@@ -15,8 +15,8 @@ const PJ_KASBANK = [
   { kode:'1005.003', nama:'Kas Kecil Cabang' },
 ];
 const PJ_GUDANG = ['Gudang Konjoran', 'Gudang Utama', 'Gudang Pusat', 'Gudang Cabang Surabaya'];
-// Pasangan kode+nama gudang (dipakai field "Gudang" Delivery Order — kode+nama seperti Customer/Sales,
-// TIDAK menggantikan PJ_GUDANG/PJ_GUDANG_OPTS lama yang masih dipakai Invoice/Sales Return apa adanya).
+// Pasangan kode+nama gudang (dipakai field "Gudang" Pengiriman Penjualan — kode+nama seperti Customer/Sales,
+// TIDAK menggantikan PJ_GUDANG/PJ_GUDANG_OPTS lama yang masih dipakai Nota Penjualan/Retur Penjualan apa adanya).
 const PJ_GUDANG_LIST = [
   { kode:'GDG-001', nama:'Gudang Utama' },
   { kode:'GDG-002', nama:'Gudang Konjoran' },
@@ -42,6 +42,14 @@ const PJ_PROGRESS_APPROVAL = ['PENGAJUAN SPV', 'PENGAJUAN MGR', 'DISETUJUI', 'DI
 function fmtNoBukti(prefix, menuInitial, year, counter) {
   return `${prefix}${menuInitial}${year}${String(counter).padStart(4, '0')}`;
 }
+// Jth. Tempo = Tgl. Bukti + TOP (hari) -> dd/mm/yyyy (field read-only di form, seperti ERP asli)
+function pjJthTempo(tgl, tempo) {
+  if (!tgl) return '';
+  const d = new Date(String(tgl).slice(0, 10) + 'T00:00:00');
+  if (isNaN(d.getTime())) return '';
+  d.setDate(d.getDate() + (+tempo || 0));
+  return `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+}
 function pjNextNo(prefix) { return prefix + Date.now().toString().slice(-9); }
 
 const PJ_KREDIT_TUNAI_OPTS = PJ_CARA_BAYAR.map(c => ({ value:c, label:c }));
@@ -56,9 +64,9 @@ function pjCustOnChange(val, set) { const p = PJ_PELANGGAN.find(x=>x.code===val)
 
 const PJ_SUBS = [
   { id:'katalog',    label:'Katalog Pelanggan' },
-  { id:'konfirmasi', label:'Confirmation Order' },
-  { id:'salesorder', label:'Sales Order' },
-  { id:'delivery',   label:'Delivery Order' },
-  { id:'invoice',    label:'Invoice' },
-  { id:'retur',      label:'Sales Return' },
+  { id:'konfirmasi', label:'Konfirmasi Order' },
+  { id:'salesorder', label:'Order Penjualan' },
+  { id:'delivery',   label:'Pengiriman Penjualan' },
+  { id:'invoice',    label:'Nota Penjualan' },
+  { id:'retur',      label:'Retur Penjualan' },
 ];

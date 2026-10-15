@@ -1,11 +1,11 @@
-// Penjualan — data & config Sales Return (Retur Jual)
+// Penjualan — data & config Retur Penjualan (Retur Jual)
 //
-// Sama seperti Delivery Order: barang Retur TIDAK diketik manual/dari master BARANG, melainkan
-// diambil dari baris barang Sales Order yang SUDAH terealisasi (Realisasi > 0 — barang yang memang
+// Sama seperti Pengiriman Penjualan: barang Retur TIDAK diketik manual/dari master BARANG, melainkan
+// diambil dari baris barang Order Penjualan yang SUDAH terealisasi (Realisasi > 0 — barang yang memang
 // sudah terjual/terkirim, jadi bisa diretur), bisa dari BEBERAPA SO sekaligus, dengan syarat semua SO
 // yang diambil harus customer yang sama dengan customer header Retur. Qty retur dibatasi maksimal
 // sejumlah Realisasi SO tsb (tidak bisa retur lebih banyak dari yang sudah terjual).
-// Status Retur dihitung otomatis dari realisasi proses retur (sama pola KO/SO/DO/Invoice), kecuali
+// Status Retur dihitung otomatis dari realisasi proses retur (sama pola KO/SO/DO/Nota Penjualan), kecuali
 // "Selesai Manual".
 
 function returnItem(soRow, soNoBukti, soNoKo, idx, jumlah) {
@@ -106,8 +106,8 @@ function ReturSoItemPickerModal({ salesOrderList, form, onCancel, onConfirm }) {
     return (
       <div className="modal-backdrop" style={{zIndex:110}}>
         <div className="modal" onClick={e=>e.stopPropagation()} style={{maxWidth:480}}>
-          <div className="modal-head"><h2>Pilih Barang dari Sales Order</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
-          <div className="modal-body"><div className="muted">Pilih Customer terlebih dahulu di tab Informasi Umum sebelum mengambil barang dari Sales Order.</div></div>
+          <div className="modal-head"><h2>Pilih Barang dari Order Penjualan</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
+          <div className="modal-body"><div className="muted">Pilih Customer terlebih dahulu di tab Informasi Umum sebelum mengambil barang dari Order Penjualan.</div></div>
           <div className="modal-foot"><div className="right"><button className="btn" onClick={onCancel}>Tutup</button></div></div>
         </div>
       </div>
@@ -157,7 +157,7 @@ function ReturSoItemPickerModal({ salesOrderList, form, onCancel, onConfirm }) {
   return (
     <div className="modal-backdrop" style={{zIndex:110}}>
       <div className="modal item-picker-modal" onClick={e=>e.stopPropagation()}>
-        <div className="modal-head"><h2>Pilih Barang dari Sales Order — {form.Nama_Cust}</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
+        <div className="modal-head"><h2>Pilih Barang dari Order Penjualan — {form.Nama_Cust}</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
         <div className="modal-body">
           <div style={{display:'flex', justifyContent:'flex-end', marginBottom:12}}>
             <div className="field" style={{width:'40%', minWidth:200, marginBottom:0}}>
@@ -214,9 +214,9 @@ function salesReturnTabs(salesOrderList, invoiceList) {
     { id:'umum', label:'Informasi Umum', type:'fields', fields:[
       { key:'No_Bukti', label:'No. Bukti', mono:true, readOnly:true },
       { key:'Tgl_Bukti', label:'Tgl. Bukti', type:'date', required:true },
-      { key:'No_Jual', label:'Ref. Invoice', mono:true, lockOnEdit:true,
+      { key:'No_Jual', label:'No. Nota', mono:true, lockOnEdit:true,
         type:'select', options: () => invoiceList.map(v => ({ value:v.No_Bukti, label:v.No_Bukti })) },
-      { key:'Nama_Cust', label:'Nama Customer', type:'select', required:true, span:2,
+      { key:'Nama_Cust', label:'Customer', type:'select', required:true, span:2,
         options: () => PJ_PELANGGAN.map(p => ({ value:p.name, label:p.name })),
         onChange: (val, set) => {
           const p = PJ_PELANGGAN.find(x => x.name === val);
@@ -225,13 +225,14 @@ function salesReturnTabs(salesOrderList, invoiceList) {
           set('Nama_Sales', p ? p.namaSales || '' : '');
         } },
       { key:'Kode_Cust', label:'Kode Customer', mono:true, readOnly:true, span:1 },
-      { key:'Nama_Sales', label:'Nama Sales', mono:true, readOnly:true, span:2 },
+      { key:'Nama_Sales', label:'Sales', mono:true, readOnly:true, span:2 },
       { key:'Kode_Sales', label:'Kode Sales', mono:true, readOnly:true, span:1 },
       { key:'Nama_Gudang', label:'Gudang', type:'select', span:2, options:returnGudangOpts, disabledIf:gated, lockOnEdit:true,
         onChange: (val, set) => { const g = PJ_GUDANG_LIST.find(x => x.nama === val); set('Kode_Gudang', g ? g.kode : ''); } },
       { key:'Kode_Gudang', label:'Kode Gudang', mono:true, readOnly:true, span:1, disabledIf:gated },
-      { key:'Kredit_Tunai', label:'Kredit/Tunai', type:'select', options:PJ_KREDIT_TUNAI_OPTS, disabledIf:gated, lockOnEdit:true },
-      { key:'Tempo', label:'Tempo (hari)', type:'number', disabledIf: (f) => gated(f) || f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'Kredit_Tunai', label:'Cara Bayar', type:'select', options:PJ_KREDIT_TUNAI_OPTS, disabledIf:gated, lockOnEdit:true },
+      { key:'Tempo', label:'TOP (Hari)', type:'number', disabledIf: (f) => gated(f) || f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'Jth_Tempo', label:'Jth. Tempo', mono:true, computed: (f) => pjJthTempo(f.Tgl_Bukti, f.Tempo) },
       { key:'Keterangan', label:'Keterangan', type:'textarea', span:3, disabledIf:gated },
     ]},
     { id:'barang', label:'Barang', type:'items', itemsKey:'Details', lockItems:true, showTotal:true, PickerComponent: returnSoItemPickerFactory(salesOrderList), columns:[

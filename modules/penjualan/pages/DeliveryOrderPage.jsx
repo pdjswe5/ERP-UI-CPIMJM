@@ -1,13 +1,11 @@
-// Penjualan — halaman Delivery Order
+// Penjualan — halaman Pengiriman Penjualan
 
 function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
   const columns = [
     { key:'No_Bukti', label:'No. Bukti', mono:true },
     { key:'Tgl_Bukti', label:'Tgl. Bukti' },
-    { key:'Nama_Cust', label:'Customer' },
-    { key:'Nama_Gudang', label:'Gudang' },
-    { key:'JmlItem', label:'Jml Item', render:(v,r) => (r.Details||[]).length },
-    { key:'Details', label:'Total', render:(v,r) => fmtRp((v||[]).reduce((s,x)=>s+pjLineTotal(x),0)) },
+    { key:'No_Referensi', label:'No. Referensi' },
+    { key:'Nama_Cust', label:'Customer', render:(v,r) => <PjCodeChip name={r.Nama_Cust} code={r.Kode_Cust} /> },
     { key:'Status', label:'Status', render:(v,r) => doStatusPill(r) },
   ];
 
@@ -26,20 +24,20 @@ function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
   const save = (form, mode) => {
     if (mode === 'CREATE') setRows(prev => [form, ...prev]);
     else setRows(prev => prev.map(r => r.No_Bukti===form.No_Bukti ? form : r));
-    window.__erpToast && window.__erpToast('Delivery Order berhasil disimpan.');
+    window.__erpToast && window.__erpToast('Pengiriman Penjualan berhasil disimpan.');
   };
 
   const cancelDoc = (form) => {
     const updated = { ...form, Status:'BATAL', Batal:true, Alasan_Status: form.Alasan_Status || 'Dibatalkan oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
     setModal(updated);
-    window.__erpToast && window.__erpToast('Delivery Order dibatalkan.');
+    window.__erpToast && window.__erpToast('Pengiriman Penjualan dibatalkan.');
   };
 
   const cancelFromList = (reason) => {
     const updated = { ...confirmCancel, Status:'BATAL', Batal:true, Alasan_Status: reason || 'Dibatalkan oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
-    window.__erpToast && window.__erpToast('Delivery Order dibatalkan.');
+    window.__erpToast && window.__erpToast('Pengiriman Penjualan dibatalkan.');
     setConfirmCancel(null);
   };
 
@@ -47,7 +45,7 @@ function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
     const updated = { ...form, Status:'SELESAI', Alasan_Status: form.Alasan_Status || 'Diselesaikan manual oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
     setModal(updated);
-    window.__erpToast && window.__erpToast('Delivery Order diselesaikan manual.');
+    window.__erpToast && window.__erpToast('Pengiriman Penjualan diselesaikan manual.');
   };
 
   const statusFilter = {
@@ -72,8 +70,8 @@ function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
   return (
     <>
       <PjDocList
-        title="Delivery Order"
-        sub="Surat jalan dan pengiriman barang ke pelanggan, diambil dari barang Sales Order."
+        title="Pengiriman Penjualan"
+        sub="Surat jalan dan pengiriman barang ke pelanggan, diambil dari barang Order Penjualan."
         rows={rows}
         columns={columns}
         onAdd={openAdd}
@@ -82,18 +80,18 @@ function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
         onCancelDoc={(r)=>setConfirmCancel(r)}
         onCetak={()=>{setCetakRow(null); setShowCetak(true);}}
         onCetakRow={(r)=>{setCetakRow(r); setShowCetak(true);}}
-        addLabel="Delivery Order Baru"
+        addLabel="Pengiriman Penjualan Baru"
         statusFilter={statusFilter}
       />
       {showCetak && (
-        <PjCetakModal docLabel="Delivery Order" rows={rows} statusFilter={statusFilter}
+        <PjCetakModal docLabel="Pengiriman Penjualan" rows={rows} statusFilter={statusFilter}
           getGroupLabel={r=>r.Nama_Cust}
           initialSelected={cetakRow ? [cetakRow.No_Bukti] : null}
           onClose={()=>{setShowCetak(false); setCetakRow(null);}} />
       )}
       {show && (
         <PjDocModal
-          title="Delivery Order"
+          title="Pengiriman Penjualan"
           data={modal}
           tabs={deliveryOrderTabs(salesOrderList)}
           prefix="DO"
@@ -109,7 +107,7 @@ function DeliveryOrderPage({ rows, setRows, salesOrderList }) {
       {confirmCancel && (
         <ConfirmationModal
           title="Batalkan Transaksi"
-          message={`Delivery Order "${confirmCancel.No_Bukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
+          message={`Pengiriman Penjualan "${confirmCancel.No_Bukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
           confirmLabel="Batalkan"
           confirmKind="danger"
           onCancel={()=>setConfirmCancel(null)}

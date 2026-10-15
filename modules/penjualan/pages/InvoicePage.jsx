@@ -1,14 +1,16 @@
-// Penjualan — halaman Invoice / Nota Penjualan
+// Penjualan — halaman Nota Penjualan / Nota Penjualan
 
 function InvoicePage({ rows, setRows, salesOrderList }) {
   const columns = [
     { key:'No_Bukti', label:'No. Bukti', mono:true },
     { key:'Tgl_Bukti', label:'Tgl. Bukti' },
-    { key:'Nama_Cust', label:'Customer' },
+    { key:'No_Bukti_From', label:'Ref. Order Penjualan', mono:true },
+    { key:'Nama_Cust', label:'Customer', render:(v,r) => <PjCodeChip name={r.Nama_Cust} code={r.Kode_Cust} /> },
+    { key:'Nama_Sales', label:'Salesman', render:(v,r) => <PjCodeChip name={r.Nama_Sales} code={r.Kode_Sales} /> },
     { key:'Nama_Gudang', label:'Gudang' },
-    { key:'JmlItem', label:'Jml Item', render:(v,r) => (r.Details||[]).length },
-    { key:'Details', label:'Total', render:(v,r) => fmtRp([...(v||[]), ...(r.Details2||[])].reduce((s,x)=>s+pjLineTotal(x),0)) },
+    { key:'Kredit_Tunai', label:'Cara Bayar' },
     { key:'Status', label:'Status', render:(v,r) => invoiceStatusPill(r) },
+    { key:'Details', label:'Total Netto', num:true, sortValue:(r)=>(r.Details||[]).reduce((s,x)=>s+pjLineTotal(x),0), render:(v,r) => fmtRp((v||[]).reduce((s,x)=>s+pjLineTotal(x),0)) },
   ];
 
   const [modal, setModal] = React.useState(null);
@@ -26,20 +28,20 @@ function InvoicePage({ rows, setRows, salesOrderList }) {
   const save = (form, mode) => {
     if (mode === 'CREATE') setRows(prev => [form, ...prev]);
     else setRows(prev => prev.map(r => r.No_Bukti===form.No_Bukti ? form : r));
-    window.__erpToast && window.__erpToast('Invoice berhasil disimpan.');
+    window.__erpToast && window.__erpToast('Nota Penjualan berhasil disimpan.');
   };
 
   const cancelDoc = (form) => {
     const updated = { ...form, Status:'BATAL', Batal:true, Alasan_Status: form.Alasan_Status || 'Dibatalkan oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
     setModal(updated);
-    window.__erpToast && window.__erpToast('Invoice dibatalkan.');
+    window.__erpToast && window.__erpToast('Nota Penjualan dibatalkan.');
   };
 
   const cancelFromList = (reason) => {
     const updated = { ...confirmCancel, Status:'BATAL', Batal:true, Alasan_Status: reason || 'Dibatalkan oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
-    window.__erpToast && window.__erpToast('Invoice dibatalkan.');
+    window.__erpToast && window.__erpToast('Nota Penjualan dibatalkan.');
     setConfirmCancel(null);
   };
 
@@ -47,7 +49,7 @@ function InvoicePage({ rows, setRows, salesOrderList }) {
     const updated = { ...form, Status:'SELESAI', Alasan_Status: form.Alasan_Status || 'Diselesaikan manual oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
     setModal(updated);
-    window.__erpToast && window.__erpToast('Invoice diselesaikan manual.');
+    window.__erpToast && window.__erpToast('Nota Penjualan diselesaikan manual.');
   };
 
   const statusFilter = {
@@ -72,7 +74,7 @@ function InvoicePage({ rows, setRows, salesOrderList }) {
   return (
     <>
       <PjDocList
-        title="Invoice"
+        title="Nota Penjualan"
         sub="Nota penjualan / tagihan ke pelanggan."
         rows={rows}
         columns={columns}
@@ -82,18 +84,18 @@ function InvoicePage({ rows, setRows, salesOrderList }) {
         onCancelDoc={(r)=>setConfirmCancel(r)}
         onCetak={()=>{setCetakRow(null); setShowCetak(true);}}
         onCetakRow={(r)=>{setCetakRow(r); setShowCetak(true);}}
-        addLabel="Invoice Baru"
+        addLabel="Nota Penjualan Baru"
         statusFilter={statusFilter}
       />
       {showCetak && (
-        <PjCetakModal docLabel="Invoice" rows={rows} statusFilter={statusFilter}
+        <PjCetakModal docLabel="Nota Penjualan" rows={rows} statusFilter={statusFilter}
           getGroupLabel={r=>r.Nama_Cust}
           initialSelected={cetakRow ? [cetakRow.No_Bukti] : null}
           onClose={()=>{setShowCetak(false); setCetakRow(null);}} />
       )}
       {show && (
         <PjDocModal
-          title="Invoice"
+          title="Nota Penjualan"
           data={modal}
           tabs={invoiceTabs(salesOrderList)}
           prefix="JL"
@@ -110,7 +112,7 @@ function InvoicePage({ rows, setRows, salesOrderList }) {
       {confirmCancel && (
         <ConfirmationModal
           title="Batalkan Transaksi"
-          message={`Invoice "${confirmCancel.No_Bukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
+          message={`Nota Penjualan "${confirmCancel.No_Bukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
           confirmLabel="Batalkan"
           confirmKind="danger"
           onCancel={()=>setConfirmCancel(null)}

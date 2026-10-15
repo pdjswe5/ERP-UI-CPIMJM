@@ -244,7 +244,7 @@ function Dashboard({ onOpenList }) {
 function HomeDashboard({ onNavigate, session }) {
   const modules = [
     { id:'pembelian',   label:'Pembelian',    icon:I.truck(22),    color:'#0ea5e9', kpi:`${PB_PO.filter(p=>!p.Batal).length} PO aktif`, desc:'Purchase request, RFQ, PO, nota & retur beli' },
-    { id:'sales',       label:'Penjualan',    icon:I.users(22),    color:'#10b981', kpi:`${PJ_PELANGGAN.filter(p=>p.status!=='Non-aktif').length} pelanggan aktif`, desc:'Konfirmasi order, SO, DO, invoice & retur' },
+    { id:'sales',       label:'Pelanggan',    icon:I.users(22),    color:'#10b981', kpi:`${PJ_PELANGGAN.filter(p=>p.status!=='Non-aktif').length} pelanggan aktif`, desc:'Konfirmasi order, SO, DO, invoice & retur' },
     { id:'barang',      label:'Barang',       icon:I.box(22),      color:'#f59e0b', kpi:`${BARANG_LAIN.filter(b=>b.aktif).length + BAHAN_BAKU.filter(b=>b.aktif).length + BARANG_JADI.filter(b=>b.aktif).length} item aktif`, desc:'Barang, bahan baku, mutasi & stock opname' },
     { id:'keuangan',    label:'Keuangan',     icon:I.bank(22),     color:'#8b5cf6', kpi:'Akuntansi & kas/bank', desc:'Akun, jurnal, laporan keuangan, kas, bank & giro' },
     { id:'laporan',     label:'Laporan',      icon:I.chart(22),    color:'#0891b2', kpi:'Stok, piutang/hutang & komisi', desc:'Kartu & rekap stok, piutang/hutang, komisi salesman' },

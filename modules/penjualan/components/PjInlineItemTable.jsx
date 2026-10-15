@@ -123,7 +123,7 @@ function InlineTable({ title, columns, rows, setRows, addLabel, shortcut, disabl
 }
 
 // Katalog barang buat dropdown Kode Item: BARANG (sparepart, inventory.jsx) digabung BARANG_JADI
-// (modul Barang — dipakai Sales Order sejak seed-nya diisi kode JD-xxx/PU-xxx supaya SPK "Buat
+// (modul Barang — dipakai Order Penjualan sejak seed-nya diisi kode JD-xxx/PU-xxx supaya SPK "Buat
 // dari SO" bisa auto-fill Bahan lewat BOM, lihat salesorder.data.jsx). Dinormalisasi ke bentuk
 // {code,name,hpp} yang sama biar update()/dropdown di bawah tidak perlu tahu bedanya.
 function pjBarangCatalog() {

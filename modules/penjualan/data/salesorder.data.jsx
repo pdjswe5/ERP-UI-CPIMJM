@@ -1,4 +1,4 @@
-// Penjualan — data & config Sales Order (SO)
+// Penjualan — data & config Order Penjualan (SO)
 //
 // Status SO dihitung otomatis dari realisasi barang (lihat soComputeStatus/soStatusPill di bawah),
 // sama seperti pola Pembelian — kecuali "Selesai Manual" yang merupakan override manual (aksi
@@ -44,6 +44,7 @@ function soHead(no, tgl, custCode, salesName, kreditTunai, tempo, ket, details, 
     Nm_Kirim: opts.nmKirim || (cust ? cust.namaPemesan : ''), Kt_Kirim: opts.ktKirim || (cust ? cust.kota : ''), Tel_Kirim: opts.telKirim || (cust ? cust.tel : ''),
     Locofranco: opts.incoterm || 'Franco', Klasifikasi: opts.klasifikasi || (cust ? cust.klasifikasi : ''),
     Kode_Spv: opts.kodeSpv || '', Nama_Spv: opts.namaSpv || '',
+    Golongan: cust ? cust.golongan || '' : '', Jenis_Harga: cust ? cust.jenisHarga || '' : '', No_Npwp: cust ? cust.noNpwp || '' : '', Al_Npwp: cust ? cust.alamatPajak || '' : '',
     Proyek: opts.proyek || '', No_Po: opts.noPo || '', No_Ko: opts.noKo || '', Expedisi: opts.expedisi || '',
     Status: opts.status || '', Alasan_Status: opts.alasanStatus || '', Batal: !!opts.batal, Alasan_Batal: opts.alasanBatal || '',
     Creator: opts.creator || 'PDJ Administrator', Jam_Create:`${tgl}T09:30:00`, Editor: opts.editor ?? 'PDJ Administrator', Jam_Edit: opts.editor === '' ? null : `${tgl}T10:15:00`,
@@ -207,7 +208,7 @@ function soStatusPill(row) {
   return <span className="pill draft">Belum Realisasi</span>;
 }
 
-// "Buat SO dari KO" — mengambil semua data relevan dari 1 dokumen Konfirmasi Penjualan (KO) dan
+// "Buat SO dari KO" — mengambil semua data relevan dari 1 dokumen Konfirmasi Order (KO) dan
 // menuangkannya ke form SO yang sedang dibuat (hanya berlaku saat CREATE, sebelum SO disimpan).
 function soApplyKoData(set, ko) {
   const custByCode = PJ_PELANGGAN.find(p => p.code === ko.kodeCustomer) || PJ_PELANGGAN.find(p => p.name === ko.customer);
@@ -245,7 +246,7 @@ function soClearKoData(set) {
   set('Details', []); set('Details2', []);
 }
 
-// Picker dokumen Konfirmasi Penjualan (pilih satu) — dipakai tombol "Buat SO dari KO"/"Ganti Data KO".
+// Picker dokumen Konfirmasi Order (pilih satu) — dipakai tombol "Buat SO dari KO"/"Ganti Data KO".
 function KoDocPickerModal({ list, onCancel, onConfirm }) {
   const [q, setQ] = React.useState('');
   const filtered = React.useMemo(() => {
@@ -256,7 +257,7 @@ function KoDocPickerModal({ list, onCancel, onConfirm }) {
   return (
     <div className="modal-backdrop" style={{zIndex:110}}>
       <div className="modal item-picker-modal" onClick={e=>e.stopPropagation()}>
-        <div className="modal-head"><h2>Pilih Konfirmasi Penjualan</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
+        <div className="modal-head"><h2>Pilih Konfirmasi Order</h2><button className="btn btn-icon" onClick={onCancel}>{I.x(16)}</button></div>
         <div className="modal-body">
           <div style={{display:'flex', justifyContent:'flex-end', marginBottom:12}}>
             <div className="field" style={{width:'40%', minWidth:200, marginBottom:0}}>
@@ -299,7 +300,7 @@ function soKoBannerFactory(konfirmasiList) {
     return (
       <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16}}>
         <div className="muted" style={{fontSize:12.5}}>
-          {hasKo ? `Data diambil dari Konfirmasi Penjualan: ${form.No_Ko}` : 'Isi manual, atau ambil data dari Konfirmasi Penjualan yang sudah ada.'}
+          {hasKo ? `Data diambil dari Konfirmasi Order: ${form.No_Ko}` : 'Isi manual, atau ambil data dari Konfirmasi Order yang sudah ada.'}
         </div>
         <div style={{display:'flex', gap:8}}>
           {hasKo && <button type="button" className="btn btn-sm" onClick={()=>soClearKoData(set)}>{I.x(14)} Clear Data KO</button>}
@@ -322,25 +323,42 @@ function salesOrderTabs(konfirmasiList) {
     { id:'umum', label:'Informasi Umum', type:'fields', TopComponent: soKoBannerFactory(konfirmasiList), fields:[
       { key:'No_Bukti', label:'No. Bukti', mono:true, readOnly:true },
       { key:'Tgl_Bukti', label:'Tgl. Bukti', type:'date', required:true },
-      { key:'Nama_Cust', label:'Nama Customer', type:'select', required:true, span:2,
+      { key:'No_Ko', label:'No. KO', mono:true, lockOnEdit:true,
+        type:'select', options: () => konfirmasiList.map(k => ({ value:k.noBukti, label:k.noBukti })) },
+      { key:'Nama_Cust', label:'Customer', type:'select', required:true, span:2,
         options: () => PJ_PELANGGAN.map(p => ({ value:p.name, label:p.name })),
         onChange: (val, set) => {
           const p = PJ_PELANGGAN.find(x => x.name === val);
           set('Kode_Cust', p ? p.code : '');
           set('Kode_Sales', p ? p.kodeSales || '' : '');
           set('Nama_Sales', p ? p.namaSales || '' : '');
+          set('Golongan', p ? p.golongan || '' : '');
+          set('Jenis_Harga', p ? p.jenisHarga || '' : '');
+          set('No_Npwp', p ? p.noNpwp || '' : '');
+          set('Al_Npwp', p ? p.alamatPajak || '' : '');
         } },
       { key:'Kode_Cust', label:'Kode Customer', mono:true, readOnly:true, span:1 },
-      { key:'Nama_Sales', label:'Nama Sales', mono:true, readOnly:true, span:2 },
+      { key:'Nama_Sales', label:'Sales', mono:true, readOnly:true, span:2 },
       { key:'Kode_Sales', label:'Kode Sales', mono:true, readOnly:true, span:1 },
+      { key:'Nama_Spv', label:'Nama SPV', readOnly:true, span:2 },
+      { key:'Kode_Spv', label:'Kode SPV', mono:true, readOnly:true, span:1 },
+      { key:'Proyek', label:'Nama Proyek' },
+      { key:'No_Po', label:'No. PO' },
       { key:'No_Referensi', label:'No. Referensi' },
-      { key:'No_Ko', label:'Ref. Konfirmasi Order', mono:true, lockOnEdit:true,
-        type:'select', options: () => konfirmasiList.map(k => ({ value:k.noBukti, label:k.noBukti })) },
-      { key:'Kredit_Tunai', label:'Kredit/Tunai', type:'select', options:PJ_KREDIT_TUNAI_OPTS, lockOnEdit:true },
-      { key:'Tempo', label:'TOP Real (Hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
-      { key:'TempoLama', label:'TOP Lama (Hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
-      { key:'TempoCetak', label:'TOP Cetak (Hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'Nm_Kirim', label:'Nama Penerima' },
+      { key:'Tel_Kirim', label:'Telepon Penerima', mono:true },
+      { key:'Kt_Kirim', label:'Keterangan Kirim', type:'textarea', span:3 },
       { key:'Keterangan', label:'Keterangan', type:'textarea', span:3 },
+    ]},
+    { id:'pembayaran', label:'Pembayaran', type:'fields', fields:[
+      { key:'Kredit_Tunai', label:'Cara Bayar', type:'select', options:PJ_KREDIT_TUNAI_OPTS, lockOnEdit:true },
+      { key:'Tempo', label:'TOP Real (Hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'TempoCetak', label:'TOP Cetak (Hari)', type:'number', disabledIf: (f) => f.Kredit_Tunai === 'TUNAI', clearValue:0 },
+      { key:'Jth_Tempo', label:'Jth. Tempo', mono:true, computed: (f) => pjJthTempo(f.Tgl_Bukti, f.Tempo) },
+      { key:'Golongan', label:'Golongan', readOnly:true },
+      { key:'Jenis_Harga', label:'Jenis Harga', readOnly:true },
+      { key:'No_Npwp', label:'No. NPWP', mono:true },
+      { key:'Al_Npwp', label:'Alamat NPWP', span:2 },
     ]},
     { id:'barang', label:'Barang', type:'items', itemsKey:'Details', produk:true, lockItems:true },
   ];

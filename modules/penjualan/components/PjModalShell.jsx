@@ -5,7 +5,7 @@
 // asli juga) — diporting apa adanya sesuai keputusan "pure structural port, preserve behavior exactly".
 //
 // PjDocModal: modal tab generik (CREATE/VIEW/EDIT) yang benar-benar dipakai oleh semua halaman dokumen
-// Penjualan (Sales Order/Invoice/Sales Return/Delivery Order), dibangun di atas ScrollNavModal/
+// Penjualan (Order Penjualan/Nota Penjualan/Retur Penjualan/Pengiriman Penjualan), dibangun di atas ScrollNavModal/
 // ItemPickerModal/ConfirmationModal (primitif bersama dari components.jsx).
 
 function PjModalShell({ title, sub, onClose, onSave, children, saveLabel = 'Simpan', wide = false }) {
@@ -145,6 +145,16 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
     const locked = fieldLocked(f);
     const spanStyle = f.span ? {gridColumn:`span ${f.span}`} : {};
 
+    if (f.computed) {
+      const cv = f.computed(form);
+      return (
+        <div className="view-field" style={spanStyle} key={f.key}>
+          <label>{f.label}</label>
+          <div className={`view-value ${f.mono ? 'mono' : ''}`}>{cv || <span className="muted">—</span>}</div>
+        </div>
+      );
+    }
+
     if (locked) {
       return (
         <div className="view-field" style={spanStyle} key={f.key}>
@@ -219,10 +229,10 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
   });
 
   const summaryPanel = showTotals ? (
-    <PjTotalsCard subtotal={subtotal} discPct={form.discPct} setDiscPct={v=>set('discPct',v)} discRp={form.discRp} setDiscRp={v=>set('discRp',v)} ppn={form.PPN??form.Ppn??11} setPpn={v=>set(form.PPN!==undefined?'PPN':'Ppn',v)} ppnMode={form.ppnMode} setPpnMode={v=>set('ppnMode',v)} />
+    <PjTotalsCard title={title} itemCount={itemTabs.reduce((n,t)=>n+(form[t.itemsKey]||[]).filter(r=>!r._deleted).length,0)} subtotal={subtotal} discPct={form.discPct} setDiscPct={v=>set('discPct',v)} discRp={form.discRp} setDiscRp={v=>set('discRp',v)} ppn={form.PPN??form.Ppn??11} setPpn={v=>set(form.PPN!==undefined?'PPN':'Ppn',v)} ppnMode={form.ppnMode} setPpnMode={v=>set('ppnMode',v)} />
   ) : null;
 
-  const modalTitle = isCreate ? `${title} Baru` : isEdit ? `Edit ${title} — ${form.No_Bukti||''}` : `${title} — ${form.No_Bukti||''}`;
+  const modalTitle = isCreate ? `Buat ${title}` : isEdit ? `Edit ${title} — ${form.No_Bukti||''}` : `${title} — ${form.No_Bukti||''}`;
 
   const fmtTglAudit = (iso) => {
     if (!iso) return '';
@@ -241,7 +251,7 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
     <>
       <ScrollNavModal
         title={modalTitle}
-        subtitle={auditSubtitle}
+        subtitle={isCreate ? 'Pastikan semua kolom bertanda (*) terisi.' : auditSubtitle}
         xwide={xwide}
         mode={mode}
         sections={sections}
@@ -250,8 +260,7 @@ function PjDocModal({ title, data, tabs, showTotals, showRealisasi, prefix, xwid
         statusBadge={isLocked ? <span className={`status-badge ${isBatal ? 'batal' : 'selesai'}`}>{isBatal ? 'BATAL' : 'SELESAI'}</span> : null}
         locked={isLocked}
         onClose={onClose}
-        onSave={()=>handleSave(false)}
-        onSaveAndClose={()=>handleSave(true)}
+        onSave={() => handleSave(true)}
         onCancelDoc={isView && onCancelDoc && !isLocked ? ()=>setConfirmModal({kind:'batal'}) : null}
         onCompleteDoc={isView && onCompleteDoc && !isLocked ? ()=>setConfirmModal({kind:'selesai'}) : null}
         onEditMode={isView && !isLocked ? enterEditMode : null}

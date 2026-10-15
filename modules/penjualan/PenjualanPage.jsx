@@ -20,10 +20,10 @@ function PenjualanPage({ activeSub, onSubChange, onNavigate }) {
   );
 
   return (
-    <div className="page" data-screen-label={`04 Penjualan — ${activeSub}`}>
+    <div className="page erp-parity" data-screen-label={`04 Pelanggan — ${activeSub}`}>
       <div className="crumbs">
-        <a onClick={() => onNavigate?.('home')} style={{cursor:'pointer'}}>Home</a><span className="sep">/</span>
-        <a onClick={()=>onSubChange(null)} style={{cursor:'pointer'}}>Penjualan</a><span className="sep">/</span>
+        <a onClick={() => onNavigate?.('home')} style={{cursor:'pointer'}}>Rekap Data</a><span className="sep">/</span>
+        <a onClick={()=>onSubChange(null)} style={{cursor:'pointer'}}>Pelanggan</a><span className="sep">/</span>
         <span className="current">{PJ_SUBS.find(s=>s.id===activeSub)?.label}</span>
       </div>
       {activeSub === 'katalog'    && <KatalogPelangganPage rows={pelanggan} setRows={setPelanggan} />}

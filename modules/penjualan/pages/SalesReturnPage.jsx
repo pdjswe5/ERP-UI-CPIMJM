@@ -1,13 +1,15 @@
-// Penjualan — halaman Sales Return (Retur Jual)
+// Penjualan — halaman Retur Penjualan (Retur Jual)
 
 function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
   const columns = [
     { key:'No_Bukti', label:'No. Bukti', mono:true },
     { key:'Tgl_Bukti', label:'Tgl. Bukti' },
-    { key:'Nama_Cust', label:'Customer' },
-    { key:'JmlItem', label:'Jml Item', render:(v,r) => (r.Details||[]).length },
-    { key:'Details', label:'Total', render:(v,r) => fmtRp([...(v||[]), ...(r.Details2||[])].reduce((s,x)=>s+pjLineTotal(x),0)) },
+    { key:'No_Jual', label:'No. Nota', mono:true },
+    { key:'Nama_Cust', label:'Customer', render:(v,r) => <PjCodeChip name={r.Nama_Cust} code={r.Kode_Cust} /> },
+    { key:'Nama_Sales', label:'Salesman', render:(v,r) => <PjCodeChip name={r.Nama_Sales} code={r.Kode_Sales} /> },
+    { key:'Nama_Gudang', label:'Gudang' },
     { key:'Status', label:'Status', render:(v,r) => returnStatusPill(r) },
+    { key:'Details', label:'Total Netto', num:true, sortValue:(r)=>(r.Details||[]).reduce((s,x)=>s+pjLineTotal(x),0), render:(v,r) => fmtRp((v||[]).reduce((s,x)=>s+pjLineTotal(x),0)) },
   ];
 
   const [modal, setModal] = React.useState(null);
@@ -25,20 +27,20 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
   const save = (form, mode) => {
     if (mode === 'CREATE') setRows(prev => [form, ...prev]);
     else setRows(prev => prev.map(r => r.No_Bukti===form.No_Bukti ? form : r));
-    window.__erpToast && window.__erpToast('Sales Return berhasil disimpan.');
+    window.__erpToast && window.__erpToast('Retur Penjualan berhasil disimpan.');
   };
 
   const cancelDoc = (form) => {
     const updated = { ...form, Status:'BATAL', Batal:true, Alasan_Status: form.Alasan_Status || 'Dibatalkan oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
     setModal(updated);
-    window.__erpToast && window.__erpToast('Sales Return dibatalkan.');
+    window.__erpToast && window.__erpToast('Retur Penjualan dibatalkan.');
   };
 
   const cancelFromList = (reason) => {
     const updated = { ...confirmCancel, Status:'BATAL', Batal:true, Alasan_Status: reason || 'Dibatalkan oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
-    window.__erpToast && window.__erpToast('Sales Return dibatalkan.');
+    window.__erpToast && window.__erpToast('Retur Penjualan dibatalkan.');
     setConfirmCancel(null);
   };
 
@@ -46,7 +48,7 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
     const updated = { ...form, Status:'SELESAI', Alasan_Status: form.Alasan_Status || 'Diselesaikan manual oleh operator' };
     setRows(prev => prev.map(r => r.No_Bukti===updated.No_Bukti ? updated : r));
     setModal(updated);
-    window.__erpToast && window.__erpToast('Sales Return diselesaikan manual.');
+    window.__erpToast && window.__erpToast('Retur Penjualan diselesaikan manual.');
   };
 
   const statusFilter = {
@@ -71,8 +73,8 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
   return (
     <>
       <PjDocList
-        title="Sales Return"
-        sub="Retur barang penjualan, diambil dari barang Sales Order yang sudah terjual."
+        title="Retur Penjualan"
+        sub="Retur barang penjualan, diambil dari barang Order Penjualan yang sudah terjual."
         rows={rows}
         columns={columns}
         onAdd={openAdd}
@@ -85,14 +87,14 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
         statusFilter={statusFilter}
       />
       {showCetak && (
-        <PjCetakModal docLabel="Sales Return" rows={rows} statusFilter={statusFilter}
+        <PjCetakModal docLabel="Retur Penjualan" rows={rows} statusFilter={statusFilter}
           getGroupLabel={r=>r.Nama_Cust}
           initialSelected={cetakRow ? [cetakRow.No_Bukti] : null}
           onClose={()=>{setShowCetak(false); setCetakRow(null);}} />
       )}
       {show && (
         <PjDocModal
-          title="Sales Return"
+          title="Retur Penjualan"
           data={modal}
           tabs={salesReturnTabs(salesOrderList, invoiceList)}
           prefix="RJ"
@@ -108,7 +110,7 @@ function SalesReturnPage({ rows, setRows, salesOrderList, invoiceList }) {
       {confirmCancel && (
         <ConfirmationModal
           title="Batalkan Transaksi"
-          message={`Sales Return "${confirmCancel.No_Bukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
+          message={`Retur Penjualan "${confirmCancel.No_Bukti}" akan dibatalkan. Transaksi yang sudah dibatalkan tidak bisa diaktifkan kembali.`}
           confirmLabel="Batalkan"
           confirmKind="danger"
           onCancel={()=>setConfirmCancel(null)}

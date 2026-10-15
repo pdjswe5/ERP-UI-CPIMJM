@@ -255,8 +255,7 @@ function PbModalShell({ title, data, tabs, docKind, showTotals, prefix, initialF
         statusBadge={isLocked ? <span className={`status-badge ${isBatal ? 'batal' : 'selesai'}`}>{isBatal ? 'BATAL' : 'SELESAI'}</span> : null}
         locked={isLocked}
         onClose={onClose}
-        onSave={() => handleSave(false)}
-        onSaveAndClose={() => handleSave(true)}
+        onSave={() => handleSave(true)}
         onCancelDoc={isView && onCancelDoc && !isLocked ? ()=>setConfirmModal({kind:'batal'}) : null}
         onCompleteDoc={isView && onCompleteDoc && !isLocked ? ()=>setConfirmModal({kind:'selesai'}) : null}
         onEditMode={isView && !isLocked ? enterEditMode : null}
