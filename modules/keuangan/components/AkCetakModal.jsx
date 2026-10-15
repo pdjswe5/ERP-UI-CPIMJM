@@ -529,7 +529,7 @@ function AkCetakModal({ variant, docLabel, rows, noKey, tglKey, akunRows, status
                 </div>
               )}
             </div>
-            <div className="cetak-canvas" style={variant === 'pdf' ? {padding:16, alignItems:'flex-start'} : null}>
+            <div className={variant === 'pdf' ? 'cetak-canvas' : 'cetak-canvas cetak-canvas-scroll'} style={variant === 'pdf' ? {padding:16, alignItems:'flex-start'} : null}>
               {selectedRows.length === 0 ? (
                 <div className="empty" style={{padding:'60px 0'}}>Belum ada dokumen dipilih untuk dicetak.</div>
               ) : variant === 'pdf' ? (

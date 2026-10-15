@@ -76,6 +76,6 @@ ERP/
 ## Tech Stack
 
 - **React 18** — via CDN (unpkg)
-- **Babel Standalone** — transpile JSX langsung di browser
+- **Babel Standalone** — transpile JSX di browser, dijalankan paralel di Web Worker oleh `loader.js` (hasilnya di-cache di IndexedDB). File JSX baru cukup didaftarkan sebagai `<script type="text/jsx-src" src="...">` di `index.html`.
 - **Vanilla CSS** — tanpa framework CSS eksternal
 - **Font**: IBM Plex Sans & IBM Plex Mono (Google Fonts)

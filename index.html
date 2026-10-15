@@ -10,7 +10,8 @@
 <link rel="stylesheet" href="styles.css">
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<!-- Babel Standalone TIDAK dimuat di sini: loader.js memuatnya (dengan SRI) di Web Worker untuk transpile paralel. -->
+<script src="loader.js" defer></script>
 </head>
 <body>
 <div id="root">
@@ -20,164 +21,129 @@
     <div class="hint">Memuat aplikasi…</div>
   </div>
 </div>
-<script type="text/babel" src="tweaks-panel.jsx"></script>
-<script type="text/babel" src="data.jsx"></script>
-<script type="text/babel" src="components.jsx"></script>
-<script type="text/babel" src="login.jsx"></script>
-<script type="text/babel" src="dashboard.jsx"></script>
+<script type="text/jsx-src" src="tweaks-panel.jsx"></script>
+<script type="text/jsx-src" src="data.jsx"></script>
+<script type="text/jsx-src" src="components.jsx"></script>
+<script type="text/jsx-src" src="login.jsx"></script>
+<script type="text/jsx-src" src="dashboard.jsx"></script>
 <!-- Pembelian module (modules/pembelian) -->
-<script type="text/babel" src="modules/pembelian/data/master.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/pemasok.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/pr.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/rfq.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/quotation.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/gr.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/po.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/beli.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/data/retur.data.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbHeader.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbStatusPill.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbInlineItemTable.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbTotalsCard.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbModalShell.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbDocList.jsx"></script>
-<script type="text/babel" src="modules/pembelian/components/PbCetakModal.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/PemasokPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/PrPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/RfqPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/QuotationPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/GrPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/PoPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/BeliPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/pages/ReturBeliPage.jsx"></script>
-<script type="text/babel" src="modules/pembelian/PembelianDashboard.jsx"></script>
-<script type="text/babel" src="modules/pembelian/PembelianPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/master.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/pemasok.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/pr.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/rfq.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/quotation.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/gr.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/po.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/beli.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/data/retur.data.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbHeader.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbStatusPill.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbInlineItemTable.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbTotalsCard.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbModalShell.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbDocList.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/components/PbCetakModal.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/PemasokPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/PrPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/RfqPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/QuotationPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/GrPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/PoPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/BeliPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/pages/ReturBeliPage.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/PembelianDashboard.jsx"></script>
+<script type="text/jsx-src" src="modules/pembelian/PembelianPage.jsx"></script>
 <!-- end Pembelian module -->
-<script type="text/babel" src="inventory.jsx"></script>
+<script type="text/jsx-src" src="inventory.jsx"></script>
 <!-- Barang module (modules/barang) -->
-<script type="text/babel" src="modules/barang/data/master.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/baranglain.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/bahanbaku.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/barangjadi.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/bom.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/mutasi.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/penyesuaian.data.jsx"></script>
-<script type="text/babel" src="modules/barang/data/opname.data.jsx"></script>
-<script type="text/babel" src="modules/barang/components/BrgShared.jsx"></script>
-<script type="text/babel" src="modules/barang/components/BrgCetakModal.jsx"></script>
-<script type="text/babel" src="modules/barang/pages/BarangLainPage.jsx"></script>
-<script type="text/babel" src="modules/barang/pages/BahanBakuPage.jsx"></script>
-<script type="text/babel" src="modules/barang/pages/BarangJadiPage.jsx"></script>
-<script type="text/babel" src="modules/barang/pages/BomPage.jsx"></script>
-<script type="text/babel" src="modules/barang/pages/StokTransaksiPage.jsx"></script>
-<script type="text/babel" src="modules/barang/BarangPage.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/master.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/baranglain.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/bahanbaku.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/barangjadi.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/bom.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/mutasi.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/penyesuaian.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/data/opname.data.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/components/BrgShared.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/components/BrgCetakModal.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/pages/BarangLainPage.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/pages/BahanBakuPage.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/pages/BarangJadiPage.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/pages/BomPage.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/pages/StokTransaksiPage.jsx"></script>
+<script type="text/jsx-src" src="modules/barang/BarangPage.jsx"></script>
 <!-- end Barang module -->
-<script type="text/babel" src="katalog-lain.jsx"></script>
+<script type="text/jsx-src" src="katalog-lain.jsx"></script>
 <!-- Penjualan module (modules/penjualan) -->
-<script type="text/babel" src="modules/penjualan/data/pelanggan.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/data/master.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/data/konfirmasi.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/data/salesorder.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/data/invoice.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/data/salesreturn.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/data/deliveryorder.data.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjHeader.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjStatusPill.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjInlineItemTable.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjTotalsCard.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjModalShell.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjDocList.jsx"></script>
-<script type="text/babel" src="modules/penjualan/components/PjCetakModal.jsx"></script>
-<script type="text/babel" src="modules/penjualan/pages/KatalogPelangganPage.jsx"></script>
-<script type="text/babel" src="modules/penjualan/pages/KonfirmasiPage.jsx"></script>
-<script type="text/babel" src="modules/penjualan/pages/SalesOrderPage.jsx"></script>
-<script type="text/babel" src="modules/penjualan/pages/DeliveryOrderPage.jsx"></script>
-<script type="text/babel" src="modules/penjualan/pages/InvoicePage.jsx"></script>
-<script type="text/babel" src="modules/penjualan/pages/SalesReturnPage.jsx"></script>
-<script type="text/babel" src="modules/penjualan/PenjualanDashboard.jsx"></script>
-<script type="text/babel" src="modules/penjualan/PenjualanPage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/pelanggan.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/master.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/konfirmasi.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/salesorder.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/invoice.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/salesreturn.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/data/deliveryorder.data.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjHeader.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjStatusPill.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjInlineItemTable.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjTotalsCard.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjModalShell.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjDocList.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/components/PjCetakModal.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/pages/KatalogPelangganPage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/pages/KonfirmasiPage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/pages/SalesOrderPage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/pages/DeliveryOrderPage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/pages/InvoicePage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/pages/SalesReturnPage.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/PenjualanDashboard.jsx"></script>
+<script type="text/jsx-src" src="modules/penjualan/PenjualanPage.jsx"></script>
 <!-- end Penjualan module -->
 <!-- Keuangan module (modules/keuangan) — gabungan Akuntan + Kas/Bank/Giro/Transfer/Pelunasan -->
-<script type="text/babel" src="modules/keuangan/data/akun.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/aktiva.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/jurnal.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/laporan.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/labarugi.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/aruskas.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/neraca.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/kasbank.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/saldo.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/data/master.data.jsx"></script>
-<script type="text/babel" src="modules/keuangan/components/AkShared.jsx"></script>
-<script type="text/babel" src="modules/keuangan/components/AkCetakModal.jsx"></script>
-<script type="text/babel" src="modules/keuangan/components/KuShared.jsx"></script>
-<script type="text/babel" src="modules/keuangan/components/AkBukuBesarShared.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/KatalogAkunPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/AktivaPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/JurnalMemorialPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/LaporanKeuanganPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/LaporanBankPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/LaporanBukuBesarDetailPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/LaporanBukuBesarRekapPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/pages/KasBankGiroPage.jsx"></script>
-<script type="text/babel" src="modules/keuangan/KeuanganDashboard.jsx"></script>
-<script type="text/babel" src="modules/keuangan/KeuanganPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/akun.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/aktiva.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/jurnal.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/laporan.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/labarugi.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/aruskas.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/neraca.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/kasbank.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/saldo.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/data/master.data.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/components/AkShared.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/components/AkCetakModal.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/components/KuShared.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/components/AkBukuBesarShared.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/KatalogAkunPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/AktivaPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/JurnalMemorialPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/LaporanKeuanganPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/LaporanBankPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/LaporanBukuBesarDetailPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/LaporanBukuBesarRekapPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/pages/KasBankGiroPage.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/KeuanganDashboard.jsx"></script>
+<script type="text/jsx-src" src="modules/keuangan/KeuanganPage.jsx"></script>
 <!-- end Keuangan module -->
-<script type="text/babel" src="pengaturan.jsx"></script>
+<script type="text/jsx-src" src="pengaturan.jsx"></script>
 
-<!-- Manufaktur module (modules/manufaktur) -->
-<script type="text/babel" src="modules/manufaktur/data/master.data.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/data/spk.data.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/data/produksi.data.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/data/bpbl.data.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/data/rpbl.data.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/data/planning.data.jsx"></script>
-<!-- modules/manufaktur/data/bom.data.jsx (MF_BOM_LIST) sengaja tidak dimuat lagi — digantikan
-     BRG_BOM_SEED di modul Barang (modules/barang/data/bom.data.jsx), yang menghubungkan
-     BARANG_JADI ke BAHAN_BAKU/BARANG_LAIN sungguhan, bukan MF_BARANG (katalog ad-hoc berkode "*"
-     yang sudah dipensiunkan). File lama dibiarkan ada di disk (bukan dihapus), cuma di-orphan. -->
-<script type="text/babel" src="modules/manufaktur/components/MfPickers.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/components/MfCetakModal.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/pages/SpkPage.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/pages/HasilProduksiPage.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/pages/PemakaianBarangPage.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/pages/PlanningSchedulePage.jsx"></script>
-<script type="text/babel" src="modules/manufaktur/ManufakturPage.jsx"></script>
-<!-- end Manufaktur module -->
-
-<!-- Payroll module (modules/payroll) -->
-<script type="text/babel" src="modules/payroll/data/master.data.jsx"></script>
-<script type="text/babel" src="modules/payroll/data/karyawan.data.jsx"></script>
-<script type="text/babel" src="modules/payroll/data/mutasi.data.jsx"></script>
-<script type="text/babel" src="modules/payroll/data/absensi.data.jsx"></script>
-<script type="text/babel" src="modules/payroll/data/produksi.data.jsx"></script>
-<script type="text/babel" src="modules/payroll/data/penggajian.data.jsx"></script>
-<script type="text/babel" src="modules/payroll/components/PrShared.jsx"></script>
-<script type="text/babel" src="modules/payroll/components/MutasiKaryawanModal.jsx"></script>
-<script type="text/babel" src="modules/payroll/components/PrCetakSlipGaji.jsx"></script>
-<script type="text/babel" src="modules/payroll/pages/MasterDataPage.jsx"></script>
-<script type="text/babel" src="modules/payroll/pages/KaryawanPage.jsx"></script>
-<script type="text/babel" src="modules/payroll/pages/AbsensiPage.jsx"></script>
-<script type="text/babel" src="modules/payroll/pages/ProduksiHarianPage.jsx"></script>
-<script type="text/babel" src="modules/payroll/pages/PenggajianAbsensiPage.jsx"></script>
-<script type="text/babel" src="modules/payroll/pages/PenggajianBoronganPage.jsx"></script>
-<script type="text/babel" src="modules/payroll/PayrollPage.jsx"></script>
-<!-- end Payroll module -->
+<!-- Manufaktur & Payroll: tidak dimuat (demo CPI/MJM). Untuk mengaktifkan lagi, tambahkan kembali tag
+     <script type="text/jsx-src"> modules/manufaktur/* dan modules/payroll/* sebelum app.jsx, lalu
+     kembalikan menu/rute-nya di components.jsx, dashboard.jsx, app.jsx. -->
 
 <!-- Laporan module (modules/laporan) -->
-<script type="text/babel" src="modules/laporan/data/komisi.data.jsx"></script>
-<script type="text/babel" src="modules/laporan/data/stok.data.jsx"></script>
-<script type="text/babel" src="modules/laporan/components/LapShared.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/KomisiSalesmanPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/KartuPiutangHutangPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/RekapPiutangHutangPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/RincianNotaPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/KartuStokPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/PosisiStokPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/pages/RekapStokPage.jsx"></script>
-<script type="text/babel" src="modules/laporan/LaporanPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/data/komisi.data.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/data/stok.data.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/components/LapShared.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/KomisiSalesmanPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/KartuPiutangHutangPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/RekapPiutangHutangPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/RincianNotaPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/KartuStokPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/PosisiStokPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/pages/RekapStokPage.jsx"></script>
+<script type="text/jsx-src" src="modules/laporan/LaporanPage.jsx"></script>
 <!-- end Laporan module -->
 
-<script type="text/babel" src="app.jsx"></script>
+<script type="text/jsx-src" src="app.jsx"></script>
 </body>
 </html>

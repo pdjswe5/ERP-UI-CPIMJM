@@ -163,7 +163,7 @@ function PelangganModal({ data, initialMode, onClose, onSave }) {
   const empty = {
     name:'', code:'', alamat:'', kota:'', tel:'', pemilik:'', nik:'', email:'', kontak:'', flag:null,
     kodeSales:'', namaSales:'', noKtp:'', namaKtp:'', tglLahir:'', owner:'', namaPemesan:'',
-    area:'', kodeGabungan:'', golongan:'Baik', kodePos:'', fax:'', klasifikasi:'Retail', fk:'F', status:'Aktif', keterangan:'', alamatKirim:'',
+    area:'', kodeGabungan:'', golongan:'Baik', kodePos:'', fax:'', klasifikasi:'Retail', status:'Aktif', keterangan:'', alamatKirim:'',
     noNpwp:'', jenisHarga:'Standar', namaPajak:'', kotaPajak:'', plafon:0, plafonTemp:0, alamatPajak:'',
     tempo:0, tempoLama:0, tempoKom:0, virtualAc:'', alamatTagih:'',
     creator:'PDJ Administrator', jamCreate:'', editor:'', jamEdit:null,
@@ -274,7 +274,6 @@ function PelangganModal({ data, initialMode, onClose, onSave }) {
               <Fld label="Telepon" mono locked={fieldsDisabled} value={form.tel} onChange={v=>set('tel',v)} />
               <Fld label="Email" type="email" locked={fieldsDisabled} value={form.email} onChange={v=>set('email',v)} />
               <Fld label="Kontak" locked={fieldsDisabled} value={form.kontak} onChange={v=>set('kontak',v)} />
-              <Fld label="FK" type="select" options={[{value:'F',label:'F'},{value:'K',label:'K'}]} locked={fieldsDisabled} value={form.fk} onChange={v=>set('fk',v)} />
 
               <Fld label="Status" type="select" options={['Aktif','Non-aktif']} locked={fieldsDisabled} value={form.status} onChange={v=>set('status',v)} />
               <Fld label="Alamat" type="textarea" span={3} locked={fieldsDisabled} value={form.alamat} onChange={v=>set('alamat',v)} />
